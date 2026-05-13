@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>EntreTeixits - El meu perfil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">ENTRETEIXITS</div>
+  <nav>
+    <a href="index.html">Inici</a>
+    <a href="serveis.html">Serveis</a>
+    <a href="usuari.html" class="active">El meu perfil</a>
+    <a href="../scripts/php/logout.php">Tancar sessió</a>
+  </nav>
+</header>
+
+<main>
+  <section class="user-profile">
+    <h1>El meu perfil</h1>
+
+    <form action="../scripts/php/actualitzar-usuari.php" method="post">
+
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom">
+
+      <label for="email">Correu electrònic</label>
+      <input type="email" id="email" name="email" disabled>
+
+      <label for="idioma">Idioma preferit</label>
+      <select id="idioma" name="idioma">
+        <option value="ca">Català</option>
+        <option value="es">Castellà</option>
+      </select>
+
+      <label for="cp">Codi postal</label>
+      <input type="text" id="cp" name="cp">
+
+      <label for="radi">Radi de cerca</label>
+      <div class="slider-container">
+        <input type="range" id="radi" name="radi_localitzacio" min="1" max="1000" value="10">
+        <span id="radi-valor">10</span>
+      </div>
+
+      <label for="num_serveis">Nombre màxim de serveis</label>
+      <div class="slider-container">
+        <input type="range" id="num_serveis" name="num_serveis_interes" min="1" max="1000" value="1">
+        <span id="serveis-valor">1</span>
+      </div>
+
+      <fieldset>
+        <legend>Preferències de serveis</legend>
+        <label><input type="checkbox" name="interessos[]" value="1"> Llar</label>
+        <label><input type="checkbox" name="interessos[]" value="2"> Activitats</label>
+        <label><input type="checkbox" name="interessos[]" value="3"> Desplaçaments</label>
+        <label><input type="checkbox" name="interessos[]" value="4"> Gestions administratives</label>
+        <label><input type="checkbox" name="interessos[]" value="5"> Acompanyament</label>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary">Desar canvis</button>
+      <a href="../scripts/php/logout.php" class="btn btn-secondary">Tancar sessió</a>
+
+    </form>
+  </section>
+
+  <section class="user-profile" style="margin-top:30px;">
+    <h2>Els meus contactes</h2>
+    <p>Serveis als quals has enviat un missatge.</p>
+    <a href="contactes.html" class="btn">Veure tots els contactes</a>
+  </section>
+
+  <section class="user-profile" style="margin-top:30px;">
+    <h2>Els meus favorits</h2>
+    <div id="favorits-container"><p>Carregant...</p></div>
+  </section>
+</main>
+
+<footer>
+  <a href="contacte.html">Contacta</a>
+  <a href="#">Avís legal</a>
+</footer>
+
+<script src="../scripts/js/perfil-usuari.js"></script>
+
+</body>
+</html>

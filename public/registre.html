@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">    
+    <title>Registre de nou usuari</title>
+</head>
+<body>
+  <header>
+    <div class="logo">ENTRETEIXITS</div>
+    <nav>
+      <a href="index.html">Inici</a>
+      <a href="serveis.html">Serveis</a>
+      <a href="login.html">Inicia sessió</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="auth-form">
+      <h1>Registra’t</h1>
+      <form id="form-registre-1" action="../scripts/php/registre.php" method="post" novalidate>
+        <input type="hidden" name="pas" value="1">
+
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required>
+        <span id="error-nom" class="error-msg"></span>
+
+        <label for="email">Correu electrònic</label>
+        <input type="email" id="email" name="email" required>
+        <span id="error-email" class="error-msg"></span>
+
+        <label for="password">Contrasenya</label>
+        <input type="password" id="password" name="password" required>
+        <span id="error-password" class="error-msg"></span>
+
+        <label>
+          <input type="checkbox" name="privacitat" required>
+          Accepto les polítiques de privacitat
+        </label>
+        <span id="error-privacitat" class="error-msg"></span>
+
+
+        <button type="submit" class="btn btn-primary">Registrar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#">Contacta</a>
+    <a href="#">Avís legal</a>
+  </footer>
+  
+<script src="../scripts/js/validacio-registre.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+

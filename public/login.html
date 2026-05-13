@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>EntreTeixits - Inicia sessió</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">ENTRETEIXITS</div>
+    <nav>
+      <a href="index.html">Inici</a>
+      <a href="serveis.html">Serveis</a>
+      <a href="registre.html" class="btn">Registra’t</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="auth-form">
+      <h1>Inicia sessió</h1>
+      <form action="../scripts/php/login.php" method="post">
+        <label for="email">Correu electrònic</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Contrasenya</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" class="btn btn-primary">Entrar</button>
+
+        <p class="small">
+          Encara no tens compte? <a href="registre.html">Registra’t</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#">Contacta</a>
+    <a href="#">Avís legal</a>
+  </footer>
+
+  <script src="../scripts/js/validacio-login.js"></script>
+</body>
+</html>

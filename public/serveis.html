@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>EntreTeixits - Serveis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">ENTRETEIXITS</div>
+    <nav>
+      <a href="index.html">Inici</a>
+      <a href="serveis.html" class="active">Serveis</a>
+      <span id="nav-auth">
+        <a href="login.html">Inicia sessió</a>
+        <a href="registre.html" class="btn">Registra't</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="filters">
+      <h1>Serveis</h1>
+
+      <!-- Bloc codi postal -->
+      <div id="bloc-cp-anonim" style="display:none;">
+        <p>Introdueix el teu codi postal per veure serveis prop teu:</p>
+        <div class="cp-form">
+          <input type="text" id="input-cp" placeholder="08001" maxlength="5" pattern="\d{5}">
+          <button id="btn-cp" class="btn">Cercar</button>
+        </div>
+        <span id="error-cp" class="error-msg"></span>
+      </div>
+
+      <div id="bloc-cp-registrat" style="display:none;">
+        <p class="cp-info">Serveis prop de: <strong id="text-cp-registrat"></strong></p>
+      </div>
+
+      <nav class="categories-nav" id="categories-nav">
+        <button data-cat="llar">Llar</button>
+        <button data-cat="activitats">Activitats</button>
+        <button data-cat="desplacaments">Desplaçaments</button>
+        <button data-cat="gestions">Gestions</button>
+        <button data-cat="acompanyament">Acompanyament</button>
+      </nav>
+    </section>
+
+    <section class="services-list">
+      <h2 id="categoria-titol">Tots els serveis</h2>
+      <p id="serveis-loading" style="display:none;">Carregant serveis...</p>
+      <div id="serveis-container">
+        <p>Introdueix el teu codi postal i selecciona una categoria.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#">Contacta</a>
+    <a href="#">Avís legal</a>
+  </footer>
+
+  <script src="../scripts/js/estat-usuari.js"></script>
+  <script src="../scripts/js/serveis.js"></script>
+</body>
+</html>

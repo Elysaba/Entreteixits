@@ -1,0 +1,496 @@
+/* ------------------------------
+   RESET BÀSIC
+--------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ------------------------------
+   ENCAPÇALAMENT
+--------------------------------*/
+header {
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #444;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+}
+
+nav a.active {
+  color: #0077cc;
+}
+
+nav .btn {
+  padding: 8px 14px;
+  background: #0077cc;
+  color: white;
+  border-radius: 5px;
+}
+
+nav .btn:hover {
+  background: #005fa3;
+}
+
+/* ------------------------------
+   BOTONS
+--------------------------------*/
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #0077cc;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background: #005fa3;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* ------------------------------
+   SECCIONS GENERALS
+--------------------------------*/
+main {
+  padding: 30px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+h1, h2, h3 {
+  margin-bottom: 15px;
+  color: #222;
+}
+
+p {
+  margin-bottom: 12px;
+}
+
+/* ------------------------------
+   HERO (PORTADA)
+--------------------------------*/
+.hero {
+  background: #e8f3ff;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+/* ------------------------------
+   GRID DE CATEGORIES
+--------------------------------*/
+.categories .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.category-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.category-link article {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.category-link:hover article {
+  box-shadow: 0 4px 12px rgba(0, 119, 204, 0.15);
+  border-color: #0077cc;
+}
+
+.categories article {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* ------------------------------
+   CODI POSTAL
+--------------------------------*/
+.cp-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.cp-form input {
+  width: 120px;
+  padding: 9px 12px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.cp-info {
+  background: #e8f3ff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.error-msg {
+  color: #cc0000;
+  font-size: 0.85rem;
+  display: block;
+  margin-top: 5px;
+}
+
+/* ------------------------------
+   FILTRES I BOTONS DE CATEGORIA
+--------------------------------*/
+.categories-nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.categories-nav button {
+  padding: 9px 18px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: white;
+  color: #444;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.categories-nav button:hover,
+.categories-nav button.active {
+  background: #0077cc;
+  color: white;
+  border-color: #0077cc;
+}
+
+/* ------------------------------
+   LLISTAT DE SERVEIS
+--------------------------------*/
+.service-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.service-card .price {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.service-card .adreca {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.service-card .valoracio {
+  color: #f5a623;
+  font-weight: bold;
+}
+
+.service-card .telefon a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.missatge-buit,
+.error {
+  color: #888;
+  font-style: italic;
+}
+
+/* ------------------------------
+   DETALL DEL SERVEI
+--------------------------------*/
+.service-detail {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.service-detail .verified {
+  color: green;
+  font-weight: bold;
+}
+
+.reviews li {
+  margin-bottom: 8px;
+}
+
+/* ------------------------------
+   FORMULARIS (login, registre, contacte, usuari)
+--------------------------------*/
+.auth-form,
+.contact-form,
+.user-profile {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  max-width: 600px;
+  margin: auto;
+}
+
+form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+}
+
+fieldset {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+}
+
+fieldset legend {
+  font-weight: bold;
+}
+
+/* ------------------------------
+   FOOTER
+--------------------------------*/
+footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  background: #ffffff;
+  border-top: 1px solid #ddd;
+}
+
+footer a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #444;
+}
+
+/* ------------------------------
+   RESPONSIVE
+--------------------------------*/
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav a {
+    margin: 10px;
+  }
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.slider-container input[type="range"] {
+  flex: 1;
+  border: none;
+  padding: 0;
+}
+
+.slider-container span {
+  min-width: 40px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  background: #888;
+  margin-left: 10px;
+}
+
+/* ------------------------------
+   FITXA DE SERVEI
+--------------------------------*/
+.fitxa-foto-gran {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.fitxa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.fitxa-cat-badge {
+  display: inline-block;
+  background: #e8f3ff;
+  color: #0077cc;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.fitxa-info {
+  margin-bottom: 25px;
+}
+
+.horari {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.btn-favorit {
+  background: none;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: border-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-favorit.actiu {
+  border-color: #f5a623;
+  color: #f5a623;
+}
+
+.seccio-contacte {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.missatge-ok {
+  color: green;
+  margin-top: 10px;
+}
+
+/* ------------------------------
+   FAVORITS AL PERFIL
+--------------------------------*/
+.favorit-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.btn-treure-favorit {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #888;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.btn-treure-favorit:hover {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+/* ------------------------------
+   CONTACTES
+--------------------------------*/
+.missatge-contacte-resum {
+  font-style: italic;
+  color: #555;
+  margin: 8px 0 4px;
+}
+
+.data-contacte {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card-foto {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px 6px 0 0;
+  display: block;
+  margin: -20px -20px 15px -20px;
+  width: calc(100% + 40px);
+}
+
+.card-cos {
+  flex: 1;
+}
+
+.card-descripcio {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

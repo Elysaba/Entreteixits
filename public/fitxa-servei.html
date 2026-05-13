@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>EntreTeixits - Fitxa del servei</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">ENTRETEIXITS</div>
+    <nav>
+      <a href="index.html">Inici</a>
+      <a href="serveis.html">Serveis</a>
+      <span id="nav-auth">
+        <a href="login.html">Inicia sessió</a>
+        <a href="registre.html" class="btn">Registra't</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <div id="fitxa-loading"><p>Carregant informació del servei...</p></div>
+
+    <article class="service-detail" id="fitxa-contingut" style="display:none;">
+
+      <img id="fitxa-foto" src="" alt="" class="fitxa-foto-gran" style="display:none;">
+
+      <div class="fitxa-header">
+        <div>
+          <h1 id="fitxa-nom"></h1>
+          <p id="fitxa-categoria" class="fitxa-cat-badge"></p>
+        </div>
+        <button id="btn-favorit" class="btn-favorit" title="Afegir a favorits">☆</button>
+      </div>
+
+      <div class="fitxa-info">
+        <p id="fitxa-adreca"  class="adreca"></p>
+        <p id="fitxa-rating"  class="valoracio"></p>
+        <p id="fitxa-telefon" class="telefon"></p>
+        <p id="fitxa-horari"  class="horari"></p>
+        <a id="fitxa-web" href="#" target="_blank" rel="noopener" class="btn" style="display:none;">Web oficial</a>
+      </div>
+
+      <section id="seccio-descripcio" style="display:none;">
+        <h2>Descripció</h2>
+        <p id="fitxa-descripcio"></p>
+      </section>
+
+      <section id="seccio-preu" style="display:none;">
+        <h2>Preu</h2>
+        <p id="fitxa-preu" class="price"></p>
+      </section>
+
+      <div class="fitxa-actions" id="fitxa-actions">
+        <a id="btn-contactar" href="#" class="btn btn-primary">Contactar</a>
+      </div>
+
+    </article>
+  </main>
+
+  <footer>
+    <a href="#">Contacta</a>
+    <a href="#">Avís legal</a>
+  </footer>
+
+  <script src="../scripts/js/estat-usuari.js"></script>
+  <script src="../scripts/js/fitxa-servei.js"></script>
+</body>
+</html>

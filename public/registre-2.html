@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Registre de nou usuari</title>
+</head>
+<body>
+  <header>
+    <div class="logo">ENTRETEIXITS</div>
+    <nav>
+      <a href="index.html">Inici</a>
+      <a href="serveis.html">Serveis</a>
+      <a href="login.html">Inicia sessió</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="auth-form">
+      <h1>Registra’t</h1>
+      <form id="form-registre-2" action="../scripts/php/registre.php" method="post" novalidate>
+        <input type="hidden" name="pas" value="2">
+
+
+
+        <fieldset>
+          <legend>Serveis interessats</legend>
+          <label><input type="checkbox" name="interessos[]" value="1"> Llar</label>
+          <label><input type="checkbox" name="interessos[]" value="2"> Activitats</label>
+          <label><input type="checkbox" name="interessos[]" value="3"> Desplaçaments</label>
+          <label><input type="checkbox" name="interessos[]" value="4"> Gestions administratives</label>
+          <label><input type="checkbox" name="interessos[]" value="5"> Acompanyament</label>
+          
+        </fieldset>
+
+        <label for="cp">Codi postal</label>
+        <input type="text" id="cp" name="cp" required>
+        <span id="error-cp" class="error-msg"></span>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#">Contacta</a>
+    <a href="#">Avís legal</a>
+  </footer>
+
+<script src="../scripts/js/validacio-registre.js"></script>
+
+</body>
+</html>

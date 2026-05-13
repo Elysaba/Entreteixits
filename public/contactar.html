@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>EntreTeixits - Contactar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">ENTRETEIXITS</div>
+    <nav>
+      <a href="index.html">Inici</a>
+      <a href="serveis.html">Serveis</a>
+      <span id="nav-auth">
+        <a href="login.html">Inicia sessió</a>
+        <a href="registre.html" class="btn">Registra't</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="auth-form">
+      <h1>Contactar amb el servei</h1>
+      <p id="contactar-servei-nom" class="fitxa-cat-badge" style="margin-bottom:20px;"></p>
+
+      <div id="contactar-auth-msg" style="display:none;">
+        <p>Has d'<a href="login.html">iniciar sessió</a> per enviar un missatge de contacte.</p>
+      </div>
+
+      <form id="form-contactar" style="display:none;" novalidate>
+        <label for="contacte-nom">Nom</label>
+        <input type="text" id="contacte-nom" name="nom" required>
+
+        <label for="contacte-email">Correu electrònic</label>
+        <input type="email" id="contacte-email" name="email" required>
+
+        <label for="contacte-empresa">Servei / Empresa</label>
+        <input type="text" id="contacte-empresa" name="empresa" readonly>
+
+        <label for="contacte-missatge">Missatge</label>
+        <textarea id="contacte-missatge" name="missatge" rows="5" placeholder="Explica el que necessites..." required></textarea>
+
+        <button type="submit" class="btn btn-primary">Enviar missatge</button>
+        <p id="contacte-ok"    class="missatge-ok" style="display:none;">Missatge enviat correctament!</p>
+        <p id="contacte-error" class="error"        style="display:none;">Error en enviar. Torna-ho a intentar.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#">Contacta</a>
+    <a href="#">Avís legal</a>
+  </footer>
+
+  <script src="../scripts/js/estat-usuari.js"></script>
+  <script src="../scripts/js/contactar.js"></script>
+</body>
+</html>
