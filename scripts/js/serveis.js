@@ -1,4 +1,4 @@
-const GOOGLE_API_KEY = 'AIzaSyDQbx5oBV3j2ZWHksF2YZEhkwxk8uugMsM';
+const GOOGLE_API_KEY = '';
 
 const CATEGORIES_NEARBY = {
   llar:       ['electrician', 'plumber', 'locksmith', 'painter'],
