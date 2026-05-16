@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EntreTeixits — Ajudes i recursos</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+  <header>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <nav id="main-nav">
+        <a href="index.html">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html">Serveis</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="serveis-wrap">
+
+      <!-- Hero -->
+      <div class="page-hero">
+        <span class="page-hero-label">Ajudes i recursos</span>
+        <h1>De quines ajudes disposes?</h1>
+        <p>Informa't dels serveis d'acompanyament i gestió de tràmits disponibles per millorar el teu benestar i qualitat de vida.</p>
+      </div>
+
+      <!-- Selecció de categoria -->
+      <section class="pas-seccio" id="pas-triar-categoria">
+        <h2 class="pas-titol">Què necessites?</h2>
+        <div class="serveis-grid serveis-grid--catalog serveis-grid--2col" id="grid-ajudes">
+          <button type="button" class="category-tile-btn" data-cat="acompanyament">
+            <div class="categoria-tile cat-acompanyament">
+              <img src="../assets/img/users.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Acompanyament</h3>
+                <p>Companyia, suport emocional i presència propera per als moments en què necessites algú al teu costat.</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="category-tile-btn" data-cat="gestions">
+            <div class="categoria-tile cat-gestions">
+              <img src="../assets/img/file-text.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Gestions</h3>
+                <p>Ajuda amb tràmits administratius, assessoria i gestió de recursos i serveis locals al teu abast.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Resultats -->
+      <section id="seccio-resultats" hidden aria-live="polite" aria-label="Resultats">
+        <div class="resultats-cap">
+          <div class="resultats-cap-left">
+            <button type="button" id="btn-tornar-opcions" class="btn-tornar-cerca">← Canviar opció</button>
+            <p id="resultats-resum" class="resultats-info-text"></p>
+          </div>
+          <h2 id="resultats-titol" class="resultats-titol"></h2>
+        </div>
+
+        <div id="ajudes-loading" style="display:none;" aria-label="Carregant">
+          <div class="spinner" aria-hidden="true"></div>
+          Carregant…
+        </div>
+
+        <div id="ajudes-container" class="recursos-grid"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
+  </footer>
+
+  <script src="../scripts/js/estat-usuari.js"></script>
+  <script src="../scripts/js/ajudes-recursos.js"></script>
+</body>
+</html>

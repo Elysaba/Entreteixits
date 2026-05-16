@@ -349,6 +349,12 @@ async function init() {
     console.error('Error comprovant sessió:', e);
   }
 
+  // Si la URL demana una categoria que ja no és a serveis.html, redirigim
+  if (categoriaUrl === 'gestions' || categoriaUrl === 'acompanyament') {
+    window.location.replace(`ajudes-recursos.html?categoria=${categoriaUrl}`);
+    return;
+  }
+
   // --- Restaurar estat des de URL params (tornada de resultats-serveis.html) ---
   // Si la URL inclou ?categoria=..., restaurem les variables d'estat
   // perquè en aplicar el CP es pugui tornar a mostrar la selecció visual

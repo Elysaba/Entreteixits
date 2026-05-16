@@ -3668,3 +3668,129 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─────────────────────────────────────────────────────────
+   14. AJUDES-RECURSOS.HTML
+───────────────────────────────────────────────────────── */
+
+/* Graella de 2 columnes per a la selecció de categoria */
+.serveis-grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 720px;
+}
+
+/* Graella de resultats: 3 columnes de cards verticals */
+.recursos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 8px;
+}
+
+/* Card vertical de recurs */
+.recurs-card {
+  background: #FFFFFF;
+  border: 1px solid #E5DED1;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 200ms cubic-bezier(.2,.8,.2,1), transform 200ms cubic-bezier(.2,.8,.2,1);
+}
+
+.recurs-card:hover {
+  box-shadow: 0 8px 28px rgba(26,77,86,.12);
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+/* Imatge o placeholder de la card */
+.recurs-card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.recurs-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recurs-card-placeholder.thumb-acompanyament {
+  background: linear-gradient(135deg, #4E9A65, #2F6A3F);
+}
+
+.recurs-card-placeholder.thumb-gestions {
+  background: linear-gradient(135deg, #D49A3E, #A36D14);
+}
+
+.recurs-card-placeholder .card-initial {
+  font-size: 52px;
+  font-weight: 700;
+  color: rgba(255,255,255,.85);
+  font-family: "Literata", serif;
+}
+
+/* Cos de la card */
+.recurs-card-body {
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+
+.recurs-card-titol {
+  font-size: 22px;
+  margin: 4px 0 0;
+  line-height: 1.2;
+}
+
+.recurs-card-desc {
+  font-size: 15px;
+  color: #4A443C;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+/* Botó Més informació */
+.btn-mes-info {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A4D56;
+  border: 1.5px solid #1A4D56;
+  border-radius: 10px;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 140ms, color 140ms;
+}
+
+.btn-mes-info:hover {
+  background: #1A4D56;
+  color: #FFFFFF;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .recursos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .serveis-grid--2col {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .recursos-grid {
+    grid-template-columns: 1fr;
+  }
+  .serveis-grid--2col {
+    grid-template-columns: 1fr;
+  }
+}
