@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EntreTeixits — Resultats de serveis</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+  <!--Capçalera i part fixa en totes les pàgines-->
+  <header>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html" class="active">Serveis</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
+      </nav>
+    </div>
+  </header>
+  <!--Aquí mostrem els resultats dels filtres de la pàgina de serveis-->
+  <main>
+    <div class="serveis-wrap">
+      <!-- Capçalera de resultats -->
+      <div class="resultats-cap">
+        <div class="resultats-cap-left">
+          <a href="serveis.html" id="btn-tornar-cerca" class="btn-tornar-cerca">← Canviar cerca</a>
+          <p id="resultats-info-cerca" class="resultats-info-text"></p>
+        </div>
+        <h2 id="categoria-titol" class="resultats-titol"></h2>
+      </div>
+      <!-- Resultats de la crida a l'API i BBDD creada -->
+      <section aria-live="polite" aria-label="Resultats de serveis">
+        <div id="serveis-loading" style="display:none;" aria-label="Carregant serveis">
+          <div class="spinner" aria-hidden="true"></div>
+          Carregant serveis…
+        </div>
+        <div id="serveis-container" class="services-list"></div>
+      </section>
+    </div>
+  </main>
+
+<!--Footer. Part fixa-->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
+  </footer>
+</body>
+<!--Els scripts que estan relacionats en aquesta pàgina,  estat usuari per estar controlant si tenim dades o no de l'usuari, i la crida a l'api
+per mostrar els resultats del serveis-->
+  <script src="../scripts/js/estat-usuari.js"></script>
+  <script src="../scripts/js/resultats-serveis.js"></script>
+
+</html>

@@ -2,88 +2,129 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>EntreTeixits - Inici</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EntreTeixits — Serveis de confiança per a la gent gran</title>
   <link rel="stylesheet" href="../assets/css/style.css">
-</head>
+  </head>
+
 <body>
+  <!--Capçalera i part fixa en totes les pàgines-->
   <header>
-    <div class="logo">ENTRETEIXITS</div>
-<nav>
-  <a href="index.html">Inici</a>
-  <a href="serveis.html">Serveis</a>
-  <span id="nav-auth">
-    <a href="login.html">Inicia sessió</a>
-    <a href="registre.html" class="btn">Registra't</a>
-  </span>
-</nav>
-
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html" class="active">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html">Serveis</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
+      </nav>
+    </div>
   </header>
-
+  <!--La pàgina d'Inici està dividida en 3 blocs i ho marquem en seccions-->
   <main>
-    <section class="hero">
-      <h1>EntreTeixits</h1>
-      <p>Plataforma que connecta persones grans amb serveis i recursos verificats per mantenir la seva autonomia.</p>
-      <a href="serveis.html" class="btn">Troba el teu servei</a>
+    <!--Secció de la presentació d'Entreteixits-->
+    <section class="hero-landing">
+      <div class="hero-text">
+        <h1 id="hero-heading">Serveis de confiança,<br>a prop teu.</h1>
+        <p>T'ajudem a trobar professionals verificats per al dia a dia: llar, desplaçaments, acompanyament i gestions. Tot en un sol lloc, fàcil i segur.</p>
+        <div class="hero-actions">
+          <a href="serveis.html" class="btn btn-primary">Troba el teu servei</a>
+          <a href="funcionament.html" class="btn btn-secondary">Com funciona</a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="../assets/img/hero-gent-gran.png"
+             alt="Una dona somrient que té una noia que l'ajuda amb amabilitat">
+      </div>
     </section>
-
-    <section class="about">
-      <h2>Què és EntreTeixits?</h2>
-      <p>EntreTeixits centralitza serveis de llar, desplaçaments, activitats i recursos burocràtics pensats per a persones de +65 anys i els seus familiars.</p>
+    <!--Secció de la grupació de serveis-->
+    <section class="home-serveis">
+      <h2 id="serveis-heading">Serveis</h2>
+      <p class="section-intro">Troba ràpidament el que necessites: serveis pensats per fer més senzill el teu dia a dia.</p>
+      <div class="serveis-grid">
+        <a href="serveis.html?categoria=llar" class="category-link" alt="Servei de la llar: Neteja, petites reparacions i menjar a domicili">
+          <div class="categoria-tile cat-llar">
+            <img src="../assets/img/home.svg" height="36" width="36" alt="" class="icone-blanc">
+            <div>
+              <h3>Llar</h3>
+              <p>Neteja, petites reparacions i menjar a domicili.</p>
+            </div>
+          </div>
+        </a>
+        <a href="serveis.html?categoria=activitats" class="category-link" alt="Servei d'activitats:Tallers, cursos i sortides per mantenir-te actiu">
+          <div class="categoria-tile cat-activitats">
+            <img src="../assets/img/star.svg" height="36" width="36" alt="" class="icone-blanc">
+            <div>
+              <h3>Activitats</h3>
+              <p>Tallers, cursos i sortides per mantenir-te actiu.</p>
+            </div>
+          </div>
+        </a>
+        <a href="serveis.html?categoria=desplacaments" class="category-link" alt="Servei de desplaçaments:Transport adaptat i servei de taxi">
+          <div class="categoria-tile cat-desplacaments">
+            <img src="../assets/img/car.svg" height="36" width="36" alt="" class="icone-blanc">
+            <div>
+              <h3>Desplaçaments</h3>
+              <p>Transport adaptat i servei de taxi.</p>
+            </div>
+          </div>
+        </a>
+        <a href="serveis.html?categoria=gestions" class="category-link" alt="Servei de gestions:Tràmits, ajudes i recursos burocràtics">
+          <div class="categoria-tile cat-gestions">
+            <img src="../assets/img/file-text.svg" height="36" width="36" alt="" class="icone-blanc">
+            <div>
+              <h3>Gestions</h3>
+              <p>Tràmits, ajudes i recursos burocràtics.</p>
+            </div>
+          </div>
+        </a>
+        <a href="serveis.html?categoria=acompanyament" class="category-link" alt="Servei d'Acompanyament:Companyia, suport emocional i visites mèdiques">
+          <div class="categoria-tile cat-acompanyament">
+            <img src="../assets/img/users.svg" height="36" width="36" alt="" class="icone-blanc">
+            <div>
+              <h3>Acompanyament</h3>
+              <p>Companyia, suport emocional i visites mèdiques.</p>
+            </div>
+          </div>
+        </a>
+      </div>
     </section>
-
-    <section class="how-it-works">
-      <h2>Com funciona?</h2>
-      <ol>
-        <li><strong>Busca</strong> el que necessites.</li>
-        <li><strong>Escull</strong> el servei que encaixa amb tu.</li>
-        <li><strong>Contracta</strong> i gaudeix de la vida.</li>
-      </ol>
-      <a href="serveis.html" class="btn">Veure serveis</a>
-    </section>
-
-    <section class="categories">
-      <h2>Serveis</h2>
-      <div class="grid">
-        <a href="serveis.html?categoria=llar" class="category-link">
-          <article>
-            <h3>Llar</h3>
-            <p>Neteja, bricolatge i suport a domicili.</p>
-          </article>
-        </a>
-        <a href="serveis.html?categoria=activitats" class="category-link">
-          <article>
-            <h3>Activitats</h3>
-            <p>Viatges, tallers i acompanyaments.</p>
-          </article>
-        </a>
-        <a href="serveis.html?categoria=desplacaments" class="category-link">
-          <article>
-            <h3>Desplaçaments</h3>
-            <p>Taxi adaptat i serveis de transport.</p>
-          </article>
-        </a>
-        <a href="serveis.html?categoria=gestions" class="category-link">
-          <article>
-            <h3>Gestions</h3>
-            <p>Suport en tràmits i recursos burocràtics.</p>
-          </article>
-        </a>
-        <a href="serveis.html?categoria=acompanyament" class="category-link">
-          <article>
-            <h3>Acompanyament</h3>
-            <p>Companyia, suport emocional i visites a domicili.</p>
-          </article>
-        </a>
+    <!-- Tancament -->
+    <section class="cta-band">
+      <div class="cta-band-text">
+        <h2 id="cta-heading">Comença ara, és gratuït.</h2>
+        <p>Crea el teu compte en dos minuts i descobreix serveis de confiança a prop de casa teva.</p>
+      </div>
+      <div class="cta-band-actions">
+        <a href="registre.html" class="btn btn-white">Registra't</a>
+        <a href="funcionament.html" class="btn btn-outline-white">Com funciona</a>
       </div>
     </section>
   </main>
 
+<!--Footer. Part fixa-->
   <footer>
-    <a href="#">Contacta</a>
-    <a href="#">Avís legal</a>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
   </footer>
-  <script src="../scripts/js/estat-usuari.js"></script>
-
 </body>
+
+  <script src="../scripts/js/estat-usuari.js"></script>
 </html>

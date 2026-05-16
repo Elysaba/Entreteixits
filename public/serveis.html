@@ -2,65 +2,152 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>EntreTeixits - Serveis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EntreTeixits — Serveis de confiança per a la gent gran</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body>
+  <!--Capçalera i part fixa en totes les pàgines-->
   <header>
-    <div class="logo">ENTRETEIXITS</div>
-    <nav>
-      <a href="index.html">Inici</a>
-      <a href="serveis.html" class="active">Serveis</a>
-      <span id="nav-auth">
-        <a href="login.html">Inicia sessió</a>
-        <a href="registre.html" class="btn">Registra't</a>
-      </span>
-    </nav>
-  </header>
-
-  <main>
-    <section class="filters">
-      <h1>Serveis</h1>
-
-      <!-- Bloc codi postal -->
-      <div id="bloc-cp-anonim" style="display:none;">
-        <p>Introdueix el teu codi postal per veure serveis prop teu:</p>
-        <div class="cp-form">
-          <input type="text" id="input-cp" placeholder="08001" maxlength="5" pattern="\d{5}">
-          <button id="btn-cp" class="btn">Cercar</button>
-        </div>
-        <span id="error-cp" class="error-msg"></span>
-      </div>
-
-      <div id="bloc-cp-registrat" style="display:none;">
-        <p class="cp-info">Serveis prop de: <strong id="text-cp-registrat"></strong></p>
-      </div>
-
-      <nav class="categories-nav" id="categories-nav">
-        <button data-cat="llar">Llar</button>
-        <button data-cat="activitats">Activitats</button>
-        <button data-cat="desplacaments">Desplaçaments</button>
-        <button data-cat="gestions">Gestions</button>
-        <button data-cat="acompanyament">Acompanyament</button>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html" class="active">Serveis</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
       </nav>
-    </section>
-
-    <section class="services-list">
-      <h2 id="categoria-titol">Tots els serveis</h2>
-      <p id="serveis-loading" style="display:none;">Carregant serveis...</p>
-      <div id="serveis-container">
-        <p>Introdueix el teu codi postal i selecciona una categoria.</p>
+    </div>
+  </header>
+  <!--Hem dividit la pàgina segons els passos que han de fer-->
+  <main>
+    <!--Introducció a la part central del projecte-->
+    <div class="serveis-wrap">
+      <div class="page-hero">
+        <span class="page-hero-label">Catàleg</span>
+        <h1>Serveis prop teu</h1>
+        <p>Indica el teu codi postal i filtra per categoria. Tots els resultats són empreses verificades.</p>
       </div>
-    </section>
+
+      <!-- SECCIÓ DE CERCA DELS SERVEIS -->
+      <!-- PAS 1: INTRODUIR CODI POSTAL -->
+      <section class="pas-seccio pas-codi-postal" id="pas-codi-postal">
+        <h2 id="titol-codi-postal" class="pas-titol">On vols el servei?</h2>
+        <p class="pas-intro">Introdueix el teu codi postal i el radi de cerca. Després podràs triar el tipus de servei.</p>
+        <div class="codi-bloc">
+          <div class="codi-form codi-form-centrat" id="bloc-cp-formulari">
+            <div class="codi-camps-grid">
+              <div class="codi-camps-item">
+                <label for="input-cp">Codi postal</label>
+                <input type="text" id="input-cp" placeholder="08001" maxlength="5" pattern="\d{5}" inputmode="numeric" aria-label="Codi postal">
+              </div>
+              <div class="codi-camps-item">
+                <label for="input-radi">Radi de cerca</label>
+                <select id="input-radi" aria-label="Radi de cerca en quilòmetres">
+                  <option value="5">5 km</option>
+                  <option value="10" selected>10 km</option>
+                  <option value="15">15 km</option>
+                  <option value="25">25 km</option>
+                  <option value="50">50 km</option>
+                </select>
+              </div>
+              <button id="btn-cp" type="button" class="btn btn-aplicar">Aplicar</button>
+            </div>
+          </div>
+          <span id="error-cp" class="error-msg" role="alert"></span>
+          <div id="cp-aplicat-wrap" class="codi-aplicat-wrap" hidden>
+            <p id="cp-aplicat-info" class="codi-aplicat-info"></p>
+          </div>
+        </div>
+      </section>
+      <!-- PAS 2: SELECCIÓ DEL SERVEI -->
+      <section class="pas-seccio" id="pas-triar-servei" hidden>
+        <h2 id="titol-triar-servei" class="pas-titol">Quin servei necessites?</h2>
+        <div class="serveis-grid serveis-grid--catalog" id="grid-serveis-principals">
+          <button type="button" class="category-tile-btn" data-cat="llar">
+            <div class="categoria-tile cat-llar">
+              <img src="../assets/img/home.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Llar</h3>
+                <p>Troba professionals de confiança per a la neteja, reparacions, bricolatge i servei de menjar a domicili.</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="category-tile-btn" data-cat="activitats">
+            <div class="categoria-tile cat-activitats">
+              <img src="../assets/img/star.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Activitats</h3>
+                <p>Descobreix tallers, excursions i viatges organitzats per mantenir-te actiu i connectat amb els teus.</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="category-tile-btn" data-cat="desplacaments">
+            <div class="categoria-tile cat-desplacaments">
+              <img src="../assets/img/car.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Desplaçaments</h3>
+                <p>Transport adaptat i acompanyament per a visites mèdiques, compres i qualsevol sortida del dia a dia.</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="category-tile-btn" data-cat="gestions">
+            <div class="categoria-tile cat-gestions">
+              <img src="../assets/img/file-text.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Gestions</h3>
+                <p>Ajuda amb tràmits administratius, assessoria i gestió de recursos i serveis locals al teu abast.</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="category-tile-btn" data-cat="acompanyament">
+            <div class="categoria-tile cat-acompanyament">
+              <img src="../assets/img/users.svg" height="48" width="48" alt="" class="icone-blanc">
+              <div>
+                <h3>Acompanyament</h3>
+                <p>Companyia, suport emocional i presència propera per als moments en què necessites algú al teu costat.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </section>
+      <!-- PAS 2.1: SELECCIÓ DE LA SUBCATEGORIA -->
+       <!--La subcategoria només es mostra un cop que se selecciona l'interès principal-->
+      <section class="pas-seccio pas-subcategories" id="pas-subcategories" hidden> 
+        <h2 id="titol-subcategories" class="pas-titol">Concretem el servei</h2>
+        <p class="pas-intro" id="subcategories-intro"></p>
+        <nav class="subcategories-nav" id="subcategories-nav"></nav>
+      </section>
+    </div>
   </main>
 
+<!--Footer. Part fixa-->
   <footer>
-    <a href="#">Contacta</a>
-    <a href="#">Avís legal</a>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
   </footer>
+</body>
 
+<!--Els scripts que estan relacionats en aquesta pàgina, és la de serveis, i estat usuari per estar controlant si tenim dades o no de l'usuari-->
   <script src="../scripts/js/estat-usuari.js"></script>
   <script src="../scripts/js/serveis.js"></script>
-</body>
+
 </html>

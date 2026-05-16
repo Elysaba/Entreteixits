@@ -1,3 +1,6 @@
+/* Aquest JS fa una crida a l'arxiu estat-usuari.php on recupera les dades del usuari de la base de dades per
+poder realitzar la personalització desitjada */
+
 fetch('../scripts/php/estat-usuari.php')
   .then(res => res.json())
   .then(sessio => {

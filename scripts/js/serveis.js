@@ -1,16 +1,19 @@
-const GOOGLE_API_KEY = 'AIzaSyDQbx5oBV3j2ZWHksF2YZEhkwxk8uugMsM';
+/* Gestionarem el formulari de la cerca del serveis, basant-nos amb:
+    - Codi postal
+    - Radi
+    - Interessos
+    - Subcategories
+ * Aquesta pàgina es personalitza segons:
+ *  - Visita anònima, que no està registrat: mostrem totes les categories
+ *  - Usuari registrat: tant el codi postal com els interessos es recupera de la base de dades i es personalitza
+ */
 
-const CATEGORIES_NEARBY = {
-  llar:       ['electrician', 'plumber', 'locksmith', 'painter'],
-  activitats: ['community_center', 'cultural_center', 'museum', 'library']
-};
 
-const CATEGORIES_TEXT = {
-  desplacaments: 'transporte adaptado taxi accesible discapacidad'
-};
+// ---------------------------------------------------------------------------
+// DADES ESTÀTIQUES: Mapeigs i configuració de categories
+// ---------------------------------------------------------------------------
 
-const CATEGORIES_BBDD = ['gestions', 'acompanyament'];
-
+// Noms llegibles per a l'usuari de cada slug de categoria
 const NOMS_CATEGORIA = {
   llar:          'Llar',
   activitats:    'Activitats',
@@ -19,9 +22,60 @@ const NOMS_CATEGORIA = {
   acompanyament: 'Acompanyament'
 };
 
-let localitzacioActual = null;
+// Llista de categories que tenen subcategories per refinar la cerca
+const CATEGORIES_AMB_SUB = ['llar', 'desplacaments', 'activitats'];
 
-// ── Geocodificació CP → coordenades (Nominatim, gratuït) ──────────────────────
+// Definició de les subcategories per a cada categoria que les té
+// Cada entrada té: id (valor que s'envia per URL) i label (text que veu l'usuari)
+const SUBCATEGORIES = {
+  llar: [
+    { id: 'tots', label: 'Tots' },
+    { id: 'bricolatge', label: 'Bricolatge' },
+    { id: 'neteja', label: 'Neteja de la llar' },
+    { id: 'menjar', label: 'Menjar a domicili' }
+  ],
+  desplacaments: [
+    { id: 'tots', label: 'Tots' },
+    { id: 'transport', label: 'Transport adaptat' },
+    { id: 'taxi', label: 'Taxi' }
+  ],
+  activitats: [
+    { id: 'tots', label: 'Tots' },
+    { id: 'tallers', label: 'Tallers / cursos' },
+    { id: 'excursions', label: 'Excursions' },
+    { id: 'viatges', label: 'Viatges' }
+  ]
+};
+
+// Taula de conversió: l'ID numèric que guarda la BBDD → slug de categoria
+// Necessari per filtrar les category-tiles quan l'usuari té interessos guardats
+const ID_A_SLUG = {
+  1: 'llar',
+  2: 'activitats',
+  3: 'desplacaments',
+  4: 'gestions',
+  5: 'acompanyament'
+};
+
+
+// ---------------------------------------------------------------------------
+// ESTAT GLOBAL: variables que emmagatzemen l'estat de la pàgina
+// ---------------------------------------------------------------------------
+
+let localitzacioActual = null;      // Coordenades {lat, lng} obtingudes del CP geocodificat
+let radiCercaKm = 10;               // Radi de cerca en km (per defecte 10)
+let codiPostalAplicat = '';         // Últim CP confirmat per l'usuari
+let ubicacioAplicada = false;       // Indica si l'usuari ja ha aplicat un CP vàlid
+let categoriaSeleccionada = null;   // Slug de la categoria activa (p.ex. 'llar')
+let subcategoriaSeleccionada = null; // ID de la subcategoria activa (p.ex. 'neteja')
+
+
+// =============================================================================
+// GEOCODIFICACIÓ
+// =============================================================================
+
+// Converteix un codi postal espanyol en coordenades {lat, lng}
+// Utilitza l'API gratuïta de Nominatim (OpenStreetMap)
 async function geocodarCP(cp) {
   const url = `https://nominatim.openstreetmap.org/search?postalcode=${cp}&country=es&format=json&limit=1`;
   const r = await fetch(url, { headers: { 'Accept-Language': 'ca' } });
@@ -30,267 +84,290 @@ async function geocodarCP(cp) {
   return { lat: parseFloat(dades[0].lat), lng: parseFloat(dades[0].lon) };
 }
 
-// ── UI helpers ────────────────────────────────────────────────────────────────
-function obtenirCategoria() {
-  return new URLSearchParams(window.location.search).get('categoria') || null;
+
+// =============================================================================
+// UTILITATS
+// =============================================================================
+
+// Escapa caràcters HTML perillosos per evitar XSS en contingut dinàmic
+// Usa un element temporal del DOM com a mecanisme de sanitització
+function escapeHtml(text) {
+  const el = document.createElement('div');
+  el.textContent = text ?? '';
+  return el.innerHTML;
 }
 
-function marcarBotoActiu(categoria) {
-  document.querySelectorAll('.categories-nav button').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.cat === categoria);
+// Valida i normalitza el radi: mínim 1 km, màxim 50 km, per defecte 10
+function normalitzarRadiKm(km) {
+  const n = parseInt(km, 10);
+  if (!Number.isFinite(n) || n < 1) return 10;
+  return Math.min(n, 50);
+}
+
+// Llegeix el valor actual del selector de radi del formulari
+function llegirRadiDelFormulari() {
+  const select = document.getElementById('input-radi');
+  if (!select) return radiCercaKm;
+  return normalitzarRadiKm(select.value);
+}
+
+// Actualitza l'estat de radi i la UI de confirmació quan l'usuari canvia el selector
+// Només actua si ja hi ha una ubicació aplicada prèviament
+function sincronitzarUbicacioActiva() {
+  if (!ubicacioAplicada) return;
+  radiCercaKm = llegirRadiDelFormulari();
+  const selectRadi = document.getElementById('input-radi');
+  if (selectRadi) selectRadi.value = String(radiCercaKm);
+  actualitzarInfoUbicacio(codiPostalAplicat);
+}
+
+
+// =============================================================================
+// ACTUALITZAR UI
+// =============================================================================
+
+// Mostra el pas de tria de servei (les category-tiles) que inicialment estava ocult
+function mostrarPasTriarServei() {
+  document.getElementById('pas-triar-servei').hidden = false;
+}
+
+// Actualitza el bloc de confirmació que indica el CP i radi actius
+function actualitzarInfoUbicacio(cp) {
+  const wrap = document.getElementById('cp-aplicat-wrap');
+  const info = document.getElementById('cp-aplicat-info');
+  if (wrap) wrap.hidden = false;
+  info.innerHTML = `Cerca activa prop de <strong>${escapeHtml(cp)}</strong> en un radi de <strong>${radiCercaKm} km</strong>.`;
+}
+
+// Afegeix la classe 'is-selected' al botó de la categoria clicada i la treu de la resta
+function marcarServeiPrincipal(categoria) {
+  document.querySelectorAll('.category-tile-btn').forEach(btn => {
+    btn.classList.toggle('is-selected', btn.dataset.cat === categoria);
   });
 }
 
-function actualitzarTitol(categoria) {
-  document.getElementById('categoria-titol').textContent = categoria
-    ? `Serveis de ${NOMS_CATEGORIA[categoria]}`
-    : 'Tots els serveis';
+// Afegeix la classe 'active' al botó de subcategoria seleccionat i la treu de la resta
+function marcarSubcategoriaActiva(sub) {
+  document.querySelectorAll('#subcategories-nav .filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.sub === sub);
+  });
 }
 
-function mostrarLoading(visible) {
-  document.getElementById('serveis-loading').style.display = visible ? 'block' : 'none';
+// Construeix dinàmicament els botons de subcategoria al DOM
+// Neteja el contingut anterior i afegeix un botó per cada subcategoria de la categoria
+function renderitzarSubcategories(categoria) {
+  const nav = document.getElementById('subcategories-nav');
+  const intro = document.getElementById('subcategories-intro');
+  const llista = SUBCATEGORIES[categoria] || [];
+
+  intro.textContent = `Has triat ${NOMS_CATEGORIA[categoria]}. Ara concreta què necessites:`;
+  nav.innerHTML = '';
+
+  llista.forEach(item => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'filter-btn';
+    btn.dataset.sub = item.id;   // Emmagatzema l'id per identificar-lo al clic
+    btn.textContent = item.label;
+    btn.addEventListener('click', () => seleccionarSubcategoria(item.id));
+    nav.appendChild(btn);
+  });
 }
 
-function mostrarMissatge(text) {
-  document.getElementById('serveis-container').innerHTML = `<p>${text}</p>`;
+
+// =============================================================================
+// NAVEGACIÓ
+// =============================================================================
+
+// Construeix la URL de resultats amb els paràmetres actuals i redirigeix l'usuari
+// Si la subcategoria és 'tots' no s'afegeix per mantenir URLs netes
+function redirigirAResultats(categoria, sub) {
+  const params = new URLSearchParams({
+    cp: codiPostalAplicat,
+    radi: radiCercaKm,
+    categoria
+  });
+  if (sub && sub !== 'tots') params.set('sub', sub);
+  window.location.href = `resultats-serveis.html?${params.toString()}`;
 }
 
-function mostrarError(missatge) {
-  document.getElementById('serveis-container').innerHTML = `<p class="error">${missatge}</p>`;
-}
-
-// ── Renderitzat ───────────────────────────────────────────────────────────────
-function renderitzarServeisGoogle(llocs) {
-  const contenidor = document.getElementById('serveis-container');
-  contenidor.innerHTML = '';
-
-  if (!llocs || llocs.length === 0) {
-    contenidor.innerHTML = '<p class="missatge-buit">No s\'han trobat serveis per aquesta categoria i codi postal.</p>';
+// Gestiona el clic sobre una category-tile:
+// 1. Comprova que hi hagi ubicació aplicada (sinó mostra error)
+// 2. Marca la categoria com a seleccionada
+// 3. Si té subcategories → mostra el pas de subcategories sense redirigir
+// 4. Si NO té subcategories → redirigeix directament als resultats
+function seleccionarServeiPrincipal(categoria) {
+  if (!ubicacioAplicada) {
+    document.getElementById('error-cp').textContent =
+      'Primer introdueix el codi postal i clica el botó.';
     return;
   }
 
-  llocs.forEach(lloc => {
-    const id         = lloc.id || '';
-    const nom        = lloc.displayName?.text || 'Sense nom';
-    const adreca     = lloc.formattedAddress || '';
-    const rating     = lloc.rating ? `⭐ ${lloc.rating}` : '';
-    const telefon    = lloc.nationalPhoneNumber || '';
-    const descripcio = lloc.editorialSummary?.text || '';
-    const fotoNom    = lloc.photos?.[0]?.name || '';
-    const fotoUrl    = fotoNom
-      ? `https://places.googleapis.com/v1/${fotoNom}/media?maxWidthPx=400&key=${GOOGLE_API_KEY}`
-      : null;
+  document.getElementById('error-cp').textContent = '';
+  categoriaSeleccionada = categoria;
+  subcategoriaSeleccionada = null;
+  marcarServeiPrincipal(categoria);
 
-    const params = new URLSearchParams({
-      font: 'google', id, nom, cat: obtenirCategoria() || '', adreca, foto: fotoNom, desc: descripcio
-    });
-    const urlFitxa     = `fitxa-servei.html?${params}`;
-    const urlContactar = `contactar.html?${params}`;
+  // Amaguem el pas de subcategories per si ja n'hi havia un visible d'abans
+  document.getElementById('pas-subcategories').hidden = true;
 
-    const card = document.createElement('article');
-    card.className = 'service-card';
-    card.innerHTML = `
-      ${fotoUrl ? `<img class="card-foto" src="${fotoUrl}" alt="${nom}" loading="lazy">` : ''}
-      <div class="card-cos">
-        <h3>${nom}</h3>
-        ${descripcio ? `<p class="card-descripcio">${descripcio}</p>` : ''}
-        ${adreca     ? `<p class="adreca">${adreca}</p>` : ''}
-        ${rating     ? `<p class="valoracio">${rating}</p>` : ''}
-        <div class="card-actions">
-          <a href="${urlFitxa}" class="btn">Veure fitxa</a>
-          <a href="${urlContactar}" class="btn btn-primary">Contactar</a>
-        </div>
-      </div>
-    `;
-    contenidor.appendChild(card);
-  });
-}
-
-function renderitzarServeisBBDD(serveis) {
-  const contenidor = document.getElementById('serveis-container');
-  contenidor.innerHTML = '';
-
-  if (!serveis || serveis.length === 0) {
-    contenidor.innerHTML = '<p class="missatge-buit">No hi ha serveis disponibles en aquesta categoria.</p>';
+  if (CATEGORIES_AMB_SUB.includes(categoria)) {
+    renderitzarSubcategories(categoria);
+    document.getElementById('pas-subcategories').hidden = false;
     return;
   }
 
-  serveis.forEach(s => {
-    const params = new URLSearchParams({
-      font: 'bbdd', id: s.id, cat: obtenirCategoria() || ''
-    });
-    const urlFitxa     = `fitxa-servei.html?${params}`;
-    const urlContactar = `contactar.html?${params}`;
-
-    const card = document.createElement('article');
-    card.className = 'service-card';
-    card.innerHTML = `
-      <div class="card-cos">
-        <h3>${s.nom}</h3>
-        ${s.descripcio ? `<p class="card-descripcio">${s.descripcio}</p>` : ''}
-        ${s.preu       ? `<p class="price">${s.preu}</p>` : ''}
-        <div class="card-actions">
-          <a href="${urlFitxa}" class="btn">Veure fitxa</a>
-          <a href="${urlContactar}" class="btn btn-primary">Contactar</a>
-        </div>
-      </div>
-    `;
-    contenidor.appendChild(card);
-  });
+  redirigirAResultats(categoria, 'tots');
 }
 
-// ── Crides API ────────────────────────────────────────────────────────────────
-async function cercarNearby(categoria, loc) {
-  const r = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Goog-Api-Key': GOOGLE_API_KEY,
-      'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.rating,places.nationalPhoneNumber,places.websiteUri,places.photos,places.editorialSummary'
-    },
-    body: JSON.stringify({
-      includedTypes: CATEGORIES_NEARBY[categoria],
-      maxResultCount: 10,
-      locationRestriction: {
-        circle: { center: { latitude: loc.lat, longitude: loc.lng }, radius: 15000.0 }
+// Gestiona el clic sobre un botó de subcategoria i redirigeix als resultats
+function seleccionarSubcategoria(sub) {
+  if (!categoriaSeleccionada) return;
+  subcategoriaSeleccionada = sub;
+  marcarSubcategoriaActiva(sub);
+  redirigirAResultats(categoriaSeleccionada, sub);
+}
+
+// Aplica una ubicació (CP + radi):
+// 1. Geocodifica el CP via Nominatim
+// 2. Desa les coordenades i marca l'estat com a "aplicat"
+// 3. Actualitza els camps del formulari per reflectir els valors actuals
+// 4. Si ja hi havia una categoria triada (cas: tornada de resultats), restaura l'estat visual
+async function aplicarUbicacio(cp, radiKm) {
+  localitzacioActual = await geocodarCP(cp);
+  codiPostalAplicat = cp;
+  radiCercaKm = normalitzarRadiKm(radiKm);
+  ubicacioAplicada = true;
+
+  const inputCp = document.getElementById('input-cp');
+  const selectRadi = document.getElementById('input-radi');
+  if (inputCp) inputCp.value = cp;
+  if (selectRadi) selectRadi.value = String(radiCercaKm);
+
+  actualitzarInfoUbicacio(cp);
+  mostrarPasTriarServei();
+
+  // Si l'usuari havia triat categoria prèviament (p.ex. tornant de resultats),
+  // restaurem la selecció visual sense redirigir de nou
+  if (categoriaSeleccionada) {
+    marcarServeiPrincipal(categoriaSeleccionada);
+    if (CATEGORIES_AMB_SUB.includes(categoriaSeleccionada)) {
+      renderitzarSubcategories(categoriaSeleccionada);
+      document.getElementById('pas-subcategories').hidden = false;
+      if (subcategoriaSeleccionada) {
+        marcarSubcategoriaActiva(subcategoriaSeleccionada);
       }
-    })
-  });
-  if (!r.ok) throw new Error(`Error Nearby API: ${r.status}`);
-  return (await r.json()).places;
-}
-
-async function cercarText(categoria, loc) {
-  const r = await fetch('https://places.googleapis.com/v1/places:searchText', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Goog-Api-Key': GOOGLE_API_KEY,
-      'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.rating,places.nationalPhoneNumber,places.websiteUri,places.photos,places.editorialSummary'
-    },
-    body: JSON.stringify({
-      textQuery: CATEGORIES_TEXT[categoria],
-      languageCode: 'ca',
-      maxResultCount: 10,
-      locationBias: {
-        circle: { center: { latitude: loc.lat, longitude: loc.lng }, radius: 30000.0 }
-      }
-    })
-  });
-  if (!r.ok) throw new Error(`Error Text API: ${r.status}`);
-  return (await r.json()).places;
-}
-
-async function cercarBBDD(categoria) {
-  const r = await fetch(`../scripts/php/get-serveis.php?categoria=${categoria}`);
-  if (!r.ok) throw new Error(`Error BBDD: ${r.status}`);
-  return await r.json();
-}
-
-// ── Càrrega de serveis ────────────────────────────────────────────────────────
-async function carregar(categoria) {
-  if (!localitzacioActual && !CATEGORIES_BBDD.includes(categoria)) {
-    mostrarMissatge('Introdueix el teu codi postal per veure serveis prop teu.');
-    return;
-  }
-
-  mostrarLoading(true);
-  document.getElementById('serveis-container').innerHTML = '';
-
-  try {
-    if (CATEGORIES_BBDD.includes(categoria)) {
-      const serveis = await cercarBBDD(categoria);
-      mostrarLoading(false);
-      renderitzarServeisBBDD(serveis);
-    } else if (CATEGORIES_NEARBY[categoria]) {
-      const llocs = await cercarNearby(categoria, localitzacioActual);
-      mostrarLoading(false);
-      renderitzarServeisGoogle(llocs);
-    } else {
-      const llocs = await cercarText(categoria, localitzacioActual);
-      mostrarLoading(false);
-      renderitzarServeisGoogle(llocs);
     }
-  } catch (error) {
-    mostrarLoading(false);
-    mostrarError('No hem trobat serveis d\'aquesta categoria al codi postal indicat. Prova amb un altre codi postal.');
-    console.error(error);
   }
 }
 
-function seleccionarCategoria(cat) {
-  window.history.pushState({}, '', `?categoria=${cat}`);
-  marcarBotoActiu(cat);
-  actualitzarTitol(cat);
-  carregar(cat);
-}
 
-// ── Inicialització ────────────────────────────────────────────────────────────
+// =============================================================================
+// INICIALITZACIÓ
+// =============================================================================
+
+// Punt d'entrada principal. S'executa un cop el DOM està llest.
+// Responsabilitats:
+//   1. Connectar els listeners dels botons i inputs
+//   2. Consultar la sessió PHP per personalitzar el formulari (usuari registrat)
+//   3. Restaurar l'estat si venim de resultats-serveis.html via URL params
 async function init() {
-  const categoria = obtenirCategoria();
-  marcarBotoActiu(categoria);
-  actualitzarTitol(categoria);
+  // Llegim els paràmetres de la URL (cas: tornada des de resultats)
+  const params      = new URLSearchParams(window.location.search);
+  const categoriaUrl = params.get('categoria');
+  const subUrl      = params.get('sub');
+  const cpUrl       = params.get('cp');
+  const radiUrl     = params.get('radi');
 
-  // Comprovar sessió i obtenir codi postal si està loguejat
+  // Associem el clic de cada category-tile a la funció de selecció
+  document.querySelectorAll('.category-tile-btn').forEach(btn => {
+    btn.addEventListener('click', () => seleccionarServeiPrincipal(btn.dataset.cat));
+  });
+
+  // Listener del botó "Aplicar CP":
+  // - Valida el format (5 dígits)
+  // - Geocodifica i aplica la ubicació
+  document.getElementById('btn-cp').addEventListener('click', async () => {
+    const cp = document.getElementById('input-cp').value.trim();
+    const radiKm = llegirRadiDelFormulari();
+    const errorEl = document.getElementById('error-cp');
+
+    if (!/^\d{5}$/.test(cp)) {
+      errorEl.textContent = 'Introdueix un codi postal vàlid de 5 dígits.';
+      return;
+    }
+    errorEl.textContent = '';
+
+    try {
+      await aplicarUbicacio(cp, radiKm);
+    } catch {
+      errorEl.textContent = 'No s\'ha trobat el codi postal. Prova\'n un altre.';
+    }
+  });
+
+  // Permet confirmar el CP prement Enter al camp de text
+  document.getElementById('input-cp').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-cp').click();
+  });
+
+  // Quan l'usuari canvia el radi, actualitzem la info de cerca activa
+  // (no cal tornar a geocodificar, les coordenades no canvien)
+  document.getElementById('input-radi').addEventListener('change', () => {
+    if (!ubicacioAplicada) return;
+    sincronitzarUbicacioActiva();
+  });
+
+  // --- Personalització per a usuari registrat ---
+  // Consulta la sessió PHP per saber si l'usuari està logat i recuperar:
+  //   - codi_postal: pre-emplena el camp si no ve per URL
+  //   - radi: pre-emplena el selector si no ve per URL
+  //   - interessos: amaga les category-tiles que no li interessen
   try {
     const r = await fetch('../scripts/php/estat-usuari.php');
     const sessio = await r.json();
 
-    if (sessio.logat && sessio.codi_postal) {
-      // Usuari registrat: usar el seu codi postal automàticament
-      const cp = sessio.codi_postal;
-      localitzacioActual = await geocodarCP(cp);
+    if (sessio.logat) {
+      if (sessio.codi_postal && !cpUrl) {
+        document.getElementById('input-cp').value = sessio.codi_postal;
+      }
+      if (sessio.radi && !radiUrl) {
+        document.getElementById('input-radi').value = String(normalitzarRadiKm(sessio.radi));
+      }
 
-      document.getElementById('bloc-cp-registrat').style.display = 'block';
-      document.getElementById('text-cp-registrat').textContent = cp;
+      document.getElementById('btn-cp').textContent = 'Cercar';
 
-      if (categoria) carregar(categoria);
-
-    } else {
-      // Usuari no registrat: mostrar formulari de codi postal
-      document.getElementById('bloc-cp-anonim').style.display = 'block';
-
-      document.getElementById('btn-cp').addEventListener('click', async () => {
-        const cp = document.getElementById('input-cp').value.trim();
-        const errorEl = document.getElementById('error-cp');
-
-        if (!/^\d{5}$/.test(cp)) {
-          errorEl.textContent = 'Introdueix un codi postal vàlid de 5 dígits.';
-          return;
-        }
-        errorEl.textContent = '';
-
-        try {
-          localitzacioActual = await geocodarCP(cp);
-          document.getElementById('bloc-cp-anonim').style.display = 'none';
-          document.getElementById('bloc-cp-registrat').style.display = 'block';
-          document.getElementById('text-cp-registrat').textContent = cp;
-
-          const catActual = obtenirCategoria();
-          if (catActual) carregar(catActual);
-        } catch {
-          errorEl.textContent = 'No s\'ha trobat el codi postal. Prova\'n un altre.';
-        }
-      });
-
-      // Permetre enviar amb Enter
-      document.getElementById('input-cp').addEventListener('keydown', e => {
-        if (e.key === 'Enter') document.getElementById('btn-cp').click();
-      });
-
-      if (categoria) {
-        mostrarMissatge('Introdueix el teu codi postal per veure serveis prop teu.');
+      // Si l'usuari té interessos guardats, amaguem les categories que no hi apareixen
+      // sessio.interessos és un array d'IDs numèrics (com a la BBDD)
+      if (sessio.interessos?.length) {
+        const slugs = sessio.interessos.map(id => ID_A_SLUG[id]).filter(Boolean);
+        document.querySelectorAll('.category-tile-btn').forEach(btn => {
+          btn.hidden = !slugs.includes(btn.dataset.cat);
+        });
       }
     }
   } catch (e) {
     console.error('Error comprovant sessió:', e);
-    document.getElementById('bloc-cp-anonim').style.display = 'block';
   }
 
-  // Botons de categoria
-  document.querySelectorAll('.categories-nav button').forEach(btn => {
-    btn.addEventListener('click', () => seleccionarCategoria(btn.dataset.cat));
-  });
+  // --- Restaurar estat des de URL params (tornada de resultats-serveis.html) ---
+  // Si la URL inclou ?categoria=..., restaurem les variables d'estat
+  // perquè en aplicar el CP es pugui tornar a mostrar la selecció visual
+  if (categoriaUrl) {
+    categoriaSeleccionada = categoriaUrl;
+    if (subUrl) subcategoriaSeleccionada = subUrl;
+  }
+
+  // Si la URL inclou ?cp=..., apliquem la ubicació automàticament
+  // Errors silenciats: l'usuari pot reintroduir el CP manualment si falla
+  if (cpUrl) {
+    const radiKm = radiUrl ? parseInt(radiUrl, 10) : 10;
+    try {
+      await aplicarUbicacio(cpUrl, radiKm);
+    } catch {
+      // l'usuari pot reintroduir el CP manualment
+    }
+  }
 }
 
+// Esperem que el DOM estigui completament carregat abans d'inicialitzar
 document.addEventListener('DOMContentLoaded', init);
