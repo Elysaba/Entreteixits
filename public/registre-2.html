@@ -39,14 +39,14 @@
     <!--Formulari de registres, i que consta de 2 pasos-->
     <!--PAS 2 INTERESOS I UBICACIÓ-->
   <main>
-    <div class="auth-wrap">
-      <section class="auth-form">
+    <div class="formulari-login">
+      <section class="login-form">
         <h1 id="registre2-heading">Crea el teu compte</h1>
-        <p class="auth-sub">Pas 2 de 2 · Personalitza el teu compte</p>
+        <p class="login-subtitol">Pas 2 de 2 · Personalitza el teu compte</p>
         <!-- Indicador de pas -->
-        <div class="step-bar" role="progressbar">
-          <div class="step-dot active"></div>
-          <div class="step-dot active"></div>
+        <div class="pas-barra" role="progressbar">
+          <div class="pas-punt active"></div>
+          <div class="pas-punt active"></div>
         </div>
         <form id="form-registre-2" action="../scripts/php/registre.php" Method="post" novalidate>
           <input type="hidden" name="pas" value="2">
@@ -85,8 +85,8 @@
           <div class="field-group">
             <label for="cp">El teu codi postal</label>
             <input type="text" id="cp" name="cp" inputmode="numeric" maxlength="5" placeholder="08001" required>
-            <span id="error-cp" class="error-msg" role="alert"></span>
-            <span class="error-msg" style="font-weight: 400; margin-top: 4px; display: block;">
+            <span id="error-cp" class="error-missatge" role="alert"></span>
+            <span class="error-missatge" style="font-weight: 400; margin-top: 4px; display: block;">
               Et mostrarem els serveis més propers a casa teva.
             </span>
           </div>

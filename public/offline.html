@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sense connexió – EntreTeixits</title>
+  <!-- El CSS ja està en cache gràcies al service worker, es carregarà offline -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1F5E7B">
+</head>
+<body>
+
+  <!-- Navbar mínima: sense JS ni PHP, només el logo i l'inici -->
+  <header class="navbar">
+    <div class="navbar__container">
+      <a href="/public/index.html" class="navbar__logo">
+        <img src="/assets/img/logo-entreteixits.svg" alt="EntreTeixits" height="36">
+      </a>
+    </div>
+  </header>
+
+  <!-- Missatge d'error sense connexió -->
+  <main class="container" style="text-align: center; padding: 5rem 2rem;">
+
+    <!-- Icona visual: fem servir el SVG de xarxa/shield que ja tenim en cache -->
+    <img
+      src="/assets/img/shield-check.svg"
+      alt=""
+      aria-hidden="true"
+      style="width: 64px; height: 64px; opacity: 0.4; margin-bottom: 1.5rem;"
+    >
+
+    <h1 style="margin-bottom: 1rem;">Sense connexió a internet</h1>
+
+    <p style="max-width: 40ch; margin: 0 auto 2rem;">
+      No s'ha pogut carregar la pàgina.<br>
+      Comprova la connexió i torna-ho a intentar.
+    </p>
+
+    <!-- Tornar a intentar recarrega la pàgina anterior (funciona sense JS) -->
+    <a href="/public/index.html" class="btn btn-primary">Tornar a l'inici</a>
+
+  </main>
+
+</body>
+</html>

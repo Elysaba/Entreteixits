@@ -1,6 +1,23 @@
-// Validació del formulari de rgistre.
+// Validació del formulari de registre.
 
-// Validació del primer pas del formualri
+// Mostra els errors retornats pel servidor via query param
+const errorParam = new URLSearchParams(window.location.search).get("error");
+if (errorParam) {
+    const missatges = {
+        email_exists:    { span: "#error-email",    text: "Aquest correu ja té un compte. Inicia sessió o utilitza un altre correu." },
+        invalid_data:    { span: "#error-email",    text: "Les dades introduïdes no són vàlides." },
+        session_expired: { span: "#error-nom",      text: "La sessió ha caducat. Torna a omplir el formulari." },
+        cp_invalid:      { span: "#error-cp",       text: "El codi postal no és vàlid." },
+        db_error:        { span: "#error-cp",       text: "S'ha produït un error en crear el compte. Torna-ho a intentar." }
+    };
+    const missatge = missatges[errorParam];
+    if (missatge) {
+        const span = document.querySelector(missatge.span);
+        if (span) span.textContent = missatge.text;
+    }
+}
+
+// Validació del primer pas del formulari
 const formPas1 = document.querySelector("#form-registre-1");
 
 if (formPas1) {

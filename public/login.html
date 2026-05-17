@@ -39,20 +39,20 @@
   </header>
   <!--Formulari d'inici de sessió-->
   <main>
-    <div class="auth-wrap">
-      <section class="auth-form">
+    <div class="formulari-login">
+      <section class="login-form">
         <h1 id="login-heading">Inicia sessió</h1>
-        <p class="auth-sub">Entra al teu compte per veure favorits, contactes i preferències.</p>
+        <p class="login-subtitol">Entra al teu compte per veure favorits, contactes i preferències.</p>
         <form action="../scripts/php/login.php" method="post" novalidate>
           <div class="field-group">
             <label for="email">Correu electrònic</label>
             <input type="email" id="email" name="email" autocomplete="email" required paceholder="nom@exemple.cat">
-            <span id="error-email" class="error-msg" role="alert"></span>
+            <span id="error-email" class="error-missatge" role="alert"></span>
           </div>
           <div class="field-group">
             <label for="password">Contrasenya</label>
             <input type="password" id="password" name="password" autocomplete="current-password" required>
-            <span id="error-password" class="error-msg" role="alert" ></span>
+            <span id="error-password" class="error-missatge" role="alert"></span>
           </div>
           <button type="submit">Entrar</button>
         </form>

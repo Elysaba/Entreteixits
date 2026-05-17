@@ -39,52 +39,49 @@
   <!--He dividit la pàgina segons els passos que han de fer-->
   <main>
     <!--Introducció a la part central del projecte-->
-    <div class="serveis-wrap">
-      <div class="page-hero">
-        <span class="page-hero-label">Catàleg</span>
-        <h1>Serveis prop teu</h1>
-        <p>Indica el teu codi postal i filtra per categoria. Tots els resultats són empreses verificades.</p>
+    <div class="page-hero">
+      <h1 id="page-heading">Serveis de confiança,<span style="color:#9E4A2E""><em> a prop teu</em></span></h1>
+      <p>Introdueix el teu codi postal i explora serveis verificats a prop teu.</p>
       </div>
-
       <!-- SECCIÓ DE CERCA DELS SERVEIS -->
       <!-- PAS 1: INTRODUIR CODI POSTAL -->
       <section class="pas-seccio pas-codi-postal" id="pas-codi-postal">
-        <h2 id="titol-codi-postal" class="pas-titol">On vols el servei?</h2>
-        <p class="pas-intro">Introdueix el teu codi postal i el radi de cerca. Després podràs triar el tipus de servei.</p>
+        <h2 id="titol-codi-postal" class="page-hero-label">On vols el servei?</h2>
+        <p class="pas-intro">Indica la teva ubicació per veure serveis disponibles a prop teu.</p>
         <div class="codi-bloc">
           <div class="codi-form codi-form-centrat" id="bloc-cp-formulari">
             <div class="codi-camps-grid">
               <div class="codi-camps-item">
-                <label for="input-cp">Codi postal</label>
-                <input type="text" id="input-cp" placeholder="08001" maxlength="5" pattern="\d{5}" inputmode="numeric" aria-label="Codi postal">
+                <label for="input-codi">Codi postal</label>
+                <input type="text" id="input-codi" placeholder="08001" maxlength="5" pattern="\d{5}" inputmode="numeric" aria-label="Codi postal">
               </div>
-              <div class="codi-camps-item codi-camps-item--radi">
+              <div class="codi-camps-item codi-camps-item-radi">
                 <label for="input-radi">Radi de cerca</label>
-                <div class="slider-wrap slider-wrap--cerca">
-                  <input type="range" id="input-radi" min="1" max="1000" value="10"
-                         aria-label="Radi de cerca en quilòmetres" aria-valuemin="1" aria-valuemax="1000" aria-valuenow="10">
+                <div class="slider-wrap slider-wrap-cerca">
+                  <input type="range" id="input-radi" min="1" max="1000" value="10">
                   <span class="slider-val"><span id="radi-valor">10</span> km</span>
                 </div>
               </div>
-              <button id="btn-cp" type="button" class="btn btn-aplicar">Aplicar</button>
+              <button id="btn-codi" type="button" class="cta cta-aplicar">Aplicar</button>
             </div>
           </div>
-          <span id="error-cp" class="error-msg" role="alert"></span>
-          <div id="cp-aplicat-wrap" class="codi-aplicat-wrap" hidden>
-            <p id="cp-aplicat-info" class="codi-aplicat-info"></p>
+          <span id="error-cp" class="error-missatge" role="alert"></span>
+          <div id="codi-aplicat-wrap" class="codi-aplicat-wrap hidden" >
+            <p id="codi-aplicat-info" class="codi-aplicat-info"></p>
           </div>
         </div>
       </section>
       <!-- PAS 2: SELECCIÓ DEL SERVEI -->
-      <section class="pas-seccio" id="pas-triar-servei" hidden>
-        <h2 id="titol-triar-servei" class="pas-titol">Quin servei necessites?</h2>
-        <div class="serveis-grid serveis-grid--catalog" id="grid-serveis-principals">
+      <section class="pas-seccio index-serveis hidden " id="pas-triar-servei" >
+        <h2 id="serveis-heading" class="page-hero-label"> Quin servei necessites</h2>
+      <h3 class="hero-actions" style="padding-bottom: 30px;">Selecciona un dels interessos</h3>
+        <div class="serveis-grid serveis-grid-cataleg" id="grid-serveis-principals">
           <button type="button" class="category-tile-btn" data-cat="llar">
             <div class="categoria-tile cat-llar">
               <img src="../assets/img/home.svg" height="48" width="48" alt="" class="icone-blanc">
               <div>
                 <h3>Llar</h3>
-                <p>Troba professionals de confiança per a la neteja, reparacions, bricolatge i servei de menjar a domicili.</p>
+                <p>Neteja, reparacions i ajuda per al dia a dia</p>
               </div>
             </div>
           </button>
@@ -93,7 +90,7 @@
               <img src="../assets/img/star.svg" height="48" width="48" alt="" class="icone-blanc">
               <div>
                 <h3>Activitats</h3>
-                <p>Descobreix tallers, excursions i viatges organitzats per mantenir-te actiu i connectat amb els teus.</p>
+                <p>Tallers, cursos i activitats per gaudir i mantenir-te actiu.</p>
               </div>
             </div>
           </button>
@@ -102,18 +99,16 @@
               <img src="../assets/img/car.svg" height="48" width="48" alt="" class="icone-blanc">
               <div>
                 <h3>Desplaçaments</h3>
-                <p>Transport adaptat i acompanyament per a visites mèdiques, compres i qualsevol sortida del dia a dia.</p>
+                <p>Transport i serveis per moure’t amb tranquil·litat.</p>
               </div>
             </div>
           </button>
         </div>
-      </section>
-      <!-- PAS 2.1: SELECCIÓ DE LA SUBCATEGORIA -->
-       <!--La subcategoria només es mostra un cop que se selecciona l'interès principal-->
-      <section class="pas-seccio pas-subcategories" id="pas-subcategories" hidden> 
-        <h2 id="titol-subcategories" class="pas-titol">Concretem el servei</h2>
-        <p class="pas-intro" id="subcategories-intro"></p>
-        <nav class="subcategories-nav" id="subcategories-nav"></nav>
+        <!-- PAS 2.1: SELECCIÓ DE LA SUBCATEGORIA — s'expandeix a sota de les categories -->
+        <div class="pas-subcategories" id="pas-subcategories">
+          <p class="pas-intro" id="subcategories-intro"></p>
+          <nav class="subcategories-nav" id="subcategories-nav"></nav>
+        </div>
       </section>
     </div>
   </main>

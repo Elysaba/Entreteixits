@@ -39,9 +39,7 @@
 <!-- En aquesta pàgina mostrem els missatges enviats. En un futur podrem veure les respostes i l'estat de la petició -->
   <main>
     <a href="usuari.html#contactats" class="back-link" aria-label="Tornar al perfil">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
+      <img src="../assets/img/arrow-left.svg">
       Tornar al perfil
     </a>
     <!-- Header de la secció  -->
@@ -50,16 +48,16 @@
         <h1>Els meus contactes</h1>
         <p>Serveis als quals has enviat un missatge.</p>
       </div>
-      <a href="serveis.html" class="btn btn-secondary">
-        <svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <a href="serveis.html" class="cta cta-secondary">
+        <img src="../assets/img/search.svg">
         Explorar més serveis
       </a>
     </div>
     <!-- Mostrem els missatges enviats guardats el LocalStorage  -->
-    <section aria-live="polite" aria-label="Llista de contactes">
+    <section>
       <div id="contactes-container">
-        <div class="loading-state" aria-label="Carregant contactes">
-          <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-state" >
+          <div class="wait"></div>
           Carregant els teus contactes…
         </div>
       </div>

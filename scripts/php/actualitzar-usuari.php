@@ -12,16 +12,17 @@ if (empty($_SESSION['id_user'])) {
 }
 require_once '../config.php';
 
-$id_user     = $_SESSION['id_user'];
-$nom         = trim($_POST['nom'] ?? '');
-$idioma      = $_POST['idioma'] ?? 'ca';
-$cp          = trim($_POST['cp'] ?? '');
-$radi        = (int)($_POST['radi_localitzacio'] ?? 10);
-$interessos  = $_POST['interessos'] ?? []; // Array d'IDs de categories seleccionades
+$id_user        = $_SESSION['id_user'];
+$nom            = trim($_POST['nom'] ?? '');
+$idioma         = $_POST['idioma'] ?? 'ca';
+$cp             = trim($_POST['cp'] ?? '');
+$radi           = (int)($_POST['radi_localitzacio'] ?? 10);
+$data_naixement = trim($_POST['data_naixement'] ?? '') ?: null;
+$interessos     = $_POST['interessos'] ?? []; // Array d'IDs de categories seleccionades
 
 // Actualita els camps bàsics de l'usuari a la taula USERS
-$stmt = $conn->prepare("UPDATE users SET nom=?, idioma=?, codi_postal=?, radi_localitzacio=? WHERE id_user=?");
-$stmt->bind_param("sssii", $nom, $idioma, $cp, $radi, $id_user);
+$stmt = $conn->prepare("UPDATE users SET nom=?, idioma=?, codi_postal=?, radi_localitzacio=?, data_naixement=? WHERE id_user=?");
+$stmt->bind_param("sssisi", $nom, $idioma, $cp, $radi, $data_naixement, $id_user);
 $stmt->execute();
 $stmt->close();
 

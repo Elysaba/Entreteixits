@@ -1,14 +1,6 @@
-/* ============================================================
-   EntreTeixits — style.css
-   Components globals + estils de cada pàgina
-   WCAG AA · Mulish + Literata · 18px base · 48px touch targets
-   ============================================================ */
 
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&family=Playfair+Display:wght@400;700&display=swap");
 
-/* ─────────────────────────────────────────────────────────
-   1. RESET + BASE
-───────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -16,8 +8,6 @@
   margin: 0;
   padding: 0;
 }
-
-[hidden] { display: none !important; }
 
 html {
   background: #FAF6F0;
@@ -34,11 +24,7 @@ body {
   font-size: 20px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h1, h2, h3, h4, h5 {
   font-family: "Literata", "Source Serif Pro", Georgia, serif;
   font-weight: 600;
   line-height: 1.15;
@@ -98,28 +84,20 @@ a:hover {
   color: #1F1B16;
 }
 
-img,
-svg {
+img, svg {
   display: block;
 }
 
-ol,
-ul {
+ol, ul {
   list-style: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: .001ms !important;
-    transition-duration: .001ms !important;
-  }
+.hidden {
+  display: none !important;
 }
 
-/* ─────────────────────────────────────────────────────────
-   2. HEADER
-───────────────────────────────────────────────────────── */
+/* Estils de la capçalera */
+
 header {
   position: sticky;
   top: 0;
@@ -229,10 +207,8 @@ nav .btn:hover {
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-/* ─────────────────────────────────────────────────────────
-   3. BOTONS
-───────────────────────────────────────────────────────── */
-.btn {
+/* Elements dels botons = CTAs */
+.cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -249,74 +225,73 @@ nav .btn:hover {
   white-space: nowrap;
   background: #1F5E7B;
   color: #fff;
-  transition: background 220ms cubic-bezier(.2,.8,.2,1),
-              box-shadow 220ms cubic-bezier(.2,.8,.2,1),
-              color 220ms cubic-bezier(.2,.8,.2,1),
-              transform 140ms cubic-bezier(.2,.8,.2,1);
+  transition: background 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms cubic-bezier(.2,.8,.2,1), color 220ms cubic-bezier(.2,.8,.2,1), transform 140ms cubic-bezier(.2,.8,.2,1);
 }
 
-.btn:hover {
+.cta:hover {
   background: #0E3B52;
   box-shadow: 0 8px 18px rgba(31,94,123,.3);
   color: #fff;
 }
 
-.btn:active {
+.cat:active {
   transform: scale(.98);
 }
 
-.btn-primary {
+.cta-primary {
   background: #1F5E7B;
   color: #fff;
   border-color: transparent;
 }
 
-.btn-primary:hover {
+.cta-primary:hover {
   background: #0E3B52;
   color: #fff;
 }
 
-.btn-secondary {
+.cta-secondary {
   background: #FFFFFF;
   color: #1F5E7B;
   border-color: #1F5E7B;
 }
 
-.btn-secondary:hover {
+.cta-secondary:hover {
   background: #EAF2F6;
   box-shadow: none;
+  color: #1F5E7B;
+  
 }
 
-.btn-ghost {
+.cta-ghost {
   background: transparent;
   color: #1F5E7B;
   border-color: transparent;
 }
 
-.btn-ghost:hover {
+.cta-ghost:hover {
   background: #F2EDE4;
   box-shadow: none;
 }
 
-.btn-white {
+.cta-white {
   background: #fff;
   color: #0E3B52;
   border-color: transparent;
 }
 
-.btn-white:hover {
+.cta-white:hover {
   background: #F2EDE4;
   color: #0E3B52;
   box-shadow: none;
 }
 
-.btn-outline-white {
+.cta-outline-white {
   background: transparent;
   color: #fff;
   border: 2px solid rgba(255,255,255,.45);
 }
 
-.btn-outline-white:hover {
+.cta-outline-white:hover {
   background: rgba(255,255,255,.1);
   border-color: rgba(255,255,255,.7);
   color: #fff;
@@ -350,20 +325,15 @@ button[type="submit"]:active {
   transform: scale(.98);
 }
 
-/* ─────────────────────────────────────────────────────────
-   4. LAYOUT PRINCIPAL
-───────────────────────────────────────────────────────── */
+/* Estils principals */
+
 main {
   max-width: 1180px;
   margin: 0 auto;
   padding: 48px 24px 80px;
 }
 
-/* ─────────────────────────────────────────────────────────
-   5. COMPONENTS GLOBALS
-───────────────────────────────────────────────────────── */
-
-/* Utilitat — lectors de pantalla */
+/* Utilitat — lectors de pantalla. Ajuda de la IA per aquesta part*/
 .sr-only {
   position: absolute;
   width: 1px;
@@ -389,7 +359,7 @@ main {
   transition: color 140ms;
 }
 
-.back-link svg {
+/* .back-link svg {
   width: 18px;
   height: 18px;
   stroke: currentColor;
@@ -398,7 +368,7 @@ main {
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: transform 140ms;
-}
+} */
 
 .back-link:hover {
   color: #1F5E7B;
@@ -408,8 +378,8 @@ main {
   transform: translateX(-3px);
 }
 
-/* Spinner */
-.spinner {
+/* Wait a la cerca (cercle) - Ajuda de la IA */
+.wait {
   width: 22px;
   height: 22px;
   border: 3px solid #E5DED1;
@@ -425,7 +395,7 @@ main {
   }
 }
 
-/* Loading states */
+/* Estats de l'espera de càrrega de la informació */
 .loading-state {
   display: flex;
   align-items: center;
@@ -445,7 +415,7 @@ main {
   color: #6E6759;
 }
 
-#fitxa-loading .spinner {
+#fitxa-loading .wait {
   width: 24px;
   height: 24px;
 }
@@ -459,9 +429,8 @@ main {
   color: #6E6759;
 }
 
-/* Badges / pills */
-.fitxa-cat-badge,
-.pill {
+.fitxa-cat-indicador, 
+.etiqueta{
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -473,53 +442,52 @@ main {
   font-weight: 700;
 }
 
-.pill-verd {
+.etiqueta-verd {
   background: #E6F2EA;
   color: #2F6A3F;
 }
 
-.pill-terr {
+.etiqueta-terr {
   background: #FBEEE6;
   color: #9E4A2E;
 }
 
-.pill-safra {
+.etiqueta-safra {
   background: #FAEFD7;
   color: #A36D14;
 }
 
-.pill-vermell {
+.etiqueta-vermell {
   background: #FBE7E3;
   color: #A8261C;
 }
 
-/* Category dots */
-.interest-dot {
+.interest-punt {
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.dot-llar {
+.punt-llar {
   background: #1F5E7B;
 }
 
-.dot-activitats {
+.punt-activitats {
   background: #C46A4D;
 }
 
-.dot-desplacaments {
+.punt-desplacaments {
   background: #0E3B52;
 }
 
-.dot-gestions {
+.punt-gestions {
   background: #A36D14;
 }
 
-.dot-acompanyament {
+.punt-acompanyament {
   background: #2F6A3F;
 }
 
-/* Status messages */
+/* Estils dels missatges */
 .missatge-ok {
   display: inline-flex;
   align-items: center;
@@ -535,7 +503,7 @@ main {
   font-size: 17px;
 }
 
-.error-msg {
+.error-missatge {
   display: block;
   margin-top: 6px;
   font-size: 14px;
@@ -543,8 +511,7 @@ main {
   color: #A8261C;
 }
 
-/* State boxes */
-.state-box {
+.caixa-estat {
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -553,7 +520,7 @@ main {
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-.state-box svg {
+/* .state-box svg {
   width: 56px;
   height: 56px;
   stroke: #C9C1B2;
@@ -563,8 +530,9 @@ main {
   stroke-linejoin: round;
   margin: 0 auto 20px;
 }
+  */
 
-.state-box p {
+.caixa-estat p {
   font-size: 18px;
   color: #6E6759;
   max-width: 324px;
@@ -572,7 +540,7 @@ main {
   line-height: 1.55;
 }
 
-.empty-state {
+.estat-buit {
   text-align: center;
   padding: 64px 24px;
   background: #FFFFFF;
@@ -580,7 +548,7 @@ main {
   border-radius: 16px;
 }
 
-.empty-state svg {
+/* .empty-state svg {
   width: 56px;
   height: 56px;
   stroke: #C9C1B2;
@@ -590,19 +558,20 @@ main {
   stroke-linejoin: round;
   margin: 0 auto 20px;
 }
+  */
 
-.empty-state p {
+.estat-buit p {
   font-size: 18px;
   color: #6E6759;
   margin: 0;
 }
 
-.empty-panel {
+.estat-buit-panel {
   text-align: center;
   padding: 48px 24px;
 }
 
-.empty-panel svg {
+/*.empty-panel svg {
   width: 52px;
   height: 52px;
   stroke: #C9C1B2;
@@ -612,15 +581,16 @@ main {
   stroke-linejoin: round;
   margin: 0 auto 16px;
 }
+*/
 
-.empty-panel p {
+.estat-buit-panel p {
   color: #6E6759;
   font-size: 17px;
   margin: 0 0 20px;
 }
 
-/* Toast */
-.toast {
+/* Aquests missatges els hem configurat amb l'ajuda de la IA */
+.missatge-confirm {
   position: fixed;
   bottom: 28px;
   left: 50%;
@@ -646,7 +616,7 @@ main {
   }
 }
 
-/* Page header */
+/* Capçalera de les pàgines */
 .page-header {
   margin-bottom: 32px;
   padding-bottom: 24px;
@@ -670,7 +640,6 @@ main {
   margin: 0;
 }
 
-/* Section helper */
 .section {
   margin-bottom: 80px;
 }
@@ -684,14 +653,14 @@ main {
   margin-bottom: 8px;
 }
 
-.section-intro {
-  font-size: 19px;
-  color: #3A352D;
-  max-width: 1120px;
+.section-intro p{
+  font-size: 20px;
+  color: #0E3B52;
+  max-width: 800px;
+  font-weight: normal;
   margin: 0;
 }
 
-/* CTA band */
 .cta-band {
   background: #0E3B52;
   border-radius: 24px;
@@ -724,16 +693,15 @@ main {
   flex-wrap: wrap;
 }
 
-/* ─────────────────────────────────────────────────────────
-   6. FORMULARIS
-───────────────────────────────────────────────────────── */
-.auth-wrap {
+/* Formularis */
+
+.formulari-login {
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-.auth-form {
+.login-form{
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -741,48 +709,32 @@ main {
   width: 100%;
   max-width: 480px;
   box-shadow: 0 6px 16px rgba(31,27,22,.06), 0 2px 4px rgba(31,27,22,.04);
+  
 }
 
-.auth-form h1 {
+.login-form h1 {
   font-size: 43px;
   margin-bottom: 8px;
+  color:#9E4A2E;
+  font-family: "Mulish", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-.auth-sub {
+.login-subtitol {
   color: #6E6759;
   font-size: 17px;
   margin-bottom: 32px;
   line-height: 1.5;
 }
 
-.auth-form p.small {
+.login-form p.small {
   font-size: 17px;
   text-align: center;
   margin-top: 24px;
   color: #6E6759;
 }
 
-.auth-form p.small a {
+.login-form p.small a {
   font-weight: 700;
-}
-
-/* Step bar */
-.step-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 28px;
-}
-
-.step-dot {
-  flex: 1;
-  height: 6px;
-  border-radius: 3px;
-  background: #E5DED1;
-  transition: background 220ms;
-}
-
-.step-dot.active {
-  background: #1F5E7B;
 }
 
 /* Camps de formulari */
@@ -900,7 +852,6 @@ form input[type="checkbox"] {
   margin-top: 5px;
 }
 
-/* Check-row */
 .check-row {
   display: flex;
   align-items: center;
@@ -929,7 +880,6 @@ form input[type="checkbox"] {
   background: #EAF2F6;
 }
 
-/* Fieldset */
 fieldset {
   border: none;
   padding: 0;
@@ -943,7 +893,6 @@ fieldset legend {
   color: #1F1B16;
 }
 
-/* Form row 2 columnes */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -966,7 +915,14 @@ fieldset legend {
   font-size: 16px;
 }
 
-/* Feedback de formulari */
+.form-actions button[type="submit"] img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+/* Missatges del formulari */
 #contacte-ok {
   display: none;
   align-items: center;
@@ -981,15 +937,11 @@ fieldset legend {
   font-size: 16px;
 }
 
-#contacte-ok svg {
+#contacte-ok img {
   width: 20px;
   height: 20px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   flex-shrink: 0;
+  filter: brightness(0);
 }
 
 #contacte-error {
@@ -1004,7 +956,6 @@ fieldset legend {
   font-size: 16px;
 }
 
-/* Interest items */
 .interest-grid {
   display: flex;
   flex-direction: column;
@@ -1040,14 +991,33 @@ fieldset legend {
   cursor: pointer;
 }
 
-.interest-dot {
+.interest-punt {
   width: 14px;
   height: 14px;
 }
 
-/* ─────────────────────────────────────────────────────────
-   7. INDEX.HTML
-───────────────────────────────────────────────────────── */
+/* Indicadors dels passos */
+.passos-barra {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.passos-punt {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #E5DED1;
+  transition: background 220ms;
+}
+
+.passos-punt.active {
+  background: #1F5E7B;
+}
+
+
+/* Estils relacionats a la pàgina INDEX.HTML*/
+
 .hero-landing {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1067,17 +1037,18 @@ fieldset legend {
 }
 
 .hero-text h1 {
-  font-size: 54px;
+  font-size: 56px;
   color: #0E3B52;
   line-height: 1.1;
   margin-bottom: 20px;
+  font-family:"Literata", "Source Serif Pro", Georgia, serif; ;
 }
 
 .hero-text p {
-  font-size: 19px;
+  font-size: 18px;
   color: #3A352D;
-  line-height: 1.6;
-  max-width: 342px;
+  line-height: 1.4;
+  max-width: 375px;
   margin-bottom: 36px;
 }
 
@@ -1105,27 +1076,41 @@ fieldset legend {
   flex-wrap: wrap;
 }
 
-.home-serveis {
+.index-serveis, 
+.section-intro {
   margin-bottom: 80px;
 }
 
-.home-serveis h2 {
-  color: #0E3B52;
+.index-serveis h2,
+.section-intro h2,
+.pas-seccio h2 {
+  color: #9E4A2E;
+  margin-bottom: 8px;
+  font-size: 35px;
+  padding-left: 50px;
   margin-bottom: 8px;
 }
 
-.home-serveis .section-intro {
+.index-serveis h3 {
+  font-size: 30px;
+  font-weight: normal;
+  margin-bottom: 8px;  
+  color: #0E3B52;
+}
+
+.index-serveis,
+.section-intro {
   margin-bottom: 32px;
 }
 
-/* Categories grid */
+
 .serveis-grid {
   display: grid;
   grid-template-columns: repeat(5,1fr);
   gap: 16px;
 }
 
-.category-link {
+.categoria-link {
   text-decoration: none;
   display: block;
 }
@@ -1186,9 +1171,8 @@ fieldset legend {
   filter: brightness(0) invert(1);
 }
 
-/* ─────────────────────────────────────────────────────────
-   8. FUNCIONAMENT.HTML
-───────────────────────────────────────────────────────── */
+/* Estils de la pàgina de Funcionament */
+
 .page-hero {
   background: #EAF2F6;
   border-radius: 24px;
@@ -1211,16 +1195,16 @@ fieldset legend {
   line-height: 1.6;
 }
 
-.steps {
+.passos {
   margin-bottom: 80px;
 }
 
-.steps-list {
+.passos-list {
   display: flex;
   flex-direction: column;
 }
 
-.step {
+.pas {
   display: grid;
   grid-template-columns: 120px 1fr;
   gap: 0 40px;
@@ -1229,11 +1213,11 @@ fieldset legend {
   padding-bottom: 56px;
 }
 
-.step:last-child {
+.pas:last-child {
   padding-bottom: 0;
 }
 
-.step:not(:last-child)::after {
+.pas:not(:last-child)::after {
   content: "";
   position: absolute;
   left: 59px;
@@ -1243,14 +1227,14 @@ fieldset legend {
   background: #E5DED1;
 }
 
-.step-num-wrap {
+.pas-num-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
 }
 
-.step-num {
+.pas-num {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -1266,15 +1250,15 @@ fieldset legend {
   box-shadow: 0 6px 16px rgba(31,27,22,.06), 0 2px 4px rgba(31,27,22,.04);
 }
 
-.step:nth-child(2) .step-num {
+.pas:nth-child(2) .pas-num {
   background: #C46A4D;
 }
 
-.step:nth-child(3) .step-num {
+.pas:nth-child(3) .pas-num {
   background: #2F6A3F;
 }
 
-.step-content {
+.pas-content {
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -1282,7 +1266,7 @@ fieldset legend {
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-.step-tag {
+.pas-tag {
   display: inline-block;
   font-size: 13px;
   font-weight: 700;
@@ -1292,28 +1276,28 @@ fieldset legend {
   margin-bottom: 12px;
 }
 
-.step:nth-child(2) .step-tag {
+.pas:nth-child(2) .pas-tag {
   color: #9E4A2E;
 }
 
-.step:nth-child(3) .step-tag {
+.pas:nth-child(3) .pas-tag {
   color: #2F6A3F;
 }
 
-.step-content h2 {
+.pas-content h2 {
   font-size: 34px;
   color: #1F1B16;
   margin-bottom: 12px;
 }
 
-.step-content p {
+.pas-content p {
   font-size: 18px;
   color: #3A352D;
   line-height: 1.65;
   margin: 0;
 }
 
-.step-detall {
+.pas-detall {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #E5DED1;
@@ -1322,7 +1306,7 @@ fieldset legend {
   gap: 10px;
 }
 
-.step-etiqueta {
+.pas-etiqueta {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1334,15 +1318,13 @@ fieldset legend {
   font-weight: 700;
 }
 
-.step-etiqueta svg {
-  width: 15px;
-  height: 15px;
+.pas-etiqueta img {
+  width: 20px;
+  height: 20px;
   stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+
 }
+
 
 .usuaris {
   display: grid;
@@ -1359,7 +1341,7 @@ fieldset legend {
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-.usuaris-icon {
+.usuaris-icona {
   width: 56px;
   height: 56px;
   border-radius: 12px;
@@ -1389,19 +1371,16 @@ fieldset legend {
   margin: 0;
 }
 
-/* ─────────────────────────────────────────────────────────
-   9. SERVEIS.HTML
-───────────────────────────────────────────────────────── */
+/* Estils de la pàgina de Serveis.
+Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
 
-/* ── Contenidor principal ── */
-.serveis-wrap {
+.serveis-contenidor {
   max-width: 1200px;
   margin: 0 auto;
   padding: 56px 40px 96px;
 }
 
-/* ── Hero — etiqueta + títol + subtítol ── */
-.serveis-wrap .page-hero {
+.serveis-contenidor .page-hero {
   background: none;
   border-radius: 0;
   padding: 0;
@@ -1427,12 +1406,12 @@ fieldset legend {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 18px;
+  width: 45px;
   height: 2px;
   background-color: #C25C42;
 }
 
-.serveis-wrap .page-hero h1 {
+.serveis-contenidor .page-hero h1 {
   font-family: 'Playfair Display', serif;
   font-size: 52px;
   font-weight: 700;
@@ -1441,7 +1420,7 @@ fieldset legend {
   margin-bottom: 14px;
 }
 
-.serveis-wrap .page-hero p {
+.serveis-contenidor .page-hero p {
   font-size: 17px;
   color: #6B7A85;
   max-width: 480px;
@@ -1449,7 +1428,6 @@ fieldset legend {
   margin: 0;
 }
 
-/* ── Stepper (prototip catàleg) ── */
 .pasos-serveis {
   position: relative;
   margin-bottom: 48px;
@@ -1477,16 +1455,16 @@ fieldset legend {
   z-index: 1;
 }
 
-.serveis-stepper__step {
+.serveis-stepper-passos {
   flex: 0 0 auto;
   max-width: 46%;
 }
 
-.serveis-stepper__step:last-child {
+.serveis-stepper-passos:last-child {
   text-align: right;
 }
 
-.pasos-serveis-dot {
+.pasos-serveis-punt {
   display: block;
   width: 22px;
   height: 22px;
@@ -1497,7 +1475,7 @@ fieldset legend {
   transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
 }
 
-.serveis-stepper__step.is-active .pasos-serveis-dot {
+.serveis-stepper-passos.is-active .pasos-serveis-punt {
   width: 28px;
   height: 28px;
   background-color: #fff;
@@ -1505,7 +1483,7 @@ fieldset legend {
   box-shadow: 0 0 0 1px #1A4D56;
 }
 
-.serveis-stepper__step.is-done .pasos-serveis-dot {
+.serveis-stepper-passos.is-done .pasos-serveis-punt {
   background-color: #1A4D56;
   border-color: #1A4D56;
 }
@@ -1517,12 +1495,11 @@ fieldset legend {
   color: #6B7A85;
 }
 
-.serveis-stepper__step.is-active .pasos-serveis-label,
-.serveis-stepper__step.is-done .pasos-serveis-label {
+.serveis-stepper-passos.is-active .pasos-serveis-label,
+.serveis-stepper-passos.is-done .pasos-serveis-label {
   color: #1A4D56;
 }
 
-/* ── Seccions del flux (prototip) ── */
 .pas-seccio {
   margin-bottom: 48px;
 }
@@ -1536,13 +1513,13 @@ fieldset legend {
 }
 
 .pas-intro {
-  font-size: 16px;
-  color: #6B7A85;
+  font-size: 18px;
+  color: #061d29;
   margin: 0 0 24px;
   line-height: 1.5;
 }
 
-/* Graella de serveis (com a l'inici) */
+/* Graella de serveis (com la pàgina d'inici) */
 .serveis-grid-cataleg {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -1570,7 +1547,6 @@ fieldset legend {
   outline-offset: 3px;
 }
 
-/* Tiles del catàleg de serveis (pàgina serveis.html) */
 .serveis-grid-cataleg .category-tile-btn .categoria-tile {
   min-height: 260px;
   padding: 28px;
@@ -1613,6 +1589,23 @@ fieldset legend {
 }
 
 /* Subcategories */
+.pas-subcategories {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease;
+}
+
+.pas-subcategories.is-open {
+  max-height: 400px;
+}
+
+.pas-subcategories .pas-intro {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1.5px solid #D4E6E9;
+  margin-bottom: 16px;
+}
+
 .pas-subcategories .subcategories-nav {
   display: flex;
   flex-wrap: wrap;
@@ -1623,15 +1616,13 @@ fieldset legend {
   margin: 0;
 }
 
-/* Codi postal centrat */
+
 .pas-codi-postal {
-  text-align: center;
+  text-align: left;
 }
 
 .pas-codi-postal .pas-intro {
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 700px;
 }
 
 .codi-bloc {
@@ -1654,7 +1645,7 @@ fieldset legend {
   gap: 16px;
 }
 
-.cp-label-centrat {
+.codi-label-centrat {
   font-size: 14px;
   font-weight: 600;
   color: #1A4D56;
@@ -1676,12 +1667,12 @@ fieldset legend {
 }
 
 .codi-camps-item label {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: #1A4D56;
 }
 
-.codi-camps-item #input-cp {
+.codi-camps-item #input-codi {
   width: 100%;
   border: 1.5px solid #B5CDD2;
   border-radius: 8px;
@@ -1693,22 +1684,22 @@ fieldset legend {
   box-sizing: border-box;
 }
 
-.codi-camps-item #input-cp:focus {
+.codi-camps-item #input-codi:focus {
   border-color: #1A4D56;
   outline: none;
 }
 
-.codi-camps-item--radi .slider-wrap--cerca {
+.codi-camps-item-radi .slider-wrap-cerca {
   min-height: 48px;
   padding-top: 4px;
 }
 
-.codi-camps-item--radi .slider-wrap--cerca input[type="range"] {
+.codi-camps-item-radi .slider-wrap-cerca input[type="range"] {
   flex: 1;
   min-width: 0;
 }
 
-.codi-form-centrat .btn-aplicar {
+.codi-form-centrat .cta-aplicar {
   white-space: nowrap;
 }
 
@@ -1777,7 +1768,7 @@ fieldset legend {
   margin: 0;
 }
 
-.cp-input-row {
+.codi-input-row {
   display: flex;
   gap: 12px;
   width: 100%;
@@ -1786,29 +1777,29 @@ fieldset legend {
   flex-wrap: wrap;
 }
 
-.cp-input-row #input-cp {
+.codi-input-row #input-codi {
   flex: 1;
   min-width: 140px;
   width: auto;
 }
 
-.cp-input-row #btn-cp {
+.codi-input-row #btn-codi {
   flex-shrink: 0;
 }
 
-.cp-registered-info--centrat {
+.codi-registered-info-centrat {
   display: inline-flex;
   margin: 0 auto;
 }
 
-.pas-codi-postal .error-msg {
+.pas-codi-postal .error-missatge {
   display: block;
   margin-top: 12px;
   text-align: center;
 }
 
-.pas-codi-postal #bloc-cp-anonim,
-.pas-codi-postal #bloc-cp-registrat {
+.pas-codi-postal #bloc-codi-anonim,
+.pas-codi-postal #bloc-codi-registrat {
   background: none;
   border-radius: 0;
   padding: 0;
@@ -1817,8 +1808,8 @@ fieldset legend {
   align-items: center;
 }
 
-/* ── Bloc cerca — usuari anònim ── */
-#bloc-cp-anonim {
+/* Bloc quan l'usuari és anònim*/
+#bloc-codi-anonim {
   background-color: #E8F2F4;
   border: none;
   border-radius: 14px;
@@ -1830,20 +1821,20 @@ fieldset legend {
   flex-wrap: wrap;
 }
 
-.cp-field {
+.codi-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.cp-field label {
+.codi-field label {
   font-size: 13px;
   font-weight: 600;
   color: #1A4D56;
   letter-spacing: 0px;
 }
 
-#input-cp {
+#input-codi {
   border: 1.5px solid #B5CDD2;
   border-radius: 8px;
   padding: 13px 16px;
@@ -1857,16 +1848,16 @@ fieldset legend {
   transition: border-color 180ms ease;
 }
 
-#input-cp:focus {
+#input-codi:focus {
   border-color: #1A4D56;
   box-shadow: none;
 }
 
-#input-cp::placeholder {
+#input-codi::placeholder {
   color: #A0B4BA;
 }
 
-#btn-cp {
+#btn-codi {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1885,12 +1876,12 @@ fieldset legend {
   box-shadow: none;
 }
 
-#btn-cp:hover {
+#btn-codi:hover {
   background-color: #163E47;
   box-shadow: none;
 }
 
-#btn-cp svg {
+/* #btn-codi svg {
   width: 17px;
   height: 17px;
   stroke: #FFFFFF;
@@ -1899,8 +1890,9 @@ fieldset legend {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+  */
 
-#bloc-cp-anonim .error-msg {
+#bloc-codi-anonim .error-missatge {
   font-size: 13px;
   color: #C25C42;
   font-weight: 500;
@@ -1910,8 +1902,8 @@ fieldset legend {
   margin-top: 0;
 }
 
-/* ── Bloc cerca — usuari registrat ── */
-#bloc-cp-registrat {
+/* Bloc quan l'usuari té la sessió iniciada */
+#bloc-codi-registrat {
   background: none;
   border: none;
   border-radius: 0;
@@ -1919,7 +1911,7 @@ fieldset legend {
   margin-bottom: 36px;
 }
 
-.cp-registered-info {
+.codi-registered-info {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1931,7 +1923,7 @@ fieldset legend {
   font-weight: 500;
 }
 
-.cp-registered-info svg {
+/* .codi-registered-info svg {
   width: 18px;
   height: 18px;
   stroke: #1A4D56;
@@ -1941,13 +1933,14 @@ fieldset legend {
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+*/
 
-.cp-registered-info strong {
+.codi-registered-info strong {
   font-weight: 700;
   color: #1A4D56;
 }
 
-/* ── Barra de filtres ── */
+/* Filtres */
 .filters-bar {
   margin-bottom: 28px;
 }
@@ -1987,7 +1980,7 @@ fieldset legend {
   border-color: #1A4D56;
 }
 
-.filter-dot {
+.filter-punt {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -1996,14 +1989,24 @@ fieldset legend {
 }
 
 /* Colors dels punts per categoria (filtres serveis) */
-.filter-dot.dot-llar          { background-color: #5B8C5A; }
-.filter-dot.dot-activitats    { background-color: #C25C42; }
-.filter-dot.dot-desplacaments { background-color: #4A7FA5; }
-.filter-dot.dot-gestions      { background-color: #C9A227; }
-.filter-dot.dot-acompanyament { background-color: #7B6BA8; }
+.filter-punt.punt-llar { 
+  background-color: #5B8C5A; 
+}
+.filter-punt.punt-activitats { 
+  background-color: #C25C42;
+ }
+.filter-punt.punt-desplacaments { 
+  background-color: #4A7FA5;
+ }
+.filter-punt.punt-gestions {
+  background-color: #C9A227; 
+}
+.filter-punt.punt-acompanyament { 
+  background-color: #7B6BA8; 
+}
 
-/* ── Barra de resultats ── */
-.results-bar {
+
+.results-barra {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2019,7 +2022,7 @@ fieldset legend {
   color: #6B7A85;
 }
 
-.verified-label {
+.verificacio-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2031,11 +2034,11 @@ fieldset legend {
   transition: color 150ms ease;
 }
 
-.verified-label:hover {
+.verificacio-label:hover {
   color: #163E47;
 }
 
-.verified-label input[type="checkbox"] {
+.verificacio-label input[type="checkbox"] {
   width: 16px;
   height: 16px;
   accent-color: #1A4D56;
@@ -2043,7 +2046,7 @@ fieldset legend {
   flex-shrink: 0;
 }
 
-.verified-label svg {
+/* .verificacio-label svg {
   width: 16px;
   height: 16px;
   stroke: #2A8A7A;
@@ -2053,8 +2056,8 @@ fieldset legend {
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+  */
 
-/* ── Loading ── */
 #serveis-loading {
   display: flex;
   flex-direction: column;
@@ -2066,7 +2069,7 @@ fieldset legend {
   gap: 16px;
 }
 
-#serveis-loading .spinner {
+#serveis-loading .wait {
   width: 32px;
   height: 32px;
   border: 3px solid #B5CDD2;
@@ -2079,8 +2082,8 @@ fieldset legend {
   to { transform: rotate(360deg); }
 }
 
-/* ── Prompt box (estat inicial sense cerca) ── */
-.serveis-wrap .prompt-box {
+/* Estat inicial de la cerca */
+.serveis-contenidor .indicador-cerca {
   background-color: #FFFFFF;
   border: 1.5px dashed #B5CDD2;
   border-radius: 14px;
@@ -2092,7 +2095,7 @@ fieldset legend {
   box-shadow: none;
 }
 
-.serveis-wrap .prompt-box svg {
+.serveis-contenidor .indicador-cerca svg {
   width: 40px;
   height: 40px;
   stroke: #B5CDD2;
@@ -2104,15 +2107,15 @@ fieldset legend {
   margin: 0 auto 16px;
 }
 
-/* ── Llistat de serveis ── */
-.services-list {
+
+.serveis-llista,
+#serveis-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
-/* ── Targeta de servei ── */
-.service-card {
+.serveis-targeta {
   display: flex;
   flex-direction: row;
   background-color: #FFFFFF;
@@ -2128,13 +2131,13 @@ fieldset legend {
   color: inherit;
 }
 
-.service-card:hover {
+.serveis-targeta:hover {
   box-shadow: 0 8px 28px rgba(26, 77, 86, 0.14);
   transform: translateY(-2px);
   border-color: transparent;
 }
 
-/* Thumbnail */
+/* Ajuda de la IA - Thumbnail */
 .card-thumb {
   width: 220px;
   flex-shrink: 0;
@@ -2144,11 +2147,21 @@ fieldset legend {
   min-height: 190px;
 }
 
-.thumb-llar          { background-color: #5B8C5A; }
-.thumb-activitats    { background-color: #C25C42; }
-.thumb-desplacaments { background-color: #4A7FA5; }
-.thumb-gestions      { background-color: #C9A227; }
-.thumb-acompanyament { background-color: #7B6BA8; }
+.thumb-llar { 
+  background-color: #5B8C5A; 
+}
+.thumb-activitats { 
+  background-color: #C25C42; 
+}
+.thumb-desplacaments { 
+  background-color: #4A7FA5; 
+}
+.thumb-gestions { 
+  background-color: #C9A227; 
+}
+.thumb-acompanyament { 
+  background-color: #7B6BA8; 
+}
 
 .card-initial {
   font-family: 'Playfair Display', serif;
@@ -2167,8 +2180,8 @@ fieldset legend {
   display: block;
 }
 
-.services-list .missatge-buit,
-.services-list .missatge-prompt {
+.serveis-llista .missatge-buit,
+.serveis-llista .missatge-prompt {
   text-align: center;
   color: #6B7A85;
   font-size: 16px;
@@ -2177,7 +2190,7 @@ fieldset legend {
 }
 
 /* Columna d'informació */
-.card-info {
+.targeta-informacio {
   flex: 1;
   padding: 28px 32px;
   display: flex;
@@ -2186,13 +2199,13 @@ fieldset legend {
   min-width: 0;
 }
 
-.card-badge-row {
+.targeta-badge-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.card-badge {
+.targeta-badge {
   display: inline-block;
   background-color: #E5EDEF;
   color: #1A4D56;
@@ -2204,7 +2217,7 @@ fieldset legend {
   align-self: flex-start;
 }
 
-.card-name {
+.targeta-nom {
   font-family: 'Playfair Display', serif;
   font-size: 22px;
   font-weight: 700;
@@ -2213,7 +2226,7 @@ fieldset legend {
   margin: 0;
 }
 
-.card-location {
+.targeta-localitzacio {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -2222,7 +2235,7 @@ fieldset legend {
   margin: 0;
 }
 
-.card-location svg {
+/* .card-location svg {
   width: 15px;
   height: 15px;
   stroke: #6B7A85;
@@ -2232,20 +2245,21 @@ fieldset legend {
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+  */
 
-.card-location strong {
+.targeta-localitzacio strong {
   color: #3D4F5A;
   font-weight: 600;
 }
 
-.card-desc {
+.targeta-descripcio {
   font-size: 15px;
   color: #3D4F5A;
   line-height: 23px;
   margin: 0;
 }
 
-.card-meta {
+.targeta-valoracions {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -2253,7 +2267,7 @@ fieldset legend {
   margin-top: 4px;
 }
 
-.card-rating {
+.targeta-rating {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -2267,7 +2281,7 @@ fieldset legend {
   font-size: 15px;
 }
 
-.card-verified {
+.targeta-verificacio {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -2276,7 +2290,7 @@ fieldset legend {
   color: #2A8A7A;
 }
 
-.card-verified svg {
+/* .targeta-verificacio svg {
   width: 16px;
   height: 16px;
   stroke: #2A8A7A;
@@ -2285,20 +2299,20 @@ fieldset legend {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+*/
 
-/* Columna de CTAs */
-.card-cta {
-  width: 180px;
+.targeta-cta {
+  width: 200px;
   flex-shrink: 0;
-  padding: 20px 18px;
+  padding: 20px 20px 20px 32px;
   border-left: 1px solid #EEF2F4;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 10px;
+  justify-content: space-between;
 }
 
-.btn-fav {
+.btn-favorit {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -2313,26 +2327,38 @@ fieldset legend {
   flex-shrink: 0;
 }
 
-.btn-fav:hover {
+.btn-favorit:hover {
   background-color: #F9D9D2;
 }
 
-.btn-fav svg {
-  width: 18px;
-  height: 18px;
-  stroke: #C25C42;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.btn-favorit::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.28);
+  -webkit-mask: url('../img/heart.svg') no-repeat center / contain;
+  mask: url('../img/heart.svg') no-repeat center / contain;
+  transition: background-color 0.15s;
 }
 
-.btn-fav.actiu svg {
-  fill: #C25C42;
-  stroke: #C25C42;
+.btn-favorit:hover::before {
+  background-color: #C46A4D;
 }
 
-.fav-login-msg {
+.btn-favorit.actiu::before {
+  background-color: #C46A4D;
+  -webkit-mask: url('../img/heart-fill.svg') no-repeat center / contain;
+  mask: url('../img/heart-fill.svg') no-repeat center / contain;
+}
+
+.targeta-cta-botons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.favorit-login-missatge {
   font-size: 0.75rem;
   color: #C25C42;
   margin: 4px 0 0;
@@ -2340,40 +2366,7 @@ fieldset legend {
   width: 100%;
 }
 
-.card-price {
-  text-align: center;
-  line-height: 16px;
-}
-
-.price-main {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 2px;
-}
-
-.price-amount {
-  font-family: 'Playfair Display', serif;
-  font-size: 34px;
-  font-weight: 700;
-  color: #1A4D56;
-  line-height: 34px;
-}
-
-.price-currency {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1A4D56;
-}
-
-.price-unit {
-  display: block;
-  font-size: 12px;
-  color: #6B7A85;
-  margin-top: 5px;
-  font-weight: 400;
-}
-
-.card-cta .btn-outline {
+.targeta-cta .btn-outline {
   display: block;
   text-align: center;
   border: 1.5px solid #1A4D56;
@@ -2390,11 +2383,11 @@ fieldset legend {
   line-height: 17px;
 }
 
-.card-cta .btn-outline:hover {
+.targeta-cta .btn-outline:hover {
   background-color: #F0F6F7;
 }
 
-.card-cta .btn-solid {
+.targeta-cta .btn-solid {
   display: block;
   text-align: center;
   background-color: #1A4D56;
@@ -2411,128 +2404,12 @@ fieldset legend {
   line-height: 17px;
 }
 
-.card-cta .btn-solid:hover {
+.targeta-cta .btn-solid:hover {
   background-color: #163E47;
   border-color: #163E47;
 }
 
-/* ── Responsive serveis — tablet ── */
-@media (max-width: 900px) {
-  .serveis-wrap {
-    padding: 40px 28px 72px;
-  }
-  .serveis-wrap .page-hero h1 {
-    font-size: 40px;
-    line-height: 44px;
-  }
-  .card-thumb {
-    width: 160px;
-  }
-  .card-initial {
-    font-size: 56px;
-    line-height: 56px;
-  }
-}
-
-/* ── Responsive serveis — catàleg prototip ── */
-@media (max-width: 900px) {
-  .serveis-grid-cataleg {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .pasos-serveis-label{
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 680px) {
-  .serveis-grid-cataleg {
-    grid-template-columns: 1fr;
-  }
-
-  .codi-camps-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pasos-serveis-step {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .pasos-serveis-track {
-    display: none;
-  }
-
-  .serveis-stepper__step,
-  .serveis-stepper__step:last-child {
-    text-align: left;
-    max-width: 100%;
-  }
-}
-
-/* ── Responsive serveis — mòbil ── */
-@media (max-width: 680px) {
-  .serveis-wrap {
-    padding: 32px 20px 56px;
-  }
-  .serveis-wrap .page-hero h1 {
-    font-size: 32px;
-    line-height: 35px;
-  }
-  .serveis-wrap .page-hero p {
-    font-size: 15px;
-    line-height: 24px;
-  }
-  #bloc-cp-anonim {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 20px;
-  }
-  #input-cp {
-    width: 100%;
-  }
-  #btn-cp {
-    width: 100%;
-    justify-content: center;
-  }
-  .service-card {
-    flex-direction: column;
-  }
-  .card-thumb {
-    width: 100%;
-    min-height: 120px;
-  }
-  .card-info {
-    padding: 20px;
-  }
-  .card-cta {
-    width: 100%;
-    border-left: none;
-    border-top: 1px solid #EEF2F4;
-    padding: 16px 20px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-  }
-  .btn-fav {
-    order: -1;
-  }
-  .card-price {
-    flex: 1;
-    text-align: left;
-    line-height: 16px;
-  }
-  .card-cta .btn-outline,
-  .card-cta .btn-solid {
-    flex: 1;
-    min-width: 130px;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────
-   10. FITXA-SERVEI.HTML
-───────────────────────────────────────────────────────── */
+/*  Estils fitxa de serveis */
 .fitxa-layout {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -2646,7 +2523,7 @@ fieldset legend {
   color: #C46A4D;
 }
 
-.fitxa-info {
+.fitxa-informacio {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -2655,7 +2532,7 @@ fieldset legend {
   border-bottom: 1px solid #E5DED1;
 }
 
-.fitxa-info-row {
+.fitxa-informacio-row {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2663,7 +2540,7 @@ fieldset legend {
   color: #3A352D;
 }
 
-.fitxa-info-row svg {
+/* .fitxa-info-row svg {
   width: 18px;
   height: 18px;
   stroke: #6E6759;
@@ -2673,24 +2550,26 @@ fieldset legend {
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+  */
 
-.fitxa-info-row.valoracio {
+.fitxa-informacio-row.valoracio {
   color: #A36D14;
   font-weight: 700;
 }
 
-.fitxa-info-row.valoracio svg {
+/*.fitxa-info-row.valoracio svg {
   stroke: #A36D14;
 }
-
-.fitxa-info-row.verified {
+*/
+.fitxa-informacio-row.verified {
   color: #2F6A3F;
   font-weight: 700;
 }
 
-.fitxa-info-row.verified svg {
+/*.fitxa-info-row.verified svg {
   stroke: #2F6A3F;
 }
+*/
 
 #fitxa-adreca,
 #fitxa-rating,
@@ -2709,13 +2588,11 @@ fieldset legend {
   text-decoration: underline;
 }
 
-#seccio-descripcio,
-#seccio-preu {
+#seccio-descripcio {
   margin-bottom: 32px;
 }
 
-#seccio-descripcio h2,
-#seccio-preu h2 {
+#seccio-descripcio h2 {
   font-size: 27px;
   color: #0E3B52;
   margin-bottom: 12px;
@@ -2728,18 +2605,11 @@ fieldset legend {
   margin: 0;
 }
 
-#fitxa-preu {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1F1B16;
-  margin: 0;
-}
-
 #fitxa-contingut {
   display: none;
 }
 
-.fitxa-card {
+.fitxa-targeta {
   position: sticky;
   top: 96px;
   background: #FFFFFF;
@@ -2749,43 +2619,27 @@ fieldset legend {
   box-shadow: 0 6px 16px rgba(31,27,22,.06), 0 2px 4px rgba(31,27,22,.04);
 }
 
-.fitxa-card__price {
-  font-size: 32px;
-  font-weight: 700;
-  color: #1F1B16;
-  font-family: "Literata", "Source Serif Pro", Georgia, serif;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.fitxa-card__price-label {
-  font-size: 14px;
-  color: #6E6759;
-  margin-bottom: 24px;
-  display: block;
-}
-
-.fitxa-card__divider {
+.fitxa-targeta-divisor {
   border: none;
   border-top: 1px solid #E5DED1;
   margin: 20px 0;
 }
 
-.fitxa-card__contact {
+.fitxa-targeta-contact {
   display: flex;
   flex-direction: column;
   gap: 10px;
   font-size: 16px;
 }
 
-.fitxa-card__contact-row {
+.fitxa-targeta-contact-row {
   display: flex;
   align-items: center;
   gap: 10px;
   color: #3A352D;
 }
 
-.fitxa-card__contact-row svg {
+/* .fitxa-targeta-contact-rowsvg {
   width: 18px;
   height: 18px;
   stroke: #6E6759;
@@ -2795,14 +2649,15 @@ fieldset legend {
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+*/
 
-.fitxa-card__contact-row a {
+.fitxa-targeta-contact-row a {
   color: #1F5E7B;
   font-weight: 700;
   text-decoration: none;
 }
 
-.fitxa-card__contact-row a:hover {
+.fitxa-targeta-contact-row a:hover {
   text-decoration: underline;
 }
 
@@ -2844,22 +2699,20 @@ fieldset legend {
   background: #EAF2F6;
 }
 
-/* ─────────────────────────────────────────────────────────
-   11. USUARI.HTML
-───────────────────────────────────────────────────────── */
-.profile-layout {
+/* Estils de la pàgina d'usuari */
+.perfil-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: 32px;
   align-items: start;
 }
 
-.profile-sidebar {
+.perfil-sidebar {
   position: sticky;
   top: 96px;
 }
 
-.profile-id {
+.perfil-id {
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -2869,7 +2722,7 @@ fieldset legend {
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-.profile-avatar {
+.perfil-avatar {
   width: 72px;
   height: 72px;
   border-radius: 50%;
@@ -2884,7 +2737,7 @@ fieldset legend {
   margin: 0 auto 14px;
 }
 
-.profile-name {
+.perfil-nom {
   font-family: "Literata", "Source Serif Pro", Georgia, serif;
   font-size: 20px;
   font-weight: 600;
@@ -2892,14 +2745,14 @@ fieldset legend {
   margin: 0 0 4px;
 }
 
-.profile-email {
+.perfil-email {
   font-size: 14px;
   color: #6E6759;
   margin: 0;
   word-break: break-all;
 }
 
-.profile-nav {
+.perfil-navegacio {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -2913,7 +2766,7 @@ fieldset legend {
   margin-bottom: 8px;
 }
 
-.profile-nav__item {
+.perfil-navegacio-item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -2935,28 +2788,26 @@ fieldset legend {
   min-height: 48px;
 }
 
-.profile-nav__item:hover {
+.perfil-navegacio-item:hover {
   background: #F2EDE4;
   color: #1F1B16;
 }
 
-.profile-nav__item.active {
+.perfil-navegacio-item.active {
   background: #1F5E7B;
   color: #fff;
 }
 
-.profile-nav__item svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  flex-shrink: 0;
+.perfil-navegacio-item img {
+  filter: brightness(0);
+  transition: filter 0.15s;
 }
 
-.profile-nav__badge {
+.perfil-navegacio-item.active img {
+  filter: brightness(0) invert(1);
+}
+
+.perfil-navegacio-indicador {
   margin-left: auto;
   background: rgba(255,255,255,.25);
   border-radius: 999px;
@@ -2967,17 +2818,17 @@ fieldset legend {
   text-align: center;
 }
 
-.profile-nav__item:not(.active) .profile-nav__badge {
+.perfil-navegacio-item:not(.active) .perfil-navegacio-indicador {
   background: #E5DED1;
   color: #6E6759;
 }
 
-.profile-nav__link.active {
+.perfil-navegacio-link.active {
   background: #1F5E7B;
   color: #fff;
 }
 
-.profile-logout {
+.perfil-logout {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2991,26 +2842,23 @@ fieldset legend {
   min-height: 48px;
 }
 
-.profile-logout svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+
+
+.perfil-logout img {
+  filter: brightness(0) invert(1) sepia(1) hue-rotate(310deg) saturate(5) brightness(0.5);
+  transition: filter 0.15s;
 }
 
-.profile-logout:hover {
+.perfil-logout:hover {
   background: #FBE7E3;
   color: #A8261C;
 }
 
-.profile-panel {
+.perfil-panel {
   display: none;
 }
 
-.profile-panel.active {
+.perfil-panel.active {
   display: block;
 }
 
@@ -3021,9 +2869,10 @@ fieldset legend {
 }
 
 .panel-header h2 {
-  font-size: 34px;
-  color: #0E3B52;
+  font-size: 40px;
+  color: #9E4A2E;
   margin: 0 0 4px;
+  font-family: "Literata", "Source Serif Pro", Georgia, serif;
 }
 
 .panel-header p {
@@ -3032,7 +2881,7 @@ fieldset legend {
   margin: 0;
 }
 
-.panel-card {
+.panel-targeta {
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -3068,8 +2917,8 @@ fieldset legend {
 .slider-val {
   min-width: 52px;
   text-align: right;
-  font-weight: 700;
-  font-size: 17px;
+  font-weight: 900;
+  font-size: 18px;
   font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
   color: #1F5E7B;
 }
@@ -3168,7 +3017,7 @@ fieldset legend {
   padding: 40px 24px;
 }
 
-.contactes-preview svg {
+/* .contactes-preview svg {
   width: 56px;
   height: 56px;
   stroke: #BFD7E2;
@@ -3178,6 +3027,7 @@ fieldset legend {
   stroke-linejoin: round;
   margin: 0 auto 20px;
 }
+  */
 
 .contactes-preview p {
   font-size: 17px;
@@ -3188,9 +3038,8 @@ fieldset legend {
   margin-right: auto;
 }
 
-/* ─────────────────────────────────────────────────────────
-   12. CONTACTAR.HTML
-───────────────────────────────────────────────────────── */
+/* Estils de la pàgina contactar (formulari i indicacions)*/
+
 .contactar-layout {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -3198,15 +3047,15 @@ fieldset legend {
   align-items: start;
 }
 
-.contactar-card {
-  background: #FFFFFF;
+.contactar-targeta {
+  background: #EAF2F6;
   border: 1px solid #E5DED1;
   border-radius: 16px;
   padding: 36px 40px;
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-.contactar-card h1 {
+.contactar-targeta h1 {
   font-size: 34px;
   color: #0E3B52;
   margin-bottom: 6px;
@@ -3234,7 +3083,7 @@ fieldset legend {
   background: #4F89A5;
 }
 
-#contactar-auth-msg {
+#contactar-auth-missatge {
   background: #FBF1DC;
   border: 1px solid #8A5A0E;
   border-radius: 12px;
@@ -3244,9 +3093,16 @@ fieldset legend {
   display: none;
 }
 
-#contactar-auth-msg a {
+#contactar-auth-missatge a {
   color: #8A5A0E;
   font-weight: 700;
+}
+
+#contactar-auth-missatge img {
+ width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  filter: brightness(0);
 }
 
 #form-contactar button[type="submit"] {
@@ -3255,7 +3111,7 @@ fieldset legend {
   font-size: 17px;
 }
 
-.contactar-info {
+.contactar-informacio {
   position: sticky;
   top: 96px;
   background: #FFFFFF;
@@ -3265,13 +3121,13 @@ fieldset legend {
   box-shadow: 0 2px 6px rgba(31,27,22,.05), 0 1px 2px rgba(31,27,22,.04);
 }
 
-.contactar-info h2 {
+.contactar-informacio h2 {
   font-size: 23px;
-  color: #0E3B52;
+  color: #9E4A2E;
   margin-bottom: 20px;
 }
 
-.info-item {
+.informacio-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -3281,24 +3137,19 @@ fieldset legend {
   color: #3A352D;
 }
 
-.info-item:last-child {
+.informacio-item:last-child {
   border-bottom: none;
   padding-bottom: 0;
 }
 
-.info-item svg {
+.informacio-item img {
   width: 18px;
   height: 18px;
-  stroke: #4F89A5;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-.info-item strong {
+.informacio-item strong {
   display: block;
   font-weight: 700;
   color: #1F1B16;
@@ -3306,11 +3157,9 @@ fieldset legend {
   font-size: 14px;
 }
 
-/* ─────────────────────────────────────────────────────────
-   13. CONTACTES.HTML
-───────────────────────────────────────────────────────── */
+/* Estils de la pàgina Contactes */
 #contactes-container article,
-#contactes-container .service-card {
+#contactes-container .serveis-targeta {
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -3322,13 +3171,13 @@ fieldset legend {
 }
 
 #contactes-container article:hover,
-#contactes-container .service-card:hover {
+#contactes-container .serveis-targeta:hover {
   border-color: #BFD7E2;
   box-shadow: 0 6px 16px rgba(31,27,22,.06), 0 2px 4px rgba(31,27,22,.04);
 }
 
 #contactes-container article h3,
-#contactes-container .service-card h3 {
+#contactes-container .serveis-targeta h3 {
   font-family: "Literata", "Source Serif Pro", Georgia, serif;
   font-size: 27px;
   font-weight: 600;
@@ -3336,7 +3185,7 @@ fieldset legend {
   margin: 0 0 8px;
 }
 
-#contactes-container .fitxa-cat-badge {
+#contactes-container .fitxa-cat-indicador {
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
@@ -3423,9 +3272,7 @@ fieldset legend {
   outline-color: #C9402F;
 }
 
-/* ─────────────────────────────────────────────────────────
-   14. FOOTER
-───────────────────────────────────────────────────────── */
+/* Estils del Footer */
 footer {
   border-top: 1px solid #E5DED1;
   background: #FFFFFF;
@@ -3455,7 +3302,7 @@ footer {
   color: #6E6759;
 }
 
-/* ─── Menú mòbil ────────────────────────────────────────── */
+/* Menú hamburguesa mobile */
 .nav-toggle {
   display: none;
 }
@@ -3508,9 +3355,108 @@ footer {
   transform-origin: center;
 }
 
-/* ─────────────────────────────────────────────────────────
-   15. RESPONSIVE
-───────────────────────────────────────────────────────── */
+/* Altres estils a tenir en compte*/
+
+/* Graella de 2 columnes per a la selecció de categoria */
+.serveis-grid-2col {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 720px;
+}
+
+.recursos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.recurs-targeta {
+  background: #FFFFFF;
+  border: 1px solid #E5DED1;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 200ms cubic-bezier(.2,.8,.2,1), transform 200ms cubic-bezier(.2,.8,.2,1);
+}
+
+.recurs-targeta:hover {
+  box-shadow: 0 8px 28px rgba(26,77,86,.12);
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+.recurs-targeta-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.recurs-targeta-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recurs-targeta-placeholder.thumb-acompanyament {
+  background: linear-gradient(135deg, #4E9A65, #2F6A3F);
+}
+
+.recurs-targeta-placeholder.thumb-gestions {
+  background: linear-gradient(135deg, #D49A3E, #A36D14);
+}
+
+.recurs-targeta-placeholder .card-initial {
+  font-size: 52px;
+  font-weight: 700;
+  color: rgba(255,255,255,.85);
+  font-family: "Literata", serif;
+}
+
+.recurs-targeta-body {
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+
+.recurs-targeta-titol {
+  font-size: 22px;
+  margin: 4px 0 0;
+  line-height: 1.2;
+}
+
+.recurs-targeta-descripcio {
+  font-size: 15px;
+  color: #4A443C;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.btn-mes-info {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A4D56;
+  border: 1.5px solid #1A4D56;
+  border-radius: 10px;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 140ms, color 140ms;
+}
+
+.btn-mes-info:hover {
+  background: #1A4D56;
+  color: #FFFFFF;
+}
+
+/* Estils Responsive */
+
 @media (max-width: 960px) {
   .cat-grid {
     grid-template-columns: repeat(3,1fr);
@@ -3527,24 +3473,50 @@ footer {
 }
 
 @media (max-width: 900px) {
-  .profile-layout {
+  .serveis-contenidor {
+    padding: 40px 28px 72px;
+  }
+  .serveis-contenidor .page-hero h1 {
+    font-size: 40px;
+    line-height: 44px;
+  }
+  .card-thumb {
+    width: 160px;
+  }
+  .card-initial {
+    font-size: 56px;
+    line-height: 56px;
+  }
+  .serveis-grid-cataleg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pasos-serveis-label {
+    font-size: 13px;
+  }
+  .recursos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .serveis-grid-2col {
+    max-width: 100%;
+  }
+  .perfil-layout {
     grid-template-columns: 1fr;
   }
-  .profile-sidebar {
+  .perfil-sidebar {
     position: static;
   }
-  .profile-nav {
+  .perfil-navegacio {
     flex-direction: column;
     gap: 4px;
     padding: 8px;
     overflow-x: visible;
   }
-  .profile-nav__item {
+  .perfil-navegacio-item {
     white-space: normal;
     font-size: 15px;
     padding: 12px 14px;
   }
-  .profile-nav__badge {
+  .perfil-navegacio-indicador {
     display: inline-block;
   }
   .form-grid {
@@ -3607,6 +3579,82 @@ footer {
   .cta-band {
     padding: 48px 28px;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 680px) {
+  .serveis-grid-cataleg {
+    grid-template-columns: 1fr;
+  }
+  .codi-camps-grid {
+    grid-template-columns: 1fr;
+  }
+  .pasos-serveis-step {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .pasos-serveis-track {
+    display: none;
+  }
+  .serveis-stepper-passos,
+  .serveis-stepper-passos:last-child {
+    text-align: left;
+    max-width: 100%;
+  }
+  .serveis-contenidor {
+    padding: 32px 20px 56px;
+  }
+  .serveis-contenidor .page-hero h1 {
+    font-size: 32px;
+    line-height: 35px;
+  }
+  .serveis-contenidor .page-hero p {
+    font-size: 15px;
+    line-height: 24px;
+  }
+  #bloc-codi-anonim {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+  #input-codi {
+    width: 100%;
+  }
+  #btn-codi {
+    width: 100%;
+    justify-content: center;
+  }
+  .serveis-targeta {
+    flex-direction: column;
+  }
+  .card-thumb {
+    width: 100%;
+    min-height: 120px;
+  }
+  .targeta-informacio {
+    padding: 20px;
+  }
+  .targeta-cta {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #EEF2F4;
+    padding: 16px 20px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-favorit {
+    flex-shrink: 0;
+  }
+  .targeta-cta-botons {
+    flex: 1;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .targeta-cta .btn-outline,
+  .targeta-cta .btn-solid {
+    flex: 1;
+    min-width: 100px;
   }
 }
 
@@ -3703,13 +3751,13 @@ footer {
   .cat-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .auth-form {
+  .login-form{
     padding: 32px 24px;
   }
-  .panel-card {
+  .panel-targeta {
     padding: 24px 20px;
   }
-  .profile-id {
+  .perfil-id {
     padding: 20px;
   }
   .contactar-card {
@@ -3730,7 +3778,7 @@ footer {
     flex-direction: column;
   }
   #contactes-container article,
-  #contactes-container .service-card {
+  #contactes-container .serveis-targeta {
     padding: 20px;
   }
   .footer-inner {
@@ -3741,6 +3789,12 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
   }
+  .recursos-grid {
+    grid-template-columns: 1fr;
+  }
+  .serveis-grid-2col {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 400px) {
@@ -3748,132 +3802,6 @@ footer {
     grid-template-columns: 1fr;
   }
   .serveis-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────
-   14. AJUDES-RECURSOS.HTML
-───────────────────────────────────────────────────────── */
-
-/* Graella de 2 columnes per a la selecció de categoria */
-.serveis-grid-2col {
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 720px;
-}
-
-/* Graella de resultats: 3 columnes de cards verticals */
-.recursos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 8px;
-}
-
-/* Card vertical de recurs */
-.recurs-card {
-  background: #FFFFFF;
-  border: 1px solid #E5DED1;
-  border-radius: 16px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 200ms cubic-bezier(.2,.8,.2,1), transform 200ms cubic-bezier(.2,.8,.2,1);
-}
-
-.recurs-card:hover {
-  box-shadow: 0 8px 28px rgba(26,77,86,.12);
-  transform: translateY(-2px);
-  border-color: transparent;
-}
-
-/* Imatge o placeholder de la card */
-.recurs-card-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-
-.recurs-card-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.recurs-card-placeholder.thumb-acompanyament {
-  background: linear-gradient(135deg, #4E9A65, #2F6A3F);
-}
-
-.recurs-card-placeholder.thumb-gestions {
-  background: linear-gradient(135deg, #D49A3E, #A36D14);
-}
-
-.recurs-card-placeholder .card-initial {
-  font-size: 52px;
-  font-weight: 700;
-  color: rgba(255,255,255,.85);
-  font-family: "Literata", serif;
-}
-
-/* Cos de la card */
-.recurs-card-body {
-  padding: 20px 22px 24px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 6px;
-}
-
-.recurs-card-titol {
-  font-size: 22px;
-  margin: 4px 0 0;
-  line-height: 1.2;
-}
-
-.recurs-card-desc {
-  font-size: 15px;
-  color: #4A443C;
-  line-height: 1.5;
-  margin: 0;
-  flex: 1;
-}
-
-/* Botó Més informació */
-.btn-mes-info {
-  display: inline-block;
-  margin-top: 14px;
-  padding: 9px 18px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #1A4D56;
-  border: 1.5px solid #1A4D56;
-  border-radius: 10px;
-  text-decoration: none;
-  align-self: flex-start;
-  transition: background 140ms, color 140ms;
-}
-
-.btn-mes-info:hover {
-  background: #1A4D56;
-  color: #FFFFFF;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .recursos-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .serveis-grid-2col {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .recursos-grid {
-    grid-template-columns: 1fr;
-  }
-  .serveis-grid-2col {
     grid-template-columns: 1fr;
   }
 }

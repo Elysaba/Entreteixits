@@ -12,10 +12,10 @@ require_once '../config.php';
 
 $id_user = $_SESSION['id_user'];
 
-$stmt = $conn->prepare("SELECT nom, email, idioma, codi_postal, radi_localitzacio, num_serveis_interes FROM users WHERE id_user = ?");
+$stmt = $conn->prepare("SELECT nom, email, idioma, codi_postal, radi_localitzacio, num_serveis_interes, data_naixement FROM users WHERE id_user = ?");
 $stmt->bind_param("i", $id_user);
 $stmt->execute();
-$stmt->bind_result($nom, $email, $idioma, $cp, $radi, $num_serveis);
+$stmt->bind_result($nom, $email, $idioma, $cp, $radi, $num_serveis, $data_naixement);
 $stmt->fetch();
 $stmt->close();
 
@@ -35,6 +35,7 @@ echo json_encode([
     'idioma'     => $idioma,
     'cp'         => $cp,
     'radi'       => $radi,
-    'num_serveis' => $num_serveis,
-    'interessos' => $interessos
+    'num_serveis'    => $num_serveis,
+    'data_naixement' => $data_naixement,
+    'interessos'     => $interessos
 ]);

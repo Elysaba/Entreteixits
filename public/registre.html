@@ -39,14 +39,14 @@
     <!--Formulari de registres, i que consta de 2 pasos-->
     <!--PAS 1 DADES BÀSIQUES-->
   <main>
-    <div class="auth-wrap">
-      <section class="auth-form">
+    <div class="formulari-login">
+      <section class="login-form">
         <h1 id="registre-heading">Crea el teu compte</h1>
-        <p class="auth-sub" id="auth-step-label">Pas 1 de 2 · Dades bàsiques</p>
+        <p class="login-subtitol" id="auth-step-label">Pas 1 de 2 · Dades bàsiques</p>
         <!-- Indicador de pas -->
-        <div class="step-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="2" aria-label="Pas 1 de 2">
-          <div class="step-dot active" id="step-dot-1"></div>
-          <div class="step-dot" id="step-dot-2"></div>
+        <div class="pas-barra" role="progressbar">
+          <div class="pas-punt active" id="step-dot-1"></div>
+          <div class="pas-punt" id="step-dot-2"></div>
         </div>
         <!-- PAS 1: dades bàsiques -->
         <form id="form-registre-1" action="../scripts/php/registre.php" method="post" novalidate>
@@ -54,25 +54,25 @@
           <div class="field-group">
             <label for="name">Nom</label>
             <input type="text" id="name" name="name" autocomplete="given-name" required placeholder="El teu nom">
-            <span id="error-nom" class="error-msg" role="alert"></span>
+            <span id="error-nom" class="error-missatge" role="alert"></span>
           </div>
           <div class="field-group">
             <label for="email">Correu electrònic</label>
             <input type="email" id="email" name="email" autocomplete="email" required placeholder="nom@exemple.cat">
-            <span id="error-email" class="error-msg" role="alert"></span>
+            <span id="error-email" class="error-missatge" role="alert"></span>
           </div>
           <div class="field-group">
             <label for="password">Contrasenya</label>
             <input type="password" id="password" name="password" autocomplete="new-password" required minlength="8">
-            <span id="error-password" class="error-msg" role="alert"></span>
-            <span class="error-msg" style="font-weight: 400; margin-top: 4px;">Mínim 8 caràcters.</span>
+            <span id="error-password" class="error-missatge" role="alert"></span>
+            <span class="error-missatge" style="font-weight: 400; margin-top: 4px;">Mínim 8 caràcters.</span>
           </div>
 
           <label class="check-row">
             <input type="checkbox" name="privacitat" id="privacitat" required>
             Accepto les polítiques de privacitat
           </label>
-          <span id="error-privacitat" class="error-msg" role="alert" aria-live="polite"></span>
+          <span id="error-privacitat" class="error-missatge" role="alert"></span>
           <button type="submit">Continuar</button>
           <p class="small">
             Ja tens compte? <a href="login.html">Inicia sessió</a>

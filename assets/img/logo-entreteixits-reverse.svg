@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 80" fill="none" aria-label="EntreTeixits">
+  <rect x="4" y="4" width="72" height="72" rx="22" fill="#1F5E7B"></rect>
+  <text x="40" y="56" text-anchor="middle" font-family="Literata, &#39;Source Serif Pro&#39;, Georgia, serif" font-style="italic" font-weight="500" font-size="48" fill="#FAF6F0" letter-spacing="-1">et</text>
+  <line x1="22" y1="64" x2="58" y2="64" stroke="#C46A4D" stroke-width="4" stroke-linecap="round"></line>
+  <text x="96" y="52" font-family="Literata, &#39;Source Serif Pro&#39;, Georgia, serif" font-size="36" font-weight="500" letter-spacing="-0.5" fill="#FAF6F0">EntreTeixits</text>
+</svg>

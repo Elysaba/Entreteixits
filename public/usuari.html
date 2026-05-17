@@ -38,63 +38,55 @@
   <!--La pàgina d'Inici està dividida 2 BLOCS.-->
   <!-- PART ESQUERRE: Menú -->
   <main>
-    <div class="profile-layout">
-      <aside class="profile-sidebar">
-        <div class="profile-id">
-          <div class="profile-avatar" id="sidebar-avatar">?</div>
-          <p class="profile-name" id="sidebar-nom">—</p>
-          <p class="profile-email" id="sidebar-email">—</p>
+    <div class="perfil-layout">
+      <aside class="perfil-sidebar">
+        <div class="perfil-id">
+          <div class="perfil-avatar" id="sidebar-avatar">?</div>
+          <p class="perfil-name" id="sidebar-nom">—</p>
+          <p class="perfil-email" id="sidebar-email">—</p>
         </div>
         <!-- Navegació -->
-        <nav class="profile-nav">
-          <button class="profile-nav__item active" data-panel="dades">                  
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
+        <nav class="perfil-navegacio">
+          <button class="perfil-navegacio-item active" data-panel="dades">                  
+            <img src="../assets/img/user.svg">
             Dades personals
           </button>
-          <button class="profile-nav__item" data-panel="favorits">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
+          <button class="perfil-navegacio-item" data-panel="favorits">
+            <img src="../assets/img/heart.svg">
             Favorits
-            <span class="profile-nav__badge" id="badge-favorits">0</span>
+            <span class="perfil-navegacio-indicador" id="badge-favorits">0</span>
           </button>
-          <a href="contactes.html" class="profile-nav__item profile-nav__link">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+          <a href="contactes.html" class="perfil-navegacio-item profile-navegacio-link">
+            <img src="../assets/img/mail.svg">
             Contactats
-            <span class="profile-nav__badge" id="badge-contactats">0</span>
+            <span class="perfil-navegacio-indicador" id="badge-contactats">0</span>
           </a>
         </nav>
         <!-- Tancar sessió -->
-        <a href="../scripts/php/logout.php" class="profile-logout">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/>
-            <line x1="21" y1="12" x2="9" y2="12"/>
-          </svg>
+        <a href="../scripts/php/logout.php" class="perfil-logout ">
+          <img src="../assets/img/log-out.svg">
           Tancar sessió
         </a>
       </aside>
 
       <!--Part central -->
-      <div class="profile-main">        
-        <div class="profile-panel active" id="panel-dades" role="region">
+      <div class="perfil-panels">
+        <div class="perfil-panel active" id="panel-dades" role="region">
           <div class="panel-header">
             <h2>Dades personals</h2>
             <p>Gestiona la teva informació i les teves preferències de cerca.</p>
           </div>
-          <div class="panel-card">
+          <div class="panel-targeta">
             <!-- Usuari ha de poder actualitzar les seves dades -->
             <form action="../scripts/php/actualitzar-usuari.php" method="post" id="form-perfil"> 
               <div class="form-grid">
                 <div class="field-group">
                   <label for="nom">Nom</label>
-                  <input type="text" id="nom" name="nom"
-                         autocomplete="given-name" placeholder="El teu nom">
+                  <input type="text" id="nom" name="nom" autocomplete="given-name" placeholder="El teu nom">
+                </div>
+                <div class="field-group">
+                  <label for="data-naixement">Data de naixement</label>
+                  <input type="date" id="data-naixement" name="data_naixement" autocomplete="bday">
                 </div>
                 <div class="field-group">
                   <label for="idioma">Idioma preferit</label>
@@ -158,17 +150,15 @@
         </div>
 
         <!-- Visualització dels Favorits-->
-        <div class="profile-panel" id="panel-favorits" role="region" >
+        <div class="perfil-panel" id="panel-favorits" role="region" >
           <div class="panel-header">
             <h2>Favorits</h2>
             <p>Serveis que has guardat per trobar-los ràpidament.</p>
           </div>
-          <div class="panel-card">
+          <div class="panel-targeta">
             <div id="favorits-container">
-              <div class="empty-panel">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
+              <div class="estat-buit-panel">
+                <img src="../assets/img/heart-fill.svg">
                 <p>Carregant favorits…</p>
               </div>
             </div>

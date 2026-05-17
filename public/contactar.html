@@ -41,19 +41,19 @@
   <main>
     <!--BLOC del FORMULARI-->
     <div class="contactar-layout">
-      <div class="contactar-card">
-        <h1>Contactar amb el servei</h1>
+      <div class="contactar-targeta">
+        <h1>Contacta amb el servei</h1>
         <p id="contactar-servei-nom"></p>
         <!-- Missatge si no hi ha sessió -->
-        <div id="contactar-auth-msg">
-          <svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:inline;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Has d'<a href="login.html">iniciar sessió</a> per enviar un missatge de contacte.
+        <div id="contactar-auth-missatge">
+         <img src="../assets/img/bell.svg" alt="Has iniciar sessió per enviar un missatge de contacte">
+          <a href="login.html">Inicia sessió </a>per contactar amb aquest servei.
         </div>
         <form id="form-contactar" style="display:none;" novalidate>
           <div class="form-row">
             <div class="field-group">
               <label for="contacte-nom">Nom</label>
-              <input type="text" id="contacte-nom" name="nom"   autocomplete="given-name" required>
+              <input type="text" id="contacte-nom" name="nom"  autocomplete="given-name" required>
             </div>
             <div class="field-group">
               <label for="contacte-email">Correu electrònic</label>
@@ -70,13 +70,13 @@
           </div>
           <div class="form-actions">
             <button type="submit">
-              <svg style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <img src="../assets/img/enviar.svg">
               Enviar missatge
             </button>
           </div>
           <!-- Missatges de validació -->
           <p id="contacte-ok" class="missatge-ok">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <img src="../assets/img/check.svg">
             Missatge enviat correctament. El servei es posarà en contacte amb tu aviat.
           </p>
           <p id="contacte-error" class="error" role="alert">
@@ -85,45 +85,34 @@
         </form>
       </div>
       <!-- BLOC INFORMACIÓ -->
-      <aside class="contactar-info" aria-label="Informació sobre el contacte">
-        <h2>Com funciona el contacte?</h2>
-        <div class="info-item">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.98 16.92z"/>
-          </svg>
+      <aside class="contactar-informacio" aria-label="Informació sobre el contacte">
+        <h2><em>Com funciona el contacte?</em></h2>
+        <div class="informacio-item">
+          <img src="../assets/img/phone.svg">
           <div>
             <strong>Contacte directe</strong>
-            El teu missatge arriba directament al servei, sense intermediaris.
+            El teu missatge arriba directament al servei, de forma fàcil i directa.
           </div>
         </div>
-        <div class="info-item">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
+        <div class="informacio-item">
+          <img src="../assets/img/shield-check.svg">
           <div>
             <strong>Empreses verificades</strong>
-            Tots els serveis de la plataforma han passat un procés de verificació.
+            Tots els serveis han estat verificats per oferir-te més confiança i seguretat.
           </div>
         </div>
-        <div class="info-item">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
+        <div class="informacio-item">
+          <img src="../assets/img/monitor.svg">
           <div>
             <strong>Historial guardat</strong>
-            El teu missatge quedarà desat a "Els meus contactes" per si el necessites.
+            Podràs consultar els teus contactes sempre que ho necessitis.
           </div>
         </div>
-        <div class="info-item">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
+        <div class="informacio-item">
+          <img src="../assets/img/rellotge.svg">
           <div>
             <strong>Sense comissions</strong>
-            EntreTeixits no cobra cap comissió per la contractació.
+            EntreTeixits no aplica cap comissió pel contacte entre usuaris i serveis.
           </div>
         </div>
       </aside>

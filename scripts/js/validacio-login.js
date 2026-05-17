@@ -2,6 +2,20 @@
  * El formulari envia les dades al servidor (login.php) via POST.
  * Es valida els camps i, si tot és correcte, inicia sessió. */
 
+// Mostra els errors retornats pel servidor via query param
+const errorParam = new URLSearchParams(window.location.search).get("error");
+if (errorParam) {
+    const missatges = {
+        wrong_password: { span: "#error-password", text: "La contrasenya no és correcta." },
+        user_not_found: { span: "#error-email", text: "No existeix cap compte amb aquest correu." },
+        invalid_data:   { span: "#error-email", text: "Les dades introduïdes no són vàlides." }
+    };
+    const missatge = missatges[errorParam];
+    if (missatge) {
+        document.querySelector(missatge.span).textContent = missatge.text;
+    }
+}
+
 const formulariLogin = document.querySelector("form");
 
 formulariLogin.addEventListener("submit", (event) => {
