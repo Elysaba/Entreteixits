@@ -1,72 +1,65 @@
 // SERVICE WORKER — EntreTeixits
 
-/* Indicacions a tenir en compte: Llista d'assets estàtics que es guarden en cache durant la instal·lació.
- * Aquests fitxers estaran disponibles fins i tot sense connexió.
- * Si afegeixes nous fitxers CSS, JS o imatges, afegeix-los aquí.
- */
-
-const CACHE_NOM = 'entreteixits-v1';
-
+const CACHE_NOM = 'entreteixits-v2';
 
 const ASSETS_CACHE = [
   // Pàgina d'error sense connexió (imprescindible)
-  '/public/offline.html',
+  '/UOC/Entreteixits/public/offline.html',
 
   // Estils
-  '/assets/css/style.css',
+  '/UOC/Entreteixits/assets/css/style.css',
 
   // Imatge principal i logos
-  '/assets/img/hero-gent-gran.png',
-  '/assets/img/logo-entreteixits.svg',
-  '/assets/img/logo-entreteixits-reverse.svg',
-  '/assets/img/logo-mark.svg',
+  '/UOC/Entreteixits/assets/img/hero-gent-gran.png',
+  '/UOC/Entreteixits/assets/img/logo-entreteixits.svg',
+  '/UOC/Entreteixits/assets/img/logo-entreteixits-reverse.svg',
+  '/UOC/Entreteixits/assets/img/logo-mark.svg',
 
   // Icones de la interfície
-  '/assets/img/arrow-left.svg',
-  '/assets/img/arrow-right.svg',
-  '/assets/img/bell.svg',
-  '/assets/img/briefcase.svg',
-  '/assets/img/calendar.svg',
-  '/assets/img/car.svg',
-  '/assets/img/check.svg',
-  '/assets/img/chevron-down.svg',
-  '/assets/img/chevron-right.svg',
-  '/assets/img/file-text.svg',
-  '/assets/img/heart-fill.svg',
-  '/assets/img/heart.svg',
-  '/assets/img/home.svg',
-  '/assets/img/log-out.svg',
-  '/assets/img/mail.svg',
-  '/assets/img/map-pin.svg',
-  '/assets/img/menu.svg',
-  '/assets/img/phone.svg',
-  '/assets/img/plus.svg',
-  '/assets/img/search.svg',
-  '/assets/img/settings.svg',
-  '/assets/img/shield-check.svg',
-  '/assets/img/sparkles.svg',
-  '/assets/img/star-fill.svg',
-  '/assets/img/star.svg',
-  '/assets/img/user.svg',
-  '/assets/img/users.svg',
-  '/assets/img/x.svg',
+  '/UOC/Entreteixits/assets/img/arrow-left.svg',
+  '/UOC/Entreteixits/assets/img/arrow-right.svg',
+  '/UOC/Entreteixits/assets/img/bell.svg',
+  '/UOC/Entreteixits/assets/img/briefcase.svg',
+  '/UOC/Entreteixits/assets/img/calendar.svg',
+  '/UOC/Entreteixits/assets/img/car.svg',
+  '/UOC/Entreteixits/assets/img/check.svg',
+  '/UOC/Entreteixits/assets/img/chevron-down.svg',
+  '/UOC/Entreteixits/assets/img/chevron-right.svg',
+  '/UOC/Entreteixits/assets/img/file-text.svg',
+  '/UOC/Entreteixits/assets/img/heart-fill.svg',
+  '/UOC/Entreteixits/assets/img/heart.svg',
+  '/UOC/Entreteixits/assets/img/home.svg',
+  '/UOC/Entreteixits/assets/img/log-out.svg',
+  '/UOC/Entreteixits/assets/img/mail.svg',
+  '/UOC/Entreteixits/assets/img/map-pin.svg',
+  '/UOC/Entreteixits/assets/img/menu.svg',
+  '/UOC/Entreteixits/assets/img/phone.svg',
+  '/UOC/Entreteixits/assets/img/plus.svg',
+  '/UOC/Entreteixits/assets/img/search.svg',
+  '/UOC/Entreteixits/assets/img/settings.svg',
+  '/UOC/Entreteixits/assets/img/shield-check.svg',
+  '/UOC/Entreteixits/assets/img/sparkles.svg',
+  '/UOC/Entreteixits/assets/img/star-fill.svg',
+  '/UOC/Entreteixits/assets/img/star.svg',
+  '/UOC/Entreteixits/assets/img/user.svg',
+  '/UOC/Entreteixits/assets/img/users.svg',
+  '/UOC/Entreteixits/assets/img/x.svg',
 
   // Scripts JS (no en cache els .php, ja que necessiten xarxa i sessió)
-  '/scripts/js/estat-usuari.js',
-  '/scripts/js/validacio-login.js',
-  '/scripts/js/validacio-registre.js',
-  '/scripts/js/serveis.js',
-  '/scripts/js/resultats-serveis.js',
-  '/scripts/js/fitxa-servei.js',
-  '/scripts/js/ajudes-recursos.js',
-  '/scripts/js/contactar.js',
-  '/scripts/js/contactes.js',
-  '/scripts/js/perfil-usuari.js'
+  '/UOC/Entreteixits/scripts/js/estat-usuari.js',
+  '/UOC/Entreteixits/scripts/js/validacio-login.js',
+  '/UOC/Entreteixits/scripts/js/validacio-registre.js',
+  '/UOC/Entreteixits/scripts/js/serveis.js',
+  '/UOC/Entreteixits/scripts/js/resultats-serveis.js',
+  '/UOC/Entreteixits/scripts/js/fitxa-servei.js',
+  '/UOC/Entreteixits/scripts/js/ajudes-recursos.js',
+  '/UOC/Entreteixits/scripts/js/contactar.js',
+  '/UOC/Entreteixits/scripts/js/contactes.js',
+  '/UOC/Entreteixits/scripts/js/perfil-usuari.js'
 ];
 
 
-// INSTAL·LACIÓ :  S'executa una sola vegada quan el SW es registra per primer cop.
-
+// INSTAL·LACIÓ: S'executa una sola vegada quan el SW es registra per primer cop.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NOM)
@@ -76,47 +69,46 @@ self.addEventListener('install', event => {
 });
 
 
-// ACTIVACIÓ : S'executa quan el SW nou és actiu.
+// ACTIVACIÓ: S'executa quan el SW nou és actiu.
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(claus => Promise.all(
         claus
-          .filter(clau => clau !== CACHE_NOM) // només elimina les que NO són la versió actual
+          .filter(clau => clau !== CACHE_NOM)
           .map(clau => caches.delete(clau))
       ))
-      // clients.claim: controla les pestanyes ja obertes sense que l'usuari recarregui
       .then(() => self.clients.claim())
   );
 });
 
-// FETCH : Regles que faig servir
+
+// FETCH: Regles que faig servir
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // APIs externes (Google Places, Nominatim): Sempre xarxa. 
+  // APIs externes (Google Places, Nominatim): Sempre xarxa.
   if (url.hostname !== self.location.hostname) {
     return;
   }
 
-  // PHP : Sempre xarxa. Sessió activa i dades en temps real.
+  // PHP: Sempre xarxa. Sessió activa i dades en temps real.
   if (url.pathname.endsWith('.php')) {
     return;
   }
 
   // Assets
   if (
-    url.pathname.startsWith('/assets/') ||
-    url.pathname.startsWith('/scripts/js/')
+    url.pathname.startsWith('/UOC/Entreteixits/assets/') ||
+    url.pathname.startsWith('/UOC/Entreteixits/scripts/js/')
   ) {
     event.respondWith(
       caches.match(event.request)
         .then(cached => {
-          if (cached) return cached; // trobat a la cache, retorna immediatament
+          if (cached) return cached;
 
-          // No estava en cache: va a la xarxa i el desa per la propera vegada
           return fetch(event.request).then(response => {
-            const copia = response.clone(); // clone perquè el body només es pot llegir una vegada
+            const copia = response.clone();
             caches.open(CACHE_NOM).then(cache => cache.put(event.request, copia));
             return response;
           });
@@ -129,7 +121,7 @@ self.addEventListener('fetch', event => {
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
-        .catch(() => caches.match('/public/offline.html'))
+        .catch(() => caches.match('/UOC/Entreteixits/public/offline.html'))
     );
     return;
   }

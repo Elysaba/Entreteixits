@@ -2,8 +2,8 @@
   "name": "EntreTeixits",
   "short_name": "EntreTeixits",
   "description": "Connecta persones grans amb serveis de proximitat a Catalunya",
-  "start_url": "../public/index.html",
-  "scope": "/",
+  "start_url": "/UOC/Entreteixits/public/index.html",
+  "scope": "/UOC/Entreteixits/",
   "display": "standalone",
   "background_color": "#FAF6F0",
   "theme_color": "#1F5E7B",
@@ -11,13 +11,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/assets/img/pwa/icon-192.png",
+      "src": "/UOC/Entreteixits/assets/img/pwa/img192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/img/pwa/icon-512.png",
+      "src": "/UOC/Entreteixits/assets/img/pwa/img512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

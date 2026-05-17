@@ -62,8 +62,10 @@ async function carregarDeGoogle(id, categoriaSlug) {
     omplirEl("fitxa-adreca",  adreca);
     omplirEl("fitxa-rating",  lloc.rating
         ? `${lloc.rating}${lloc.userRatingCount ? ` (${lloc.userRatingCount} opinions)` : ""}` : "");
-    omplirEl("fitxa-telefon", lloc.nationalPhoneNumber || "");
-    omplirEl("fitxa-horari",  lloc.regularOpeningHours?.weekdayDescriptions?.join(" · ") || "");
+
+    document.querySelector("#fitxa-card-telefon").textContent = lloc.nationalPhoneNumber || "—";
+    document.querySelector("#fitxa-card-adreca").textContent  = adreca || "—";
+    document.querySelector("#fitxa-card-horari").textContent  = lloc.regularOpeningHours?.weekdayDescriptions?.join(" · ") || "—";
 
     const webEl = document.querySelector("#fitxa-web");
     if (lloc.websiteUri) { webEl.href = lloc.websiteUri; webEl.style.display = ""; }
@@ -100,8 +102,10 @@ async function renderitzarBBDD(id, params) {
     document.querySelector("#fitxa-categoria").textContent = noms_categoria[dadesServei.categoria] || "";
     omplirEl("fitxa-adreca",  "");
     omplirEl("fitxa-rating",  "");
-    omplirEl("fitxa-telefon", s.contacte || "");
-    omplirEl("fitxa-horari",  "");
+
+    document.querySelector("#fitxa-card-telefon").textContent = s.contacte || "—";
+    document.querySelector("#fitxa-card-adreca").textContent  = "—";
+    document.querySelector("#fitxa-card-horari").textContent  = "—";
 
     const webEl = document.querySelector("#fitxa-web");
     if (s.web) { webEl.href = s.web; webEl.style.display = ""; }

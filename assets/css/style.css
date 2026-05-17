@@ -3468,7 +3468,8 @@ footer {
   .fitxa-layout {
     grid-template-columns: 1fr;
   }
-  .fitxa-card {
+  .fitxa-card,
+  .fitxa-targeta {
     position: static;
   }
   .fitxa-sidebar {
@@ -3580,9 +3581,42 @@ footer {
   .step:not(:last-child)::after {
     display: none;
   }
+  .pas {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .pas-num-wrap {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .pas:not(:last-child)::after {
+    display: none;
+  }
+  .pas-content {
+    padding: 24px 20px;
+  }
+  .pas-content h2 {
+    font-size: 24px;
+  }
+  .pas-content p {
+    font-size: 16px;
+  }
+  .usuaris-card {
+    padding: 24px 20px;
+  }
+  .usuaris-card h3 {
+    font-size: 20px;
+  }
   .cta-band {
     padding: 48px 28px;
     flex-direction: column;
+  }
+  .cta-band-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .cta-band-actions .cta {
+    text-align: center;
   }
 }
 
@@ -3771,8 +3805,20 @@ footer {
   .fitxa-inicial {
     height: 220px;
   }
+  .fitxa-main {
+    padding: 24px 20px;
+  }
+  .fitxa-targeta {
+    padding: 20px;
+  }
   .fitxa-header h1 {
-    font-size: 34px;
+    font-size: 26px;
+  }
+  #fitxa-descripcio {
+    font-size: 16px;
+  }
+  #seccio-descripcio h2 {
+    font-size: 20px;
   }
   .fitxa-card__price {
     font-size: 26px;
