@@ -2540,17 +2540,12 @@ Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
   color: #3A352D;
 }
 
-/* .fitxa-info-row svg {
+.fitxa-informacio-row img {
   width: 18px;
   height: 18px;
-  stroke: #6E6759;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   flex-shrink: 0;
 }
-  */
+
 
 .fitxa-informacio-row.valoracio {
   color: #A36D14;
@@ -2639,7 +2634,7 @@ Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
   color: #3A352D;
 }
 
-/* .fitxa-targeta-contact-rowsvg {
+.fitxa-targeta-contact-row img {
   width: 18px;
   height: 18px;
   stroke: #6E6759;
@@ -2649,7 +2644,6 @@ Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
   stroke-linejoin: round;
   flex-shrink: 0;
 }
-*/
 
 .fitxa-targeta-contact-row a {
   color: #1F5E7B;

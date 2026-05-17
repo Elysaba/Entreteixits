@@ -27,3 +27,10 @@ fetch("../scripts/php/estat-usuari.php")
             `;
         }
     });
+
+    /* PWA */
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+

@@ -6,6 +6,7 @@
   <meta name="description" content="Fitxa del servei — EntreTeixits">
   <title>EntreTeixits — Detall del servei</title>
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="manifest" href="/manifest.json" />
   </head>
 <body>
 <!--Capçalera i part fixa en totes les pàgines-->
@@ -40,9 +41,7 @@
   <main>
     <!-- Opció de Tornar enrere -->
     <a href="serveis.html" class="back-link">
-      <svg viewBox="0 0 24 24" >
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
+      <img src="../assets/img/arrow-left.svg">
       Tornar als serveis
     </a>
     <!-- Missateg de carregant informació -->
@@ -68,34 +67,15 @@
           
           <div class="fitxa-informacio">
             <div class="fitxa-informacio-row">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
+            <img src="../assets/img/map-pin.svg" alt="">
               <p id="fitxa-adreca"></p>
             </div>
 
             <div class="fitxa-informacio-row valoracio">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
+              <img src="../assets/img/star-fill.svg" alt="">
               <p id="fitxa-rating"></p>
             </div>
 
-            <div class="fitxa-informacio-row">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.98 16.92z"/>
-              </svg>
-              <p id="fitxa-telefon"></p>
-            </div>
-
-            <div class="fitxa-informacio-row">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              <p id="fitxa-horari"></p>
-            </div>
           </div>
 
           <!-- Descripció -->
@@ -119,23 +99,15 @@
             <!-- Info de contacte ràpida -->
             <div class="fitxa-targeta-contact">
               <div class="fitxa-targeta-contact-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.98 16.92z"/>
-                </svg>
+                <img src="../assets/img/phone.svg" alt="">
                 <span id="fitxa-card-telefon">—</span>
               </div>
               <div class="fitxa-targeta-contact-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
+                <img src="../assets/img/map-pin.svg" alt="">
                 <span id="fitxa-card-adreca">—</span>
               </div>
               <div class="fitxa-targeta-contact-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
+                <img src="../assets/img/rellotge.svg" alt="">
                 <span id="fitxa-card-horari">—</span>
               </div>
             </div>
