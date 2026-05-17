@@ -36,6 +36,7 @@ function mostrarInicial(nom, categoriaSlug) {
 // S'omple el HTML amb els valors
 function omplirEl(id, valor) {
     const el = document.querySelector(`#${id}`);
+    if (!el) return;
     if (valor) { el.textContent = valor; el.style.display = ""; }
     else el.style.display = "none";
 }

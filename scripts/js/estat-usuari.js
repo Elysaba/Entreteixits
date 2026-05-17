@@ -31,6 +31,7 @@ fetch("../scripts/php/estat-usuari.php")
     /* PWA */
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.register('../sw.js')
+    .catch(err => console.warn('ServiceWorker no registrat:', err));
 }
 

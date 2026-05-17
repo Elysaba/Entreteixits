@@ -2467,6 +2467,7 @@ Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
   background: linear-gradient(135deg, #4E9A65, #2F6A3F);
 }
 
+
 .fitxa-header {
   display: flex;
   justify-content: space-between;
@@ -2476,10 +2477,11 @@ Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
 }
 
 .fitxa-header h1 {
-  font-size: 43px;
+  font-size: 35px;
   color: #1F1B16;
   margin: 0;
   line-height: 1.15;
+
 }
 
 #fitxa-categoria {
@@ -2602,6 +2604,14 @@ Aquí hem tingut ajuda de la IA per mostrar correctament la informació */
 
 #fitxa-contingut {
   display: none;
+}
+
+.fitxa-main {
+  background: #FFFFFF;
+  border: 1px solid #E5DED1;
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 6px 16px rgba(31,27,22,.06), 0 2px 4px rgba(31,27,22,.04);
 }
 
 .fitxa-targeta {
