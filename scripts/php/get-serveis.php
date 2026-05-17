@@ -1,21 +1,28 @@
 <?php
+/* Retorna els serveis de la taula 'services' filtrats per categoria (gestions o acompanyament). */
+
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
 
 require_once __DIR__ . '/../config.php';
 
 $categoria = $_GET['categoria'] ?? '';
-$categoriesPermeses = ['gestions', 'acompanyament'];
+$mapaCategories = ['gestions' => 4, 'acompanyament' => 5];
 
-if (!in_array($categoria, $categoriesPermeses)) {
+if (!isset($mapaCategories[$categoria])) {
     echo json_encode(['error' => 'Categoria no vàlida']);
     exit;
 }
 
+$id_interests = $mapaCategories[$categoria];
+
 $stmt = $conn->prepare(
-    "SELECT id, nom, descripcio, preu, telefon, web FROM serveis WHERE categoria = ? AND actiu = 1 ORDER BY nom"
+    "SELECT id_services, nom_servei AS nom, descripcio, web FROM services WHERE id_interests = ? ORDER BY nom_servei"
 );
-$stmt->bind_param('s', $categoria);
+if (!$stmt) {
+    echo json_encode(['error' => $conn->error]);
+    exit;
+}
+$stmt->bind_param('i', $id_interests);
 $stmt->execute();
 $resultat = $stmt->get_result();
 

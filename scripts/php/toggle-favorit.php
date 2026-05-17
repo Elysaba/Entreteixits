@@ -1,4 +1,9 @@
 <?php
+/* Aquest php el que pretén és gestionar els serveis de favorits dels usuaris.
+ * Només afecta els serveis que tenim donats d'alta la nostra base de dades. Anirem guardant serveis i eliminant
+ * serveis que l'usuari està registrat
+ */
+
 session_start();
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config.php';
@@ -13,42 +18,34 @@ if (empty($_SESSION['id_user'])) {
     exit;
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+$data  = json_decode(file_get_contents('php://input'), true);
+$id_user  = (int)$_SESSION['id_user'];
+$id_services = (int)($data['id_services'] ?? 0);
 
-$id_user    = (int)$_SESSION['id_user'];
-$nom_servei = trim($data['nom_servei'] ?? '');
-$categoria  = trim($data['categoria']  ?? '');
-$font       = trim($data['font']       ?? '');
-$id_extern  = trim($data['id_extern']  ?? '');
-$adreca     = trim($data['adreca']     ?? '');
-
-if (!$nom_servei || !$font || !$id_extern) {
+if (!$id_services) {
     echo json_encode(['ok' => false, 'error' => 'dades_incompletes']);
     exit;
 }
 
-// Comprovar si ja existeix
-$stmt = $conn->prepare("SELECT id FROM favorits WHERE id_user = ? AND font = ? AND id_extern = ?");
+$stmt = $conn->prepare("SELECT id_services FROM favorites WHERE id_user = ? AND id_services = ?");
 if (!$stmt) {
     echo json_encode(['ok' => false, 'error' => 'db_error: ' . $conn->error]);
     exit;
 }
-$stmt->bind_param('iss', $id_user, $font, $id_extern);
+$stmt->bind_param('ii', $id_user, $id_services);
 $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
     $stmt->close();
-    $del = $conn->prepare("DELETE FROM favorits WHERE id_user = ? AND font = ? AND id_extern = ?");
-    $del->bind_param('iss', $id_user, $font, $id_extern);
+    $del = $conn->prepare("DELETE FROM favorites WHERE id_user = ? AND id_services = ?");
+    $del->bind_param('ii', $id_user, $id_services);
     $del->execute();
     echo json_encode(['ok' => true, 'estat' => 'eliminat']);
 } else {
     $stmt->close();
-    $ins = $conn->prepare(
-        "INSERT INTO favorits (id_user, nom_servei, categoria, font, id_extern, adreca) VALUES (?, ?, ?, ?, ?, ?)"
-    );
-    $ins->bind_param('isssss', $id_user, $nom_servei, $categoria, $font, $id_extern, $adreca);
+    $ins = $conn->prepare("INSERT INTO favorites (id_user, id_services) VALUES (?, ?)");
+    $ins->bind_param('ii', $id_user, $id_services);
     $ins->execute();
     echo json_encode(['ok' => true, 'estat' => 'afegit']);
 }

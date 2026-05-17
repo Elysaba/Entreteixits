@@ -2,69 +2,159 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>EntreTeixits - Fitxa del servei</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fitxa del servei — EntreTeixits">
+  <title>EntreTeixits — Detall del servei</title>
   <link rel="stylesheet" href="../assets/css/style.css">
-</head>
+  </head>
 <body>
+<!--Capçalera i part fixa en totes les pàgines-->
   <header>
-    <div class="logo">ENTRETEIXITS</div>
-    <nav>
-      <a href="index.html">Inici</a>
-      <a href="serveis.html">Serveis</a>
-      <span id="nav-auth">
-        <a href="login.html">Inicia sessió</a>
-        <a href="registre.html" class="btn">Registra't</a>
-      </span>
-    </nav>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html"  class="active">Serveis</a>
+        <a href="ajudes-recursos.html">Ajudes i recursos</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
+      </nav>
+    </div>
   </header>
-
+  <!-- Divideixo la pàgina en dos blocs: informació complementaria i resum amb l'opció de contactar-->
   <main>
-    <div id="fitxa-loading"><p>Carregant informació del servei...</p></div>
-
+    <!-- Opció de Tornar enrere -->
+    <a href="serveis.html" class="back-link">
+      <svg viewBox="0 0 24 24" >
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Tornar als serveis
+    </a>
+    <!-- Missateg de carregant informació -->
+    <div id="fitxa-loading">
+      <div class="spinner"></div>
+      Carregant informació del servei…
+    </div>
+    <!-- Secció ampliada del servei-->
     <article class="service-detail" id="fitxa-contingut" style="display:none;">
+      <div class="fitxa-layout">
+        <!-- BLOC 1. Descripció complerta -->
+        <div class="fitxa-main">
+          <div id="fitxa-inicial" class="fitxa-inicial" aria-hidden="true" style="display:none;">
+            <span class="card-initial"></span>
+          </div>
+           <div class="fitxa-header">
+            <div>
+              <h1 id="fitxa-nom"></h1>
+              <p id="fitxa-categoria" class="fitxa-cat-badge"></p>
+            </div>
+            <button id="btn-favorit" class="btn-favorit" title="Afegir a favorits">☆</button>
+          </div>
+          
+          <div class="fitxa-info">
+            <div class="fitxa-info-row adreca">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <p id="fitxa-adreca" class="adreca"></p>
+            </div>
 
-      <img id="fitxa-foto" src="" alt="" class="fitxa-foto-gran" style="display:none;">
+            <div class="fitxa-info-row valoracio">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              <p id="fitxa-rating" class="valoracio"></p>
+            </div>
 
-      <div class="fitxa-header">
-        <div>
-          <h1 id="fitxa-nom"></h1>
-          <p id="fitxa-categoria" class="fitxa-cat-badge"></p>
+            <div class="fitxa-info-row telefon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.98 16.92z"/>
+              </svg>
+              <p id="fitxa-telefon" class="telefon"></p>
+            </div>
+
+            <div class="fitxa-info-row horari">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <p id="fitxa-horari" class="horari"></p>
+            </div>
+          </div>
+
+          <!-- Descripció -->
+          <section id="seccio-descripcio" style="display:none;">
+            <h2>Descripció</h2>
+            <p id="fitxa-descripcio"></p>
+          </section>
+          <div class="fitxa-actions" id="fitxa-actions">
+          </div>
         </div>
-        <button id="btn-favorit" class="btn-favorit" title="Afegir a favorits">☆</button>
+
+        <!-- BLOC 2. Resum i contacte -->
+        <aside class="fitxa-sidebar">
+          <div class="fitxa-card">
+            <a id="btn-contactar" href="#" class="btn btn-primary">Contactar</a>
+            <a id="fitxa-web" href="#" target="_blank" rel="noopener" style="display:none;">
+              Visita la web oficial
+            </a>
+            <hr class="fitxa-card__divider">
+
+            <!-- Info de contacte ràpida -->
+            <div class="fitxa-card__contact">
+              <div class="fitxa-card__contact-row">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.98 16.92z"/>
+                </svg>
+                <span id="fitxa-card-telefon">—</span>
+              </div>
+              <div class="fitxa-card__contact-row">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span id="fitxa-card-adreca">—</span>
+              </div>
+              <div class="fitxa-card__contact-row">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="fitxa-card-horari">—</span>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
-
-      <div class="fitxa-info">
-        <p id="fitxa-adreca"  class="adreca"></p>
-        <p id="fitxa-rating"  class="valoracio"></p>
-        <p id="fitxa-telefon" class="telefon"></p>
-        <p id="fitxa-horari"  class="horari"></p>
-        <a id="fitxa-web" href="#" target="_blank" rel="noopener" class="btn" style="display:none;">Web oficial</a>
-      </div>
-
-      <section id="seccio-descripcio" style="display:none;">
-        <h2>Descripció</h2>
-        <p id="fitxa-descripcio"></p>
-      </section>
-
-      <section id="seccio-preu" style="display:none;">
-        <h2>Preu</h2>
-        <p id="fitxa-preu" class="price"></p>
-      </section>
-
-      <div class="fitxa-actions" id="fitxa-actions">
-        <a id="btn-contactar" href="#" class="btn btn-primary">Contactar</a>
-      </div>
-
     </article>
   </main>
-
+<!--Footer. Part fixa-->
   <footer>
-    <a href="#">Contacta</a>
-    <a href="#">Avís legal</a>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
   </footer>
+</body>
 
   <script src="../scripts/js/estat-usuari.js"></script>
   <script src="../scripts/js/fitxa-servei.js"></script>
-</body>
+
+
 </html>

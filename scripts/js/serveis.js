@@ -1,4 +1,4 @@
-/* Gestionarem el formulari de la cerca del serveis, basant-nos amb:
+/* Gestionarem el formulari de la cerca dels serveis, basant-nos en:
     - Codi postal
     - Radi
     - Interessos
@@ -9,12 +9,9 @@
  */
 
 
-// ---------------------------------------------------------------------------
-// DADES ESTÀTIQUES: Mapeigs i configuració de categories
-// ---------------------------------------------------------------------------
+//  Declarem les variables necessàries per gestionar les categories i subcategories.
 
-// Noms llegibles per a l'usuari de cada slug de categoria
-const NOMS_CATEGORIA = {
+const noms_categoria = {
   llar:          'Llar',
   activitats:    'Activitats',
   desplacaments: 'Desplaçaments',
@@ -22,12 +19,11 @@ const NOMS_CATEGORIA = {
   acompanyament: 'Acompanyament'
 };
 
-// Llista de categories que tenen subcategories per refinar la cerca
-const CATEGORIES_AMB_SUB = ['llar', 'desplacaments', 'activitats'];
+const categories_amb_subcategories = ['llar', 'desplacaments', 'activitats'];
 
 // Definició de les subcategories per a cada categoria que les té
 // Cada entrada té: id (valor que s'envia per URL) i label (text que veu l'usuari)
-const SUBCATEGORIES = {
+const subcategoria = {
   llar: [
     { id: 'tots', label: 'Tots' },
     { id: 'bricolatge', label: 'Bricolatge' },
@@ -47,9 +43,8 @@ const SUBCATEGORIES = {
   ]
 };
 
-// Taula de conversió: l'ID numèric que guarda la BBDD → slug de categoria
-// Necessari per filtrar les category-tiles quan l'usuari té interessos guardats
-const ID_A_SLUG = {
+// Taula de conversió: l'ID numèric que guarda la BBDD amb la categoria
+const id_categoria = {
   1: 'llar',
   2: 'activitats',
   3: 'desplacaments',
@@ -58,24 +53,17 @@ const ID_A_SLUG = {
 };
 
 
-// ---------------------------------------------------------------------------
-// ESTAT GLOBAL: variables que emmagatzemen l'estat de la pàgina
-// ---------------------------------------------------------------------------
-
+// Estat Global: variables que emmagatzemem
 let localitzacioActual = null;      // Coordenades {lat, lng} obtingudes del CP geocodificat
 let radiCercaKm = 10;               // Radi de cerca en km (per defecte 10)
 let codiPostalAplicat = '';         // Últim CP confirmat per l'usuari
 let ubicacioAplicada = false;       // Indica si l'usuari ja ha aplicat un CP vàlid
-let categoriaSeleccionada = null;   // Slug de la categoria activa (p.ex. 'llar')
-let subcategoriaSeleccionada = null; // ID de la subcategoria activa (p.ex. 'neteja')
+let categoriaSeleccionada = null;   // La categoria activa (pot venir directe de la pàgina d'inici)
+let subcategoriaSeleccionada = null; // ID de la subcategoria activa
 
 
-// =============================================================================
-// GEOCODIFICACIÓ
-// =============================================================================
-
-// Converteix un codi postal espanyol en coordenades {lat, lng}
-// Utilitza l'API gratuïta de Nominatim (OpenStreetMap)
+// Per fer la cerca de codi postal necessitem convertir el codi postal en coordenades {lat, lng}
+// Utilitzem l'API gratuïta de Nominatim (OpenStreetMap), ja que la de Google per fer aquesta part té un cost
 async function geocodarCP(cp) {
   const url = `https://nominatim.openstreetmap.org/search?postalcode=${cp}&country=es&format=json&limit=1`;
   const r = await fetch(url, { headers: { 'Accept-Language': 'ca' } });
@@ -84,54 +72,51 @@ async function geocodarCP(cp) {
   return { lat: parseFloat(dades[0].lat), lng: parseFloat(dades[0].lon) };
 }
 
-
-// =============================================================================
-// UTILITATS
-// =============================================================================
-
-// Escapa caràcters HTML perillosos per evitar XSS en contingut dinàmic
-// Usa un element temporal del DOM com a mecanisme de sanitització
 function escapeHtml(text) {
   const el = document.createElement('div');
   el.textContent = text ?? '';
   return el.innerHTML;
 }
 
-// Valida i normalitza el radi: mínim 1 km, màxim 50 km, per defecte 10
+// Valida i normalitza el radi: mínim 1 km, màxim 1000 km (mateix rang que el perfil), per defecte 10
 function normalitzarRadiKm(km) {
   const n = parseInt(km, 10);
   if (!Number.isFinite(n) || n < 1) return 10;
-  return Math.min(n, 50);
+  return Math.min(n, 1000);
 }
 
-// Llegeix el valor actual del selector de radi del formulari
+function actualitzarRadiUI(km) {
+  const radi = normalitzarRadiKm(km);
+  const input = document.getElementById('input-radi');
+  const label = document.getElementById('radi-valor');
+  if (input) {
+    input.value = String(radi);
+    input.setAttribute('aria-valuenow', String(radi));
+  }
+  if (label) label.textContent = String(radi);
+  return radi;
+}
+
+// Llegeix el valor actual del control de radi del formulari
 function llegirRadiDelFormulari() {
-  const select = document.getElementById('input-radi');
-  if (!select) return radiCercaKm;
-  return normalitzarRadiKm(select.value);
+  const input = document.getElementById('input-radi');
+  if (!input) return radiCercaKm;
+  return normalitzarRadiKm(input.value);
 }
 
-// Actualitza l'estat de radi i la UI de confirmació quan l'usuari canvia el selector
-// Només actua si ja hi ha una ubicació aplicada prèviament
+// Actualitza l'estat de radi. Només actua si ja hi ha una ubicació aplicada prèviament
 function sincronitzarUbicacioActiva() {
   if (!ubicacioAplicada) return;
-  radiCercaKm = llegirRadiDelFormulari();
-  const selectRadi = document.getElementById('input-radi');
-  if (selectRadi) selectRadi.value = String(radiCercaKm);
+  radiCercaKm = actualitzarRadiUI(llegirRadiDelFormulari());
   actualitzarInfoUbicacio(codiPostalAplicat);
 }
 
-
-// =============================================================================
-// ACTUALITZAR UI
-// =============================================================================
-
-// Mostra el pas de tria de servei (les category-tiles) que inicialment estava ocult
+// Mostra el pas de tria de servei. Inicialment, està ocult, per no confondre a l'usuari sobre els passos que realitzem
 function mostrarPasTriarServei() {
   document.getElementById('pas-triar-servei').hidden = false;
 }
 
-// Actualitza el bloc de confirmació que indica el CP i radi actius
+// Actualitza el bloc que indica el codi postal i el radi
 function actualitzarInfoUbicacio(cp) {
   const wrap = document.getElementById('cp-aplicat-wrap');
   const info = document.getElementById('cp-aplicat-info');
@@ -153,14 +138,13 @@ function marcarSubcategoriaActiva(sub) {
   });
 }
 
-// Construeix dinàmicament els botons de subcategoria al DOM
-// Neteja el contingut anterior i afegeix un botó per cada subcategoria de la categoria
+// Construeix dinàmicament els botons de subcategoria
 function renderitzarSubcategories(categoria) {
   const nav = document.getElementById('subcategories-nav');
   const intro = document.getElementById('subcategories-intro');
-  const llista = SUBCATEGORIES[categoria] || [];
+  const llista = subcategoria[categoria] || [];
 
-  intro.textContent = `Has triat ${NOMS_CATEGORIA[categoria]}. Ara concreta què necessites:`;
+  intro.textContent = `Has triat ${noms_categoria[categoria]}. Ara concreta què necessites:`;
   nav.innerHTML = '';
 
   llista.forEach(item => {
@@ -174,12 +158,7 @@ function renderitzarSubcategories(categoria) {
   });
 }
 
-
-// =============================================================================
-// NAVEGACIÓ
-// =============================================================================
-
-// Construeix la URL de resultats amb els paràmetres actuals i redirigeix l'usuari
+// Construeix l'URL de resultats amb els paràmetres actuals i redirigeix l'usuari a la pàgina de resultats-serveis.html amb els resultats.
 // Si la subcategoria és 'tots' no s'afegeix per mantenir URLs netes
 function redirigirAResultats(categoria, sub) {
   const params = new URLSearchParams({
@@ -191,11 +170,6 @@ function redirigirAResultats(categoria, sub) {
   window.location.href = `resultats-serveis.html?${params.toString()}`;
 }
 
-// Gestiona el clic sobre una category-tile:
-// 1. Comprova que hi hagi ubicació aplicada (sinó mostra error)
-// 2. Marca la categoria com a seleccionada
-// 3. Si té subcategories → mostra el pas de subcategories sense redirigir
-// 4. Si NO té subcategories → redirigeix directament als resultats
 function seleccionarServeiPrincipal(categoria) {
   if (!ubicacioAplicada) {
     document.getElementById('error-cp').textContent =
@@ -211,7 +185,7 @@ function seleccionarServeiPrincipal(categoria) {
   // Amaguem el pas de subcategories per si ja n'hi havia un visible d'abans
   document.getElementById('pas-subcategories').hidden = true;
 
-  if (CATEGORIES_AMB_SUB.includes(categoria)) {
+  if (categories_amb_subcategories.includes(categoria)) {
     renderitzarSubcategories(categoria);
     document.getElementById('pas-subcategories').hidden = false;
     return;
@@ -228,11 +202,9 @@ function seleccionarSubcategoria(sub) {
   redirigirAResultats(categoriaSeleccionada, sub);
 }
 
-// Aplica una ubicació (CP + radi):
-// 1. Geocodifica el CP via Nominatim
-// 2. Desa les coordenades i marca l'estat com a "aplicat"
-// 3. Actualitza els camps del formulari per reflectir els valors actuals
-// 4. Si ja hi havia una categoria triada (cas: tornada de resultats), restaura l'estat visual
+/* Aplica una ubicació (CP + radi): Desa les coordenades i marca l'estat com a "aplicat"
+ * Si ja hi havia una categoria triada (cas: tornada de resultats), restaura l'estat visual
+*/
 async function aplicarUbicacio(cp, radiKm) {
   localitzacioActual = await geocodarCP(cp);
   codiPostalAplicat = cp;
@@ -240,18 +212,16 @@ async function aplicarUbicacio(cp, radiKm) {
   ubicacioAplicada = true;
 
   const inputCp = document.getElementById('input-cp');
-  const selectRadi = document.getElementById('input-radi');
   if (inputCp) inputCp.value = cp;
-  if (selectRadi) selectRadi.value = String(radiCercaKm);
+  actualitzarRadiUI(radiCercaKm);
 
   actualitzarInfoUbicacio(cp);
   mostrarPasTriarServei();
 
-  // Si l'usuari havia triat categoria prèviament (p.ex. tornant de resultats),
-  // restaurem la selecció visual sense redirigir de nou
+  // Si l'usuari havia triat categoria prèviament,restaurem la selecció visual sense redirigir de nou
   if (categoriaSeleccionada) {
     marcarServeiPrincipal(categoriaSeleccionada);
-    if (CATEGORIES_AMB_SUB.includes(categoriaSeleccionada)) {
+    if (categories_amb_subcategories.includes(categoriaSeleccionada)) {
       renderitzarSubcategories(categoriaSeleccionada);
       document.getElementById('pas-subcategories').hidden = false;
       if (subcategoriaSeleccionada) {
@@ -261,18 +231,9 @@ async function aplicarUbicacio(cp, radiKm) {
   }
 }
 
-
-// =============================================================================
-// INICIALITZACIÓ
-// =============================================================================
-
-// Punt d'entrada principal. S'executa un cop el DOM està llest.
-// Responsabilitats:
-//   1. Connectar els listeners dels botons i inputs
-//   2. Consultar la sessió PHP per personalitzar el formulari (usuari registrat)
-//   3. Restaurar l'estat si venim de resultats-serveis.html via URL params
+// Consultem la sessió PHP per personalitzar el formulari (usuari registrat), i restaurem l'estat si venim de resultats-serveis.html via URL paràmetres
 async function init() {
-  // Llegim els paràmetres de la URL (cas: tornada des de resultats)
+  // Llegim els paràmetres de la URL 
   const params      = new URLSearchParams(window.location.search);
   const categoriaUrl = params.get('categoria');
   const subUrl      = params.get('sub');
@@ -284,9 +245,7 @@ async function init() {
     btn.addEventListener('click', () => seleccionarServeiPrincipal(btn.dataset.cat));
   });
 
-  // Listener del botó "Aplicar CP":
-  // - Valida el format (5 dígits)
-  // - Geocodifica i aplica la ubicació
+  // Validem el format del codi postal (5 dígits)
   document.getElementById('btn-cp').addEventListener('click', async () => {
     const cp = document.getElementById('input-cp').value.trim();
     const radiKm = llegirRadiDelFormulari();
@@ -305,23 +264,21 @@ async function init() {
     }
   });
 
-  // Permet confirmar el CP prement Enter al camp de text
+  // Permet confirmar el codi postal prement Enter al camp de text
   document.getElementById('input-cp').addEventListener('keydown', e => {
     if (e.key === 'Enter') document.getElementById('btn-cp').click();
   });
 
-  // Quan l'usuari canvia el radi, actualitzem la info de cerca activa
-  // (no cal tornar a geocodificar, les coordenades no canvien)
-  document.getElementById('input-radi').addEventListener('change', () => {
-    if (!ubicacioAplicada) return;
-    sincronitzarUbicacioActiva();
-  });
+  const inputRadi = document.getElementById('input-radi');
+  if (inputRadi) {
+    inputRadi.addEventListener('input', () => {
+      actualitzarRadiUI(inputRadi.value);
+      if (ubicacioAplicada) sincronitzarUbicacioActiva();
+    });
+  }
 
-  // --- Personalització per a usuari registrat ---
-  // Consulta la sessió PHP per saber si l'usuari està logat i recuperar:
-  //   - codi_postal: pre-emplena el camp si no ve per URL
-  //   - radi: pre-emplena el selector si no ve per URL
-  //   - interessos: amaga les category-tiles que no li interessen
+ // Personalitzem les dades de l'usuari que ha iniciat la sessió. Aquí cridem l'arxiu estat-usuari.php per extreure la informació necessària. 
+  
   try {
     const r = await fetch('../scripts/php/estat-usuari.php');
     const sessio = await r.json();
@@ -330,16 +287,15 @@ async function init() {
       if (sessio.codi_postal && !cpUrl) {
         document.getElementById('input-cp').value = sessio.codi_postal;
       }
-      if (sessio.radi && !radiUrl) {
-        document.getElementById('input-radi').value = String(normalitzarRadiKm(sessio.radi));
+      if (sessio.radi != null && !radiUrl) {
+        radiCercaKm = actualitzarRadiUI(sessio.radi);
       }
 
       document.getElementById('btn-cp').textContent = 'Cercar';
 
       // Si l'usuari té interessos guardats, amaguem les categories que no hi apareixen
-      // sessio.interessos és un array d'IDs numèrics (com a la BBDD)
       if (sessio.interessos?.length) {
-        const slugs = sessio.interessos.map(id => ID_A_SLUG[id]).filter(Boolean);
+        const slugs = sessio.interessos.map(id => id_categoria[id]).filter(Boolean);
         document.querySelectorAll('.category-tile-btn').forEach(btn => {
           btn.hidden = !slugs.includes(btn.dataset.cat);
         });
@@ -349,24 +305,20 @@ async function init() {
     console.error('Error comprovant sessió:', e);
   }
 
-  // Si la URL demana una categoria que ja no és a serveis.html, redirigim
+  // Si l'URL demana la categoria, gestions o acompanyament ho redirigim a la pàgina ajudes-recursos.html
   if (categoriaUrl === 'gestions' || categoriaUrl === 'acompanyament') {
     window.location.replace(`ajudes-recursos.html?categoria=${categoriaUrl}`);
     return;
   }
 
-  // --- Restaurar estat des de URL params (tornada de resultats-serveis.html) ---
-  // Si la URL inclou ?categoria=..., restaurem les variables d'estat
-  // perquè en aplicar el CP es pugui tornar a mostrar la selecció visual
+  // Quan clickem canviar de cerca, resaturem els valors
   if (categoriaUrl) {
     categoriaSeleccionada = categoriaUrl;
     if (subUrl) subcategoriaSeleccionada = subUrl;
   }
 
-  // Si la URL inclou ?cp=..., apliquem la ubicació automàticament
-  // Errors silenciats: l'usuari pot reintroduir el CP manualment si falla
   if (cpUrl) {
-    const radiKm = radiUrl ? parseInt(radiUrl, 10) : 10;
+    const radiKm = radiUrl ? normalitzarRadiKm(radiUrl) : 10;
     try {
       await aplicarUbicacio(cpUrl, radiKm);
     } catch {

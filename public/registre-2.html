@@ -1,54 +1,111 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <title>Registre de nou usuari</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personalitza el teu compte EntreTeixits — Pas 2 de 2.">
+  <title>EntreTeixits — Registra't (pas 2)</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+  <!--Capçalera i part fixa en totes les pàgines-->
   <header>
-    <div class="logo">ENTRETEIXITS</div>
-    <nav>
-      <a href="index.html">Inici</a>
-      <a href="serveis.html">Serveis</a>
-      <a href="login.html">Inicia sessió</a>
-    </nav>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html">Serveis</a>
+        <a href="ajudes-recursos.html">Ajudes i recursos</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
+      </nav>
+    </div>
   </header>
-
+    <!--Formulari de registres, i que consta de 2 pasos-->
+    <!--PAS 2 INTERESOS I UBICACIÓ-->
   <main>
-    <section class="auth-form">
-      <h1>Registra’t</h1>
-      <form id="form-registre-2" action="../scripts/php/registre.php" method="post" novalidate>
-        <input type="hidden" name="pas" value="2">
-
-
-
-        <fieldset>
-          <legend>Serveis interessats</legend>
-          <label><input type="checkbox" name="interessos[]" value="1"> Llar</label>
-          <label><input type="checkbox" name="interessos[]" value="2"> Activitats</label>
-          <label><input type="checkbox" name="interessos[]" value="3"> Desplaçaments</label>
-          <label><input type="checkbox" name="interessos[]" value="4"> Gestions administratives</label>
-          <label><input type="checkbox" name="interessos[]" value="5"> Acompanyament</label>
-          
-        </fieldset>
-
-        <label for="cp">Codi postal</label>
-        <input type="text" id="cp" name="cp" required>
-        <span id="error-cp" class="error-msg"></span>
-
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </form>
-    </section>
+    <div class="auth-wrap">
+      <section class="auth-form">
+        <h1 id="registre2-heading">Crea el teu compte</h1>
+        <p class="auth-sub">Pas 2 de 2 · Personalitza el teu compte</p>
+        <!-- Indicador de pas -->
+        <div class="step-bar" role="progressbar">
+          <div class="step-dot active"></div>
+          <div class="step-dot active"></div>
+        </div>
+        <form id="form-registre-2" action="../scripts/php/registre.php" Method="post" novalidate>
+          <input type="hidden" name="pas" value="2">
+          <!-- INTERESSOS -->
+          <fieldset>
+            <legend>Quins serveis t'interessen?</legend>
+            <div class="interest-grid">
+              <label class="interest-item">
+                <input type="checkbox" name="interessos[]" value="1">
+                <span class="interest-dot dot-llar"></span>
+                Llar
+              </label>
+              <label class="interest-item">
+                <input type="checkbox" name="interessos[]" value="2">
+                <span class="interest-dot dot-activitats"></span>
+                Activitats
+              </label>
+              <label class="interest-item">
+                <input type="checkbox" name="interessos[]" value="3">
+                <span class="interest-dot dot-desplacaments"></span>
+                Desplaçaments
+              </label>
+              <label class="interest-item">
+                <input type="checkbox" name="interessos[]" value="4">
+                <span class="interest-dot dot-gestions"></span>
+                Gestions administratives
+              </label>
+              <label class="interest-item">
+                <input type="checkbox" name="interessos[]" value="5">
+                <span class="interest-dot dot-acompanyament"></span>
+                Acompanyament
+              </label>
+            </div>
+          </fieldset>
+          <!-- CODI POSTAL -->
+          <div class="field-group">
+            <label for="cp">El teu codi postal</label>
+            <input type="text" id="cp" name="cp" inputmode="numeric" maxlength="5" placeholder="08001" required>
+            <span id="error-cp" class="error-msg" role="alert"></span>
+            <span class="error-msg" style="font-weight: 400; margin-top: 4px; display: block;">
+              Et mostrarem els serveis més propers a casa teva.
+            </span>
+          </div>
+          <button type="submit">Crear compte</button>
+          <p class="small" style="margin-top: 16px; text-align: center; font-size: 16px;">
+            <a href="registre.html" style="font-weight: 700;">← Tornar al pas anterior</a>
+          </p>
+        </form>
+      </section>
+    </div>
   </main>
-
+<!--Footer. Part fixa-->
   <footer>
-    <a href="#">Contacta</a>
-    <a href="#">Avís legal</a>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
   </footer>
-
-<script src="../scripts/js/validacio-registre.js"></script>
-
 </body>
+<!--Els scripts que estan relacionats en aquesta pàgina és de validació de registre-->
+  <script src="../scripts/js/validacio-registre.js"></script>
 </html>

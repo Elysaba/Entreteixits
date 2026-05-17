@@ -2,44 +2,76 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>EntreTeixits - Inicia sessió</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Inicia sessió al teu compte EntreTeixits.">
+  <title>EntreTeixits — Inicia sessió</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+
+ <!--Capçalera i part fixa en totes les pàgines-->
   <header>
-    <div class="logo">ENTRETEIXITS</div>
-    <nav>
-      <a href="index.html">Inici</a>
-      <a href="serveis.html">Serveis</a>
-      <a href="registre.html" class="btn">Registra’t</a>
-    </nav>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html">Serveis</a>
+        <a href="ajudes-recursos.html">Ajudes i recursos</a>
+        <span id="nav-auth">
+          <a href="login.html" class="nav-sessio">Inicia sessió</a>
+          <a href="registre.html" class="btn">Registra't</a>
+        </span>
+      </nav>
+    </div>
   </header>
-
+  <!--Formulari d'inici de sessió-->
   <main>
-    <section class="auth-form">
-      <h1>Inicia sessió</h1>
-      <form action="../scripts/php/login.php" method="post">
-        <label for="email">Correu electrònic</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="password">Contrasenya</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit" class="btn btn-primary">Entrar</button>
-
+    <div class="auth-wrap">
+      <section class="auth-form">
+        <h1 id="login-heading">Inicia sessió</h1>
+        <p class="auth-sub">Entra al teu compte per veure favorits, contactes i preferències.</p>
+        <form action="../scripts/php/login.php" method="post" novalidate>
+          <div class="field-group">
+            <label for="email">Correu electrònic</label>
+            <input type="email" id="email" name="email" autocomplete="email" required paceholder="nom@exemple.cat">
+            <span id="error-email" class="error-msg" role="alert"></span>
+          </div>
+          <div class="field-group">
+            <label for="password">Contrasenya</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
+            <span id="error-password" class="error-msg" role="alert" ></span>
+          </div>
+          <button type="submit">Entrar</button>
+        </form>
         <p class="small">
-          Encara no tens compte? <a href="registre.html">Registra’t</a>
+          Encara no tens compte? <a href="registre.html">Registra't</a>
         </p>
-      </form>
-    </section>
+      </section>
+    </div>
   </main>
 
+<!--Footer. Part fixa-->
   <footer>
-    <a href="#">Contacta</a>
-    <a href="#">Avís legal</a>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
   </footer>
-
-  <script src="../scripts/js/validacio-login.js"></script>
 </body>
+<!--Els scripts que estan relacionats en aquesta pàgina és de validació d'inici de sessió-->
+  <script src="../scripts/js/validacio-login.js"></script>
+
 </html>

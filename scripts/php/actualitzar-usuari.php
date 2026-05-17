@@ -1,28 +1,31 @@
 <?php
+/* L'usuari pot modificar les seves dades des del seu perfil, per tant, la informació que
+modifiqui des del usuar.html, via POST l'hem d'actualitzar a la nostra taula
+ */
+
 session_start();
 
+// Redirigim al login si l'usuari no està autenticat
 if (empty($_SESSION['id_user'])) {
     header('Location: ../../public/login.html');
     exit;
 }
-
 require_once '../config.php';
 
-$id_user    = $_SESSION['id_user'];
-$nom        = trim($_POST['nom'] ?? '');
-$idioma     = $_POST['idioma'] ?? 'ca';
-$cp         = trim($_POST['cp'] ?? '');
-$radi       = (int)($_POST['radi_localitzacio'] ?? 10);
-$num_serveis = (int)($_POST['num_serveis_interes'] ?? 1);
-$interessos = $_POST['interessos'] ?? [];
+$id_user     = $_SESSION['id_user'];
+$nom         = trim($_POST['nom'] ?? '');
+$idioma      = $_POST['idioma'] ?? 'ca';
+$cp          = trim($_POST['cp'] ?? '');
+$radi        = (int)($_POST['radi_localitzacio'] ?? 10);
+$interessos  = $_POST['interessos'] ?? []; // Array d'IDs de categories seleccionades
 
-// Actualitzem les dades de l'usuari
-$stmt = $conn->prepare("UPDATE users SET nom=?, idioma=?, codi_postal=?, radi_localitzacio=?, num_serveis_interes=? WHERE id_user=?");
-$stmt->bind_param("sssiii", $nom, $idioma, $cp, $radi, $num_serveis, $id_user);
+// Actualita els camps bàsics de l'usuari a la taula USERS
+$stmt = $conn->prepare("UPDATE users SET nom=?, idioma=?, codi_postal=?, radi_localitzacio=? WHERE id_user=?");
+$stmt->bind_param("sssii", $nom, $idioma, $cp, $radi, $id_user);
 $stmt->execute();
 $stmt->close();
 
-// Esborrem els interessos antics i inserim els nous
+// Substitueix els interessos: primer esborrem els antics, després inserim els nous
 $stmt2 = $conn->prepare("DELETE FROM users_interests WHERE id_usuario=?");
 $stmt2->bind_param("i", $id_user);
 $stmt2->execute();
@@ -38,7 +41,6 @@ if (!empty($interessos)) {
     $stmt3->close();
 }
 
-// Actualitzem el nom a la sessió
 $_SESSION['nom'] = $nom;
 
 header('Location: ../../public/usuari.html');

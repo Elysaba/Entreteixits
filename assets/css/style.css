@@ -1543,7 +1543,7 @@ fieldset legend {
 }
 
 /* Graella de serveis (com a l'inici) */
-.serveis-grid--catalog {
+.serveis-grid-cataleg {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-bottom: 0;
@@ -1571,24 +1571,24 @@ fieldset legend {
 }
 
 /* Tiles del catàleg de serveis (pàgina serveis.html) */
-.serveis-grid--catalog .category-tile-btn .categoria-tile {
+.serveis-grid-cataleg .category-tile-btn .categoria-tile {
   min-height: 260px;
   padding: 28px;
   justify-content: space-between;
 }
 
-.serveis-grid--catalog .categoria-tile img {
+.serveis-grid-cataleg .categoria-tile img {
   width: 48px;
   height: 48px;
   margin-bottom: 4px;
 }
 
-.serveis-grid--catalog .categoria-tile h3 {
+.serveis-grid-cataleg .categoria-tile h3 {
   font-size: 24px;
   margin-bottom: 4px;
 }
 
-.serveis-grid--catalog .categoria-tile > div > p {
+.serveis-grid-cataleg .categoria-tile > div > p {
   font-size: 14px;
   opacity: 0.85;
   line-height: 1.45;
@@ -1681,8 +1681,7 @@ fieldset legend {
   color: #1A4D56;
 }
 
-.codi-camps-item #input-cp,
-.codi-camps-item #input-radi {
+.codi-camps-item #input-cp {
   width: 100%;
   border: 1.5px solid #B5CDD2;
   border-radius: 8px;
@@ -1694,10 +1693,19 @@ fieldset legend {
   box-sizing: border-box;
 }
 
-.codi-camps-item #input-cp:focus,
-.codi-camps-item #input-radi:focus {
+.codi-camps-item #input-cp:focus {
   border-color: #1A4D56;
   outline: none;
+}
+
+.codi-camps-item--radi .slider-wrap--cerca {
+  min-height: 48px;
+  padding-top: 4px;
+}
+
+.codi-camps-item--radi .slider-wrap--cerca input[type="range"] {
+  flex: 1;
+  min-width: 0;
 }
 
 .codi-form-centrat .btn-aplicar {
@@ -2178,6 +2186,12 @@ fieldset legend {
   min-width: 0;
 }
 
+.card-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .card-badge {
   display: inline-block;
   background-color: #E5EDEF;
@@ -2315,6 +2329,15 @@ fieldset legend {
 
 .btn-fav.actiu svg {
   fill: #C25C42;
+  stroke: #C25C42;
+}
+
+.fav-login-msg {
+  font-size: 0.75rem;
+  color: #C25C42;
+  margin: 4px 0 0;
+  text-align: center;
+  width: 100%;
 }
 
 .card-price {
@@ -2413,7 +2436,7 @@ fieldset legend {
 
 /* ── Responsive serveis — catàleg prototip ── */
 @media (max-width: 900px) {
-  .serveis-grid--catalog {
+  .serveis-grid-cataleg {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -2423,7 +2446,7 @@ fieldset legend {
 }
 
 @media (max-width: 680px) {
-  .serveis-grid--catalog {
+  .serveis-grid-cataleg {
     grid-template-columns: 1fr;
   }
 
@@ -2524,6 +2547,16 @@ fieldset legend {
   border-radius: 16px;
   margin-bottom: 28px;
   display: none;
+}
+
+.fitxa-inicial {
+  width: 100%;
+  height: 320px;
+  border-radius: 16px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fitxa-photo-placeholder {
@@ -2867,6 +2900,11 @@ fieldset legend {
 }
 
 .profile-nav {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 4px;
   background: #FFFFFF;
   border: 1px solid #E5DED1;
   border-radius: 16px;
@@ -2877,9 +2915,11 @@ fieldset legend {
 
 .profile-nav__item {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 12px;
   width: 100%;
+  flex: 0 0 auto;
   padding: 13px 16px;
   border-radius: 12px;
   font-family: "Mulish", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -2930,6 +2970,11 @@ fieldset legend {
 .profile-nav__item:not(.active) .profile-nav__badge {
   background: #E5DED1;
   color: #6E6759;
+}
+
+.profile-nav__link.active {
+  background: #1F5E7B;
+  color: #fff;
 }
 
 .profile-logout {
@@ -3341,6 +3386,43 @@ fieldset legend {
   background: #4E9A65;
 }
 
+#contactats-container .contactat-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #E5DED1;
+}
+
+#contactats-container .contactat-item:last-child {
+  border-bottom: none;
+}
+
+#contactats-container .missatge-contacte-resum,
+#contactats-container .data-contacte {
+  font-size: 15px;
+  color: #3A352D;
+  margin-top: 8px;
+}
+
+#contactats-container .missatge-contacte-resum {
+  font-style: italic;
+  line-height: 1.5;
+}
+
+#contactats-container .data-contacte {
+  font-size: 13px;
+  color: #6E6759;
+}
+
+.contactes-link-wrap {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #E5DED1;
+}
+
+#contacte-missatge.camp-error {
+  border-color: #C9402F;
+  outline-color: #C9402F;
+}
+
 /* ─────────────────────────────────────────────────────────
    14. FOOTER
 ───────────────────────────────────────────────────────── */
@@ -3452,18 +3534,18 @@ footer {
     position: static;
   }
   .profile-nav {
-    display: flex;
+    flex-direction: column;
     gap: 4px;
-    padding: 6px;
-    overflow-x: auto;
+    padding: 8px;
+    overflow-x: visible;
   }
   .profile-nav__item {
-    white-space: nowrap;
-    font-size: 14px;
-    padding: 10px 14px;
+    white-space: normal;
+    font-size: 15px;
+    padding: 12px 14px;
   }
   .profile-nav__badge {
-    display: none;
+    display: inline-block;
   }
   .form-grid {
     grid-template-columns: 1fr;
@@ -3633,7 +3715,8 @@ footer {
   .contactar-card {
     padding: 28px 22px;
   }
-  .fitxa-foto-gran {
+  .fitxa-foto-gran,
+  .fitxa-inicial {
     height: 220px;
   }
   .fitxa-header h1 {
@@ -3674,7 +3757,7 @@ footer {
 ───────────────────────────────────────────────────────── */
 
 /* Graella de 2 columnes per a la selecció de categoria */
-.serveis-grid--2col {
+.serveis-grid-2col {
   grid-template-columns: repeat(2, 1fr);
   max-width: 720px;
 }
@@ -3781,7 +3864,7 @@ footer {
   .recursos-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .serveis-grid--2col {
+  .serveis-grid-2col {
     max-width: 100%;
   }
 }
@@ -3790,7 +3873,7 @@ footer {
   .recursos-grid {
     grid-template-columns: 1fr;
   }
-  .serveis-grid--2col {
+  .serveis-grid-2col {
     grid-template-columns: 1fr;
   }
 }

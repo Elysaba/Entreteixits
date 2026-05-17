@@ -1,34 +1,37 @@
-/**
- * resultats-serveis.js — Pàgina de resultats (resultats-serveis.html)
- *
- * Rep per URL: ?cp=08001&radi=10&categoria=llar&sub=neteja
- * Geocodifica el CP, crida l'API i mostra les targetes.
- */
+/* Aquest script és el que ens mostrarà els resultats de la cerca dels serveis
+ * Faig la crida a l'AI de Google Places, i ens mostrarà els resultats segons els paràmetres que els passem de
+   la pàgina de serveis.html
+ * Una de les funcionalitats és poder guardar el servei com a favorit, i en la part de l'usuari es mostri, i això de moment només ho podem fer
+   amb els serveis que tenim a la nostra Base de dades. Per aquest motiu he decidit que els serveis de Google Places es guardi el LocalStorage
+   per veure el funcionament d'aquesta acció
+*/
 
 // Clau d'accés a la Google Places API (New)
 const GOOGLE_API_KEY = 'AIzaSyDQbx5oBV3j2ZWHksF2YZEhkwxk8uugMsM';
 
 
-// ---------------------------------------------------------------------------
-// DADES ESTÀTIQUES: Configuració de categories i estratègies de cerca
-// ---------------------------------------------------------------------------
+/*  Declarem les variables necessàries per gestionar les categories i subcategories. I també seleccionem les categories que volem que
+l'API de Google Places es retorni 
+*/
 
-// Categories que usen la Google Places Nearby Search (cerca per tipus de lloc)
-const CATEGORIES_NEARBY = {
-  llar:       ['electrician', 'plumber', 'locksmith', 'painter'],
-  activitats: ['community_center', 'cultural_center', 'museum', 'library']
+/* Categories de Google Places Nearby Search. Aquestes categories hem tret les que encaixen millor el nostre projecte.
+ * Són serveis generals perquè Google Places no té específic a la tercera edat, però ens ajuda per veure el funcionament.
+*/
+const categoria_google_places = {
+  llar:       ['electrician', 'plumber', 'locksmith', 'painter', 'carpenter', 'general_contractor'],
+  activitats: ['community_center', 'cultural_center', 'museum']
 };
 
-// Categories que usen la Google Places Text Search (cerca per text lliure)
-const CATEGORIES_TEXT = {
+// Alguns serveis no encaixen i farem cerca amb text
+const categories_text = {
   desplacaments: 'transporte adaptado taxi accesible discapacidad'
-};
+}
 
 // Categories que no usen Google Places sinó la nostra pròpia BBDD
-const CATEGORIES_BBDD = ['gestions', 'acompanyament'];
+const categories_basededades = ['gestions', 'acompanyament'];
 
 // Noms llegibles per a l'usuari de cada slug de categoria
-const NOMS_CATEGORIA = {
+const noms_categoria = {
   llar:          'Llar',
   activitats:    'Activitats',
   desplacaments: 'Desplaçaments',
@@ -37,38 +40,56 @@ const NOMS_CATEGORIA = {
 };
 
 // Configuració de cerca per a cada combinació categoria + subcategoria
-// tipus 'nearby': cerca llocs de certs tipus de Google Places
-// tipus 'text': cerca per paraules clau (més flexible per a serveis difícils de trobar per tipus)
-const CERCA_SUBCATEGORIA = {
+
+const cerca_subcategoria = {
   llar: {
-    tots:       { tipus: 'nearby', types: ['electrician', 'plumber', 'locksmith', 'painter'] },
-    bricolatge: { tipus: 'nearby', types: ['electrician', 'plumber', 'locksmith', 'painter'] },
-    neteja:     { tipus: 'text', query: 'limpieza hogar domicilio' },
-    menjar:     { tipus: 'text', query: 'comida domicilio ancianos' }
+    tots: {
+      tipus: 'multi',
+      cerques: [
+        { tipus: 'text', query: 'bricolatge reparacions llar fontaner electricista pintor' },
+        { tipus: 'text', query: 'neteja de la llar servei domèstic' },
+        { tipus: 'text', query: 'menjar a domicili persones majors' }
+      ]
+    },
+    bricolatge: { tipus: 'text', query: 'bricolatge reparacions llar fontaner electricista pintor' },
+    neteja:     { tipus: 'text', query: 'neteja de la llar servei domèstic' },
+    menjar:     { tipus: 'text', query: 'menjar a domicili persones majors' }
   },
   desplacaments: {
-    tots:      { tipus: 'text', query: 'transporte adaptado taxi accesible discapacidad' },
+    tots: {
+      tipus: 'multi',
+      cerques: [
+        { tipus: 'text', query: 'transporte adaptado discapacidad' },
+        { tipus: 'text', query: 'taxi' }
+      ]
+    },
     transport: { tipus: 'text', query: 'transporte adaptado discapacidad' },
     taxi:      { tipus: 'text', query: 'taxi' }
   },
   activitats: {
-    tots:       { tipus: 'nearby', types: ['community_center', 'cultural_center', 'museum', 'library'] },
+    tots: {
+      tipus: 'multi',
+      cerques: [
+        { tipus: 'nearby', types: ['community_center', 'cultural_center'] },
+        { tipus: 'text', query: 'excursiones mayores actividades' },
+        { tipus: 'text', query: 'viajes mayores organizados' }
+      ]
+    },
     tallers:    { tipus: 'nearby', types: ['community_center', 'cultural_center'] },
     excursions: { tipus: 'text', query: 'excursiones mayores actividades' },
     viatges:    { tipus: 'text', query: 'viajes mayores organizados' }
   }
 };
 
-// Camps que demanem a l'API de Google Places per reduir el cost de la crida
-// (Google cobra per camp; sol·licitar només el necessari optimitza el cost)
-const GOOGLE_FIELD_MASK = [
+// Camps que demanem a l'API de Google Places.
+const google_field_mask = [
   'places.id', 'places.displayName', 'places.formattedAddress',
   'places.rating', 'places.userRatingCount', 'places.location',
   'places.nationalPhoneNumber', 'places.websiteUri', 'places.photos',
   'places.editorialSummary'
 ].join(',');
 
-// Icones SVG inline per no dependre de cap llibreria externa
+// Icones SVG per no dependre de cap llibreria externa
 const SVG_PIN    = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`;
 const SVG_SHIELD = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L3 7v5c0 5.25 3.9 10.15 9 11.35C17.1 22.15 21 17.25 21 12V7L12 2z"/><polyline points="9 12 11 14 15 10"/></svg>`;
 const SVG_HEART  = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
@@ -76,12 +97,10 @@ const SVG_HEART  = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 
 // Coordenades del CP de cerca, disponibles globalment per calcular distàncies
 let localitzacioActual = null;
 
+// Favorits "id_services" i Google Places (localStorage)
+let favoritIdsDB     = new Set();
+let favoritIdsGoogle = new Set();
 
-// =============================================================================
-// UTILITATS
-// =============================================================================
-
-// Escapa caràcters HTML perillosos per evitar XSS en contingut dinàmic
 function escapeHtml(text) {
   const el = document.createElement('div');
   el.textContent = text ?? '';
@@ -89,14 +108,12 @@ function escapeHtml(text) {
 }
 
 // Retorna la primera lletra en majúscula d'un nom, per usar com a avatar de text
-// quan el servei no té foto disponible
 function obtenirInicial(nom) {
   const lletra = (nom || '').trim().charAt(0);
   return lletra ? lletra.toUpperCase() : '?';
 }
 
-// Fórmula de Haversine: calcula la distància real (en metres) entre dos punts
-// geogràfics tenint en compte la curvatura de la Terra
+// Càlcul de la distància real (en metres) entre dos punts
 function distanciaMetres(lat1, lon1, lat2, lon2) {
   const R = 6371000; // Radi de la Terra en metres
   const toRad = (g) => (g * Math.PI) / 180;
@@ -107,16 +124,15 @@ function distanciaMetres(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// Formata una distància en metres a un text llegible:
-// < 1000 m → "a 350 m" | >= 1000 m → "a 1,2 km"
+// Formata una distància en metres a un text llegible
 function formatDistancia(metres) {
   if (metres < 1000) return `a ${Math.round(metres)} m`;
   const km = metres / 1000;
   return `a ${km.toLocaleString('ca-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km`;
 }
 
-// Filtra la llista de llocs retornats per l'API per descartar els que estan
-// fora del radi de cerca. Si el lloc no té coordenades s'inclou per defecte.
+// Filtrem la llista de llocs retornats per l'API per descartar els que estan fora del radi de cerca. 
+// Si el lloc no té coordenades s'inclou per defecte.
 function filtrarLlocsPerRadi(llocs, radiMetres) {
   if (!llocs?.length || !localitzacioActual) return llocs || [];
   return llocs.filter(lloc => {
@@ -129,35 +145,7 @@ function filtrarLlocsPerRadi(llocs, radiMetres) {
   });
 }
 
-// Analitza un string de preu (p.ex. "15 €/hora" o "Gratuït")
-// i el descompon en {amount, unit} o {text} per renderitzar-lo estructuradament
-function parsejarPreu(preu) {
-  if (!preu) return null;
-  const net = String(preu).trim();
-  // Cerca un número (amb decimals) seguit opcionalment d'€ i unitat
-  const m = net.match(/(\d+(?:[.,]\d+)?)\s*€?\s*(?:\/?\s*(.+))?/);
-  if (!m) return { text: net };
-  return { amount: m[1].replace(',', '.'), unit: m[2] ? `/ ${m[2].trim()}` : '' };
-}
-
-// Genera el bloc HTML del preu per inserir a la targeta
-// Si no hi ha preu retorna string buit (no es mostra res)
-function blocPreu(preu) {
-  const parsed = parsejarPreu(preu);
-  if (!parsed) return '';
-  if (parsed.text) return `<div class="card-price"><span class="price-unit">${escapeHtml(parsed.text)}</span></div>`;
-  const amountDisplay = parsed.amount.replace('.', ',');
-  return `
-    <div class="card-price">
-      <div class="price-main">
-        <span class="price-amount">${escapeHtml(amountDisplay)}</span><span class="price-currency">€</span>
-      </div>
-      ${parsed.unit ? `<span class="price-unit">${escapeHtml(parsed.unit)}</span>` : ''}
-    </div>`;
-}
-
 // Genera el bloc HTML de la valoració amb estrella
-// Si no hi ha rating retorna string buit
 function blocValoracio(rating, numValoracions) {
   if (rating == null || rating === '') return '';
   const nota = Number(rating).toLocaleString('ca-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -165,7 +153,7 @@ function blocValoracio(rating, numValoracions) {
   return `<span class="card-rating"><span class="rating-star" aria-hidden="true">★</span><span>${escapeHtml(text)}</span></span>`;
 }
 
-// Mostra o amaga l'indicador de càrrega (spinner)
+// Mostra o amaga l'indicador de càrrega
 function mostrarLoading(visible) {
   document.getElementById('serveis-loading').style.display = visible ? 'block' : 'none';
 }
@@ -176,35 +164,35 @@ function mostrarError(missatge) {
     `<p class="missatge-buit">${escapeHtml(missatge)}</p>`;
 }
 
-
-// =============================================================================
-// TARGETES
-// =============================================================================
-
 // Construeix els URLs de la fitxa i del formulari de contacte
-// passant-hi tots els paràmetres del servei per identificar-lo a les pàgines destí
 function urlsServei(params) {
   const qs = new URLSearchParams(params).toString();
   return { fitxa: `fitxa-servei.html?${qs}`, contactar: `contactar.html?${qs}` };
 }
 
+function mostrarMissatgeFav(btn, text) {
+  if (btn.parentElement.querySelector('.fav-login-msg')) return;
+  const msg = document.createElement('p');
+  msg.className = 'fav-login-msg';
+  msg.textContent = text;
+  btn.parentElement.appendChild(msg);
+  setTimeout(() => msg.remove(), 3000);
+}
+
 // Crea i retorna un element <article> amb tota la informació d'un servei
-// S'usa tant per a resultats de Google com de BBDD pròpia
 function crearTargetaServei(dades) {
   const {
     nom, categoria, categoriaSlug, descripcio, adreca, distancia,
-    rating, numValoracions, preu, fotoUrl, urlFitxa, urlContactar, verificada = true
+    rating, numValoracions, fotoUrl, urlFitxa, urlContactar,
+    verificada = true, font = '', idExtern = ''
   } = dades;
 
-  // La classe del thumbnail varia per categoria per aplicar colors CSS específics
   const thumbClass = `thumb-${categoriaSlug || 'llar'}`;
 
-  // Si hi ha foto de Google Places es mostra la imatge; si no, es mostra la inicial del nom
   const thumbContingut = fotoUrl
     ? `<img class="card-foto" src="${escapeHtml(fotoUrl)}" alt="${escapeHtml(nom)}" loading="lazy">`
     : `<span class="card-initial">${escapeHtml(obtenirInicial(nom))}</span>`;
 
-  // Construïm el bloc d'ubicació combinant adreça i distància si existeixen
   const ubicacioParts = [];
   if (adreca) ubicacioParts.push(escapeHtml(adreca));
   if (distancia) ubicacioParts.push(`<strong>${escapeHtml(distancia)}</strong>`);
@@ -214,6 +202,7 @@ function crearTargetaServei(dades) {
   const descHtml = descripcio ? `<p class="card-desc">${escapeHtml(descripcio)}</p>` : '';
   const verificadaHtml = verificada ? `<span class="card-verified">${SVG_SHIELD}Verificada</span>` : '';
 
+  // Configuració de les cards amb els serveis
   const card = document.createElement('article');
   card.className = 'service-card';
   card.innerHTML = `
@@ -230,26 +219,81 @@ function crearTargetaServei(dades) {
     </div>
     <div class="card-cta">
       <button class="btn-fav" type="button" aria-label="Afegir ${escapeHtml(nom)} als preferits">${SVG_HEART}</button>
-      ${blocPreu(preu)}
       <a href="${escapeHtml(urlFitxa)}" class="btn-outline">Veure detall</a>
       <a href="${escapeHtml(urlContactar)}" class="btn-solid">Contactar</a>
     </div>
   `;
 
-  // El botó de favorit actua com a toggle visual (no persisteix dades en aquesta versió)
-  card.querySelector('.btn-fav')?.addEventListener('click', (e) => {
-    e.currentTarget.classList.toggle('actiu');
+  const btnFav = card.querySelector('.btn-fav');
+
+  // Marquem inicialment si ja és favorit
+  const esFavInicial = font === 'bbdd'
+    ? favoritIdsDB.has(idExtern)
+    : favoritIdsGoogle.has(idExtern);
+  if (esFavInicial) btnFav.classList.add('actiu');
+
+  btnFav.addEventListener('click', async () => {
+    if (font === 'google') {
+      // Google Places: localStorage (requereix sessió activa)
+      try {
+        const sessioR = await fetch('../scripts/php/estat-usuari.php');
+        const sessio  = await sessioR.json();
+        if (!sessio?.logat) {
+          mostrarMissatgeFav(btnFav, 'Has d\'iniciar sessió per guardar favorits.');
+          return;
+        }
+      } catch { /* si no podem comprovar sessió, bloquejem */ return; }
+
+      const esActiu = btnFav.classList.contains('actiu');
+      const raw2 = localStorage.getItem('entreteixits_fav_google');
+      let llista = raw2 ? JSON.parse(raw2) : [];
+      if (esActiu) {
+        favoritIdsGoogle.delete(idExtern);
+        btnFav.classList.remove('actiu');
+        llista = llista.filter(f => (typeof f === 'object' ? f.id : f) !== idExtern);
+      } else {
+        favoritIdsGoogle.add(idExtern);
+        btnFav.classList.add('actiu');
+        llista = llista.filter(f => typeof f === 'object'); // neteja format antic
+        if (!llista.some(f => f.id === idExtern)) {
+          llista.push({ id: idExtern, nom, categoria: categoriaSlug, adreca });
+        }
+      }
+      localStorage.setItem('entreteixits_fav_google', JSON.stringify(llista));
+      return;
+    }
+
+    // Faig la crida a la taula de Favorites via PHP
+    try {
+      const r = await fetch('../scripts/php/toggle-favorit.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_services: parseInt(idExtern) })
+      });
+      const resposta = await r.json();
+      if (resposta.ok) {
+        const afegit = resposta.estat === 'afegit';
+        btnFav.classList.toggle('actiu', afegit);
+        if (afegit) favoritIdsDB.add(idExtern);
+        else favoritIdsDB.delete(idExtern);
+      } else if (resposta.error === 'no_auth') {
+        mostrarMissatgeFav(btnFav, 'Has d\'iniciar sessió per guardar favorits.');
+      } else {
+        console.error('Error toggle favorit:', resposta.error);
+        mostrarMissatgeFav(btnFav, 'No s\'ha pogut guardar el favorit. Torna-ho a intentar.');
+      }
+    } catch (err) {
+      console.error('Error de xarxa en toggle favorit:', err);
+      mostrarMissatgeFav(btnFav, 'Error de connexió. Comprova la teva xarxa.');
+    }
   });
 
   return card;
 }
 
+// Hem de realitzar diferents crides a diferents APIS
 
-// =============================================================================
-// CRIDES A LES APIs
-// =============================================================================
-
-// Converteix un codi postal espanyol en coordenades {lat, lng} via Nominatim
+// Crida API NOMINATIM
 async function geocodarCP(cp) {
   const url = `https://nominatim.openstreetmap.org/search?postalcode=${cp}&country=es&format=json&limit=1`;
   const r = await fetch(url, { headers: { 'Accept-Language': 'ca' } });
@@ -258,22 +302,20 @@ async function geocodarCP(cp) {
   return { lat: parseFloat(dades[0].lat), lng: parseFloat(dades[0].lon) };
 }
 
-// Google Places Nearby Search (POST):
-// Cerca llocs per tipus (p.ex. 'electrician') dins d'un cercle de radi fixat
+// Crida API Google Places
 async function cercarNearby(loc, types, radiMetres) {
   const r = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': GOOGLE_API_KEY,
-      'X-Goog-FieldMask': GOOGLE_FIELD_MASK  // Camps limitats per reduir cost API
+      'X-Goog-FieldMask': google_field_mask 
     },
     body: JSON.stringify({
       includedTypes: types,
       maxResultCount: 10,
       locationRestriction: {
-        // El radi aquí és estricte: l'API ja filtra per distància
-        circle: { center: { latitude: loc.lat, longitude: loc.lng }, radius: radiMetres }
+        circle: { center: { latitude: loc.lat, longitude: loc.lng }, radius: Math.min(radiMetres, 50000) }
       }
     })
   });
@@ -281,24 +323,49 @@ async function cercarNearby(loc, types, radiMetres) {
   return (await r.json()).places;
 }
 
-// Google Places Text Search (POST):
+// Combina diverses cerques i elimina duplicats per place id
+async function cercarMulti(loc, cerques, radiMetres) {
+  const resultats = await Promise.all(
+    cerques.map(c => executarCerca(loc, c, radiMetres))
+  );
+  const vistos = new Set();
+  const units = [];
+  for (const llista of resultats) {
+    for (const lloc of llista || []) {
+      const id = lloc.id || `${lloc.location?.latitude},${lloc.location?.longitude},${lloc.displayName?.text}`;
+      if (vistos.has(id)) continue;
+      vistos.add(id);
+      units.push(lloc);
+    }
+  }
+  return units;
+}
+
+async function executarCerca(loc, cerca, radiMetres) {
+  if (cerca.tipus === 'nearby') {
+    return (await cercarNearby(loc, cerca.types, radiMetres)) || [];
+  }
+  if (cerca.tipus === 'text') {
+    return (await cercarText(loc, cerca.query, radiMetres)) || [];
+  }
+  return [];
+}
+
 // Cerca llocs per query de text lliure (útil per a serveis sense tipus predefinit a Google)
-// Usa locationBias (no locationRestriction) perquè és menys restrictiu i retorna més resultats
 async function cercarText(loc, textQuery, radiMetres) {
   const r = await fetch('https://places.googleapis.com/v1/places:searchText', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': GOOGLE_API_KEY,
-      'X-Goog-FieldMask': GOOGLE_FIELD_MASK
+      'X-Goog-FieldMask': google_field_mask
     },
     body: JSON.stringify({
       textQuery,
       languageCode: 'ca',
       maxResultCount: 10,
       locationBias: {
-        // Bias (no restriction): prefereix llocs dins el cercle però pot retornar de fora
-        circle: { center: { latitude: loc.lat, longitude: loc.lng }, radius: radiMetres }
+        circle: { center: { latitude: loc.lat, longitude: loc.lng }, radius: Math.min(radiMetres, 50000) }
       }
     })
   });
@@ -306,21 +373,38 @@ async function cercarText(loc, textQuery, radiMetres) {
   return (await r.json()).places;
 }
 
-// Consulta la nostra BBDD interna via PHP per a categories que no usen Google Places
-// (gestions i acompanyament: serveis oferts per l'organització, no per tercers)
+// Consultem la nostra BBDD interna via PHP per a categories que no utilitzarem per Google Places
 async function cercarBBDD(categoria) {
   const r = await fetch(`../scripts/php/get-serveis.php?categoria=${categoria}`);
   if (!r.ok) throw new Error(`Error BBDD: ${r.status}`);
   return await r.json();
 }
 
+// Carrega els favorits de l'usuari
+async function carregarFavorits() {
+  // via la taula de Favorites de la Base de dades
+  try {
+    const r = await fetch('../scripts/php/get-favorits.php');
+    const llista = await r.json();
+    if (Array.isArray(llista)) {
+      favoritIdsDB = new Set(llista.map(f => String(f.id_services)));
+    }
+  } catch (err) {
+    console.error('Error carregant favorits BBDD:', err);
+  }
+  // via localStorage (format: [{id, nom, categoria, adreca}])
+  try {
+    const raw = localStorage.getItem('entreteixits_fav_google');
+    if (raw) {
+      const llista = JSON.parse(raw);
+      if (Array.isArray(llista)) {
+        llista.forEach(f => favoritIdsGoogle.add(typeof f === 'object' ? f.id : f));
+      }
+    }
+  } catch { /* localStorage no disponible */ }
+}
 
-// =============================================================================
-// RENDERITZAR RESULTATS
-// =============================================================================
-
-// Renderitza les targetes amb els llocs retornats per Google Places
-// Aplica el filtre de radi secondary (Nearby ja filtra, però Text Search no)
+// Renderitza les targetes. Apliquem el filtre de radi secondary
 function renderitzarServeisGoogle(llocs, categoriaSlug, radiMetres) {
   const contenidor = document.getElementById('serveis-container');
   contenidor.innerHTML = '';
@@ -330,8 +414,7 @@ function renderitzarServeisGoogle(llocs, categoriaSlug, radiMetres) {
     return;
   }
 
-  const categoriaNom = NOMS_CATEGORIA[categoriaSlug] || '';
-  // Filtrem per radi: necessari sobretot per a Text Search, que usa locationBias
+  const categoriaNom = noms_categoria[categoriaSlug] || '';
   const llocsDinsRadi = filtrarLlocsPerRadi(llocs, radiMetres);
 
   if (!llocsDinsRadi.length) {
@@ -347,13 +430,7 @@ function renderitzarServeisGoogle(llocs, categoriaSlug, radiMetres) {
     const rating = lloc.rating ?? null;
     const numValoracions = lloc.userRatingCount ?? null;
 
-    // La foto es construeix com a URL de media de l'API; si no n'hi ha es mostrarà la inicial
-    const fotoNom = lloc.photos?.[0]?.name || '';
-    const fotoUrl = fotoNom
-      ? `https://places.googleapis.com/v1/${fotoNom}/media?maxWidthPx=400&key=${GOOGLE_API_KEY}`
-      : null;
-
-    // Calculem la distància des del CP cercat fins al lloc
+    // Calculem la distància des del codi postal que s'ha posat
     let distancia = '';
     if (localitzacioActual && lloc.location?.latitude != null) {
       const metres = distanciaMetres(
@@ -363,20 +440,19 @@ function renderitzarServeisGoogle(llocs, categoriaSlug, radiMetres) {
       distancia = formatDistancia(metres);
     }
 
-    // Passem font='google' per identificar l'origen a fitxa-servei.html i contactar.html
-    const params = { font: 'google', id, nom, cat: categoriaSlug || '', adreca, foto: fotoNom, desc: descripcio };
+    const params = { font: 'google', id, nom, cat: categoriaSlug || '' };
     const urls = urlsServei(params);
 
     contenidor.appendChild(crearTargetaServei({
       nom, categoria: categoriaNom, categoriaSlug, descripcio,
-      adreca, distancia, rating, numValoracions, fotoUrl,
-      urlFitxa: urls.fitxa, urlContactar: urls.contactar, verificada: true
+      adreca, distancia, rating, numValoracions,
+      urlFitxa: urls.fitxa, urlContactar: urls.contactar, verificada: true,
+      font: 'google', idExtern: id
     }));
   });
 }
 
-// Renderitza les targetes amb els serveis de la BBDD pròpia
-// Els serveis de BBDD no tenen coordenades ni rating de Google
+// Renderitza les targetes amb els serveis de la nostra pròpia Base de Dades
 function renderitzarServeisBBDD(serveis, categoriaSlug) {
   const contenidor = document.getElementById('serveis-container');
   contenidor.innerHTML = '';
@@ -386,32 +462,24 @@ function renderitzarServeisBBDD(serveis, categoriaSlug) {
     return;
   }
 
-  const categoriaNom = NOMS_CATEGORIA[categoriaSlug] || '';
+  const categoriaNom = noms_categoria[categoriaSlug] || '';
   serveis.forEach(s => {
     // Passem font='bbdd' per identificar l'origen a les pàgines de detall i contacte
-    const params = { font: 'bbdd', id: s.id, cat: categoriaSlug || '' };
+    const params = { font: 'bbdd', id: s.id, nom: s.nom, cat: categoriaSlug || '' };
     const urls = urlsServei(params);
     contenidor.appendChild(crearTargetaServei({
       nom: s.nom, categoria: categoriaNom, categoriaSlug,
-      descripcio: s.descripcio || '', preu: s.preu || '',
-      urlFitxa: urls.fitxa, urlContactar: urls.contactar, verificada: true
+      descripcio: s.descripcio || '',
+      urlFitxa: urls.fitxa, urlContactar: urls.contactar, verificada: true,
+      font: 'bbdd', idExtern: String(s.id)
     }));
   });
 }
 
-
-// =============================================================================
-// INICIALITZACIÓ
-// =============================================================================
-
-// Punt d'entrada principal. S'executa un cop el DOM està llest.
-// Flux:
-//   1. Llegir paràmetres de cerca de la URL
-//   2. Actualitzar el botó de tornada i la info de cerca activa
-//   3. Geocodificar el CP (excepte per categories de BBDD que no necessiten coordenades)
-//   4. Decidir estratègia de cerca (BBDD / Nearby / Text) i executar la crida
-//   5. Renderitzar les targetes resultants
+// Procès d'execució
 async function init() {
+  await carregarFavorits();
+
   const params   = new URLSearchParams(window.location.search);
   const cp       = params.get('cp') || '';
   const radiKm   = parseInt(params.get('radi') || '10', 10);
@@ -426,24 +494,22 @@ async function init() {
     backBtn.href = `serveis.html?${backParams.toString()}`;
   }
 
-  // Mostra la info de cerca activa (CP · km · categoria · subcategoria)
   const infoEl = document.getElementById('resultats-info-cerca');
   if (infoEl && cp && categoria) {
-    const nomCat = NOMS_CATEGORIA[categoria] || categoria;
+    const nomCat = noms_categoria[categoria] || categoria;
     const nomSub = sub && sub !== 'tots' ? ` · ${sub}` : '';
     infoEl.innerHTML = `<strong>${escapeHtml(cp)}</strong> · ${radiKm} km · ${escapeHtml(nomCat)}${escapeHtml(nomSub)}`;
   }
 
-  // Títol de la secció (p.ex. "Serveis de Llar")
   const titolEl = document.getElementById('categoria-titol');
   if (titolEl && categoria) {
-    titolEl.textContent = NOMS_CATEGORIA[categoria]
-      ? `Serveis de ${NOMS_CATEGORIA[categoria]}`
+    titolEl.textContent = noms_categoria[categoria]
+      ? `Serveis de ${noms_categoria[categoria]}`
       : 'Resultats';
   }
 
-  // Guardem la pàgina si no hi ha paràmetres mínims (CP és obligatori per a Google Places)
-  if (!cp && !CATEGORIES_BBDD.includes(categoria)) {
+  // Guardem la pàgina si no hi ha paràmetres mínims
+  if (!cp && !categories_basededades.includes(categoria)) {
     document.getElementById('serveis-container').innerHTML =
       '<p class="missatge-buit">No s\'han especificat paràmetres de cerca.</p>';
     return;
@@ -452,29 +518,25 @@ async function init() {
   mostrarLoading(true);
 
   try {
-    // Geocodifiquem el CP per obtenir coordenades (no cal per BBDD)
-    if (!CATEGORIES_BBDD.includes(categoria)) {
+    if (!categories_basededades.includes(categoria)) {
       localitzacioActual = await geocodarCP(cp);
     }
 
-    if (CATEGORIES_BBDD.includes(categoria)) {
+    if (categories_basededades.includes(categoria)) {
       // --- Ruta BBDD: gestions i acompanyament ---
       const serveis = await cercarBBDD(categoria);
       mostrarLoading(false);
       renderitzarServeisBBDD(serveis, categoria);
     } else {
       // --- Ruta Google Places: llar, activitats, desplacaments ---
-      // Intentem trobar la configuració específica per categoria+subcategoria;
-      // si no existeix, usem el fallback genèric de la categoria
-      const cerca = CERCA_SUBCATEGORIA[categoria]?.[sub]
-        || { tipus: 'nearby', types: CATEGORIES_NEARBY[categoria] }
-        || { tipus: 'text', query: CATEGORIES_TEXT[categoria] };
+      const cerca = cerca_subcategoria[categoria]?.[sub]
+        || { tipus: 'text', query: categories_text[categoria] };
 
       let llocs;
-      if (cerca.tipus === 'nearby') {
-        llocs = await cercarNearby(localitzacioActual, cerca.types, radiMetres);
+      if (cerca.tipus === 'multi') {
+        llocs = await cercarMulti(localitzacioActual, cerca.cerques, radiMetres);
       } else {
-        llocs = await cercarText(localitzacioActual, cerca.query, radiMetres);
+        llocs = await executarCerca(localitzacioActual, cerca, radiMetres);
       }
       mostrarLoading(false);
       renderitzarServeisGoogle(llocs, categoria, radiMetres);

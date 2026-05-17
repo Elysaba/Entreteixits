@@ -2,88 +2,191 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>EntreTeixits - El meu perfil</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="El teu perfil d'EntreTeixits — dades personals, favorits i contactes.">
+  <title>EntreTeixits — El meu perfil</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+  <!--Capçalera i part fixa en totes les pàgines-->
+  <header>
+    <div class="navbar">
+      <a href="index.html" class="logo" alt="EntreTeixits — Inici">
+        <img src="../assets/img/logo-mark.svg" alt="" width="40" height="40">
+        <span class="logo-word">EntreTeixits</span>
+      </a>
+      <!--Menú que només s'activa en mobile-->
+      <a href="login.html" class="nav-login-mobile">Inicia sessió</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <!--Menú desktop-->
+      <nav id="main-nav">
+        <a href="index.html" class="active">Inici</a>
+        <a href="funcionament.html">Com funciona</a>
+        <a href="serveis.html">Serveis</a>
+        <a href="ajudes-recursos.html">Ajudes i recursos</a>
+        <a href="usuari.html" class="active" id="nav-perfil">El meu perfil</a>
+        <span id="nav-auth">
+        </span>
+      </nav>
+    </div>
+  </header>
+  <!--La pàgina d'Inici està dividida 2 BLOCS.-->
+  <!-- PART ESQUERRE: Menú -->
+  <main>
+    <div class="profile-layout">
+      <aside class="profile-sidebar">
+        <div class="profile-id">
+          <div class="profile-avatar" id="sidebar-avatar">?</div>
+          <p class="profile-name" id="sidebar-nom">—</p>
+          <p class="profile-email" id="sidebar-email">—</p>
+        </div>
+        <!-- Navegació -->
+        <nav class="profile-nav">
+          <button class="profile-nav__item active" data-panel="dades">                  
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Dades personals
+          </button>
+          <button class="profile-nav__item" data-panel="favorits">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Favorits
+            <span class="profile-nav__badge" id="badge-favorits">0</span>
+          </button>
+          <a href="contactes.html" class="profile-nav__item profile-nav__link">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Contactats
+            <span class="profile-nav__badge" id="badge-contactats">0</span>
+          </a>
+        </nav>
+        <!-- Tancar sessió -->
+        <a href="../scripts/php/logout.php" class="profile-logout">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Tancar sessió
+        </a>
+      </aside>
 
-<header>
-  <div class="logo">ENTRETEIXITS</div>
-  <nav>
-    <a href="index.html">Inici</a>
-    <a href="serveis.html">Serveis</a>
-    <a href="usuari.html" class="active">El meu perfil</a>
-    <a href="../scripts/php/logout.php">Tancar sessió</a>
-  </nav>
-</header>
+      <!--Part central -->
+      <div class="profile-main">        
+        <div class="profile-panel active" id="panel-dades" role="region">
+          <div class="panel-header">
+            <h2>Dades personals</h2>
+            <p>Gestiona la teva informació i les teves preferències de cerca.</p>
+          </div>
+          <div class="panel-card">
+            <!-- Usuari ha de poder actualitzar les seves dades -->
+            <form action="../scripts/php/actualitzar-usuari.php" method="post" id="form-perfil"> 
+              <div class="form-grid">
+                <div class="field-group">
+                  <label for="nom">Nom</label>
+                  <input type="text" id="nom" name="nom"
+                         autocomplete="given-name" placeholder="El teu nom">
+                </div>
+                <div class="field-group">
+                  <label for="idioma">Idioma preferit</label>
+                  <select id="idioma" name="idioma">
+                    <option value="ca">Català</option>
+                    <option value="es">Castellà</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="email">Correu electrònic</label>
+                  <input type="email" id="email" name="email" disabled autocomplete="email">
+                  <p class="field-help">El correu no es pot modificar.</p>
+                </div>
+                <div class="field-group">
+                  <label for="cp">Codi postal</label>
+                  <input type="text" id="cp" name="cp" inputmode="numeric" maxlength="5" placeholder="08001">
+                </div>
+                <div class="field-group field-group--full">
+                  <label for="radi">Radi de cerca</label>
+                  <div class="slider-wrap">
+                    <input type="range" id="radi" name="radi_localitzacio" min="1" max="1000" value="10">
+                    <span class="slider-val"><span id="radi-valor">10</span> km</span>
+                  </div>
+                </div>
+                <div class="field-group field-group--full">
+                  <label>Preferències de serveis</label>
+                  <div class="interests-grid">
+                    <label class="interest-check">
+                      <input type="checkbox" name="interessos[]" value="1">
+                      <span class="interest-dot dot-llar"></span>
+                      Llar
+                    </label>
+                    <label class="interest-check">
+                      <input type="checkbox" name="interessos[]" value="2">
+                      <span class="interest-dot dot-activitats"></span>
+                      Activitats
+                    </label>
+                    <label class="interest-check">
+                      <input type="checkbox" name="interessos[]" value="3">
+                      <span class="interest-dot dot-desplacaments"></span>
+                      Desplaçaments
+                    </label>
+                    <label class="interest-check">
+                      <input type="checkbox" name="interessos[]" value="4">
+                      <span class="interest-dot dot-gestions"></span>
+                      Gestions administratives
+                    </label>
+                    <label class="interest-check">
+                      <input type="checkbox" name="interessos[]" value="5">
+                      <span class="interest-dot dot-acompanyament" ></span>
+                      Acompanyament
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit">Desar canvis</button>
+              </div>
+            </form>
+          </div>
+        </div>
 
-<main>
-  <section class="user-profile">
-    <h1>El meu perfil</h1>
-
-    <form action="../scripts/php/actualitzar-usuari.php" method="post">
-
-      <label for="nom">Nom</label>
-      <input type="text" id="nom" name="nom">
-
-      <label for="email">Correu electrònic</label>
-      <input type="email" id="email" name="email" disabled>
-
-      <label for="idioma">Idioma preferit</label>
-      <select id="idioma" name="idioma">
-        <option value="ca">Català</option>
-        <option value="es">Castellà</option>
-      </select>
-
-      <label for="cp">Codi postal</label>
-      <input type="text" id="cp" name="cp">
-
-      <label for="radi">Radi de cerca</label>
-      <div class="slider-container">
-        <input type="range" id="radi" name="radi_localitzacio" min="1" max="1000" value="10">
-        <span id="radi-valor">10</span>
+        <!-- Visualització dels Favorits-->
+        <div class="profile-panel" id="panel-favorits" role="region" >
+          <div class="panel-header">
+            <h2>Favorits</h2>
+            <p>Serveis que has guardat per trobar-los ràpidament.</p>
+          </div>
+          <div class="panel-card">
+            <div id="favorits-container">
+              <div class="empty-panel">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <p>Carregant favorits…</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+  </main>
 
-      <label for="num_serveis">Nombre màxim de serveis</label>
-      <div class="slider-container">
-        <input type="range" id="num_serveis" name="num_serveis_interes" min="1" max="1000" value="1">
-        <span id="serveis-valor">1</span>
-      </div>
-
-      <fieldset>
-        <legend>Preferències de serveis</legend>
-        <label><input type="checkbox" name="interessos[]" value="1"> Llar</label>
-        <label><input type="checkbox" name="interessos[]" value="2"> Activitats</label>
-        <label><input type="checkbox" name="interessos[]" value="3"> Desplaçaments</label>
-        <label><input type="checkbox" name="interessos[]" value="4"> Gestions administratives</label>
-        <label><input type="checkbox" name="interessos[]" value="5"> Acompanyament</label>
-      </fieldset>
-
-      <button type="submit" class="btn btn-primary">Desar canvis</button>
-      <a href="../scripts/php/logout.php" class="btn btn-secondary">Tancar sessió</a>
-
-    </form>
-  </section>
-
-  <section class="user-profile" style="margin-top:30px;">
-    <h2>Els meus contactes</h2>
-    <p>Serveis als quals has enviat un missatge.</p>
-    <a href="contactes.html" class="btn">Veure tots els contactes</a>
-  </section>
-
-  <section class="user-profile" style="margin-top:30px;">
-    <h2>Els meus favorits</h2>
-    <div id="favorits-container"><p>Carregant...</p></div>
-  </section>
-</main>
-
-<footer>
-  <a href="contacte.html">Contacta</a>
-  <a href="#">Avís legal</a>
-</footer>
-
-<script src="../scripts/js/perfil-usuari.js"></script>
-
+<!--Footer. Part fixa-->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">EntreTeixits</span>
+      <span class="footer-copy">© 2026 EntreTeixits. Tots els drets reservats.</span>
+    </div>
+  </footer>
 </body>
+<!--Els scripts que estan relacionats en aquesta pàgina és estat usuari per estar controlant si tenim dades o no de l'usuari-->
+  <script src="../scripts/js/estat-usuari.js"></script>
+  <script src="../scripts/js/perfil-usuari.js"></script>  
 </html>

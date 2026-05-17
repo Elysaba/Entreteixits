@@ -1,4 +1,5 @@
 <?php
+// Recuperem les dades del Usuari guardats a la nostra taula de PhpMyAdmin
 session_start();
 header('Content-Type: application/json');
 

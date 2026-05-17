@@ -28,6 +28,7 @@
         <a href="index.html">Inici</a>
         <a href="funcionament.html">Com funciona</a>
         <a href="serveis.html" class="active">Serveis</a>
+        <a href="ajudes-recursos.html">Ajudes i recursos</a>
         <span id="nav-auth">
           <a href="login.html" class="nav-sessio">Inicia sessió</a>
           <a href="registre.html" class="btn">Registra't</a>
@@ -35,7 +36,7 @@
       </nav>
     </div>
   </header>
-  <!--Hem dividit la pàgina segons els passos que han de fer-->
+  <!--He dividit la pàgina segons els passos que han de fer-->
   <main>
     <!--Introducció a la part central del projecte-->
     <div class="serveis-wrap">
@@ -57,15 +58,13 @@
                 <label for="input-cp">Codi postal</label>
                 <input type="text" id="input-cp" placeholder="08001" maxlength="5" pattern="\d{5}" inputmode="numeric" aria-label="Codi postal">
               </div>
-              <div class="codi-camps-item">
+              <div class="codi-camps-item codi-camps-item--radi">
                 <label for="input-radi">Radi de cerca</label>
-                <select id="input-radi" aria-label="Radi de cerca en quilòmetres">
-                  <option value="5">5 km</option>
-                  <option value="10" selected>10 km</option>
-                  <option value="15">15 km</option>
-                  <option value="25">25 km</option>
-                  <option value="50">50 km</option>
-                </select>
+                <div class="slider-wrap slider-wrap--cerca">
+                  <input type="range" id="input-radi" min="1" max="1000" value="10"
+                         aria-label="Radi de cerca en quilòmetres" aria-valuemin="1" aria-valuemax="1000" aria-valuenow="10">
+                  <span class="slider-val"><span id="radi-valor">10</span> km</span>
+                </div>
               </div>
               <button id="btn-cp" type="button" class="btn btn-aplicar">Aplicar</button>
             </div>
